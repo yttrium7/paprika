@@ -1,0 +1,108 @@
+<%- include header %>
+<!-- discussion title -->
+
+<section id="discussion-title">
+    <div class="3u 12u$(small) align-center">
+        <h3>Discussion</h3>
+    </div>
+</section>
+
+<hr>
+<!-- discussion fields -->
+<section id="discussion-field" class="wrapper">
+
+    <div class="inner">
+        <header>
+            <h3>Discussion Fields</h3>
+        </header>
+
+        <div class="row">
+
+            <div id="discussion-lifeskills" class="3u 12u(small) box align-center">
+                <a href="/discussion/lifeskills">
+                    <i class="icon fa-briefcase"></i>
+                        <h4>Life Skills</h4>
+                </a>
+            </div>
+
+            <div id="discussion-arts-and-music" class="3u 12u(small) box align-center">
+                <a href="/discussion/arts-and-music">
+                    <i class="icon fa-music"></i>
+                    <h4>Arts & Music</h4>
+                </a>
+            </div>
+
+            <div id="discussion-academic" class="3u 12u(small) box align-center">
+                <a href="/discussion/academic">
+                    <i class="icon fa-book"></i>
+                    <h4>Academic</h4>
+                </a>
+            </div>
+
+            <div id="discussion-handcraft" class="3u 12u(small) box align-center">
+                <a href="/discussion/handcraft">
+                    <i class="icon fa-hand-o-up"></i>
+                    <h4>Handcraft</h4>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<hr>
+
+<section id="discussion-sort" class="wrapper">
+    <div class="inner">
+        <div class="row">
+            <div id="discussion-all-topics" class="2u 12u$(small)">
+                <h4> <% topics.count() %></h4>
+            </div>
+
+            <div id="discussion-sort-by" class="2u 12u$(small)">
+                <h5 class="align-center">Sort by</h5>
+            </div>
+            <div id="discussion-category" class="4u 12u$(small)">
+                <div class="select-wrapper">
+                    <select name="category" id="sort-topic">
+                        <option value="hottest">- Hotness -</option>
+                        <option value="newest">Recent Posts</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Topic Lists -->
+<section id="discussion-list" class="wrapper style1">
+
+    <hr>
+
+    <div id="discussion-content" class="inner">
+        <% topics.forEach(function(topic){%>
+        <div class="row box">
+            <div class="2u 12u(medium)">
+                <a href="/user?id=<%= user._id%>"><img src="" alt="" width="60px"></a>
+            </div>
+
+            <div class="6u 12u(medium)">
+                <h4><a href="/topic"><%= topic.title%></a></h4>
+            </div>
+
+            <div class="2u 12u(medium)">
+                <h4><%= topic.publishTime %></h4>
+            </div>
+
+            <div>
+                <i class="icon fa-comment"></i>
+                <%= topic.viewer %>
+            </div>
+        </div>
+        <hr>
+        <%})%>
+    </div>
+</section>
+
+<%- include footer %>

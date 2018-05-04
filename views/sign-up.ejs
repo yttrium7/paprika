@@ -1,0 +1,60 @@
+<%- include header %>
+
+<section id="sign-up" class="wrapper style1">
+    <div class="inner">
+        <h3 class="align-center"> Join us </h3>
+        <h3 class="align-center"> Sign up now </h3>
+
+    <form method="post">
+        <div class="row uniform 50%">
+            <div class="6u 12u$(xsmall)">
+                <input type="text" name="username" id="username" value="" placeholder="Username" required/>
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="email" name="email" id="email" value="" placeholder="Email" required/>
+            </div>
+            <div class="6u 12u$(xsmall)">
+                <input type="password" name="password" id="password" value="" placeholder="Set your Password" required/>
+            </div>
+            <div class="6u$ 12u$(xsmall)">
+                <input type="password" name="re-password" id="re-password" value="" placeholder="Confirm your Password" required/>
+            </div>
+            <div class="12u$">
+                <div class="select-wrapper">
+                    <select name="interested" id="interested">
+                        <option value="unchosen">- Interested in -</option>
+                        <option value="life">Life Skills</option>
+                        <option value="aca">Academic</option>
+                        <option value="arts">Arts&Music</option>
+                        <option value="craft">Handcrafting</option>
+                    </select>
+                </div>
+            </div>
+            <div class="4u 12u$(xsmall)">
+                <input type="radio" id="male" name="gender" checked>
+                <label for="male">Male</label>
+            </div>
+            <div class="4u 12u$(xsmall)">
+                <input type="radio" id="female" name="gender">
+                <label for="female">Female</label>
+            </div>
+            <div class="4u$ 12u$(xsmall)">
+                <input type="radio" id="unknown" name="gender">
+                <label for="unknown">I don't want to tell</label>
+            </div>
+            <div class="6u$ 12u$(small)">
+                <input type="checkbox" id="human" name="human" checked required>
+                <label for="human">I am a human and not a robot</label>
+            </div>
+            <div class="12u$">
+                <ul class="actions">
+                    <li><input type="submit" value="Sign Up" class="special" id="sign-up-1"/></li>
+                    <a href="/login" id="log-in-0">Already have an account?</a>
+                </ul>
+            </div>
+        </div>
+    </form>
+    </div>
+</section>
+
+<%- include footer %>

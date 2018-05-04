@@ -1,0 +1,184 @@
+section#profile-id{
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 4fr 1fr;
+    grid-template-areas: "bio name upload blank edit";
+    grid-column-gap: 50px;
+    padding: 4em 4em 2em 4em;
+}
+
+div#bio{
+    grid-area: bio;
+}
+div#name{
+    grid-area: name;
+}
+div#add{
+    grid-area: upload;
+}
+div#edit{
+    grid-area: edit;
+}
+div#your-subject-1{
+    padding: 4em 4em 2em 2em;
+}
+div#your-subject-2{
+    padding: 4em 4em 2em 2em;
+}
+
+section#discussion-title{
+    background: #2b542c;
+    padding: 2em 0 2em 0;
+}
+section#discussion-sort{
+    padding: 1em 0 1em 0;
+}
+
+#discussion-title h2{
+    color: white;
+}
+
+section#discussion-field {
+    margin: 0 auto;
+    width: 65em;
+    padding: 1em 0 0 0;
+}
+section#discussion-field h3{
+    color: #1E2832;
+}
+section#discussion-list{
+    padding: 2em 0 0 0;
+}
+div#discussion-sort{
+    margin: 0 auto;
+    width: 65em;
+}
+
+section#person-info{
+    display: grid;
+    background-color: #f2f2f2;
+    grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
+    grid-template-areas: "none subs vids discus none2";
+    padding-top: 2em;
+
+}
+
+div#info-subject{
+    grid-area: subs;
+    padding: 10px 10px 10px 10px;
+}
+div#info-videos{
+    grid-area: vids;
+    padding: 10px 10px 10px 10px;
+
+}
+div#info-discussion{
+    grid-area: discus;
+    padding: 10px 10px 10px 10px;
+}
+
+div.info-content {
+    padding-top: 2em;
+    padding-bottom: 0;
+}
+
+div.bio-content {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-areas: "description bio";
+    padding-top: 1em;
+}
+
+div.user-box {
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 1em;
+    border-color: rgba(144, 144, 144, 0.25);
+    margin-left: 10em;
+    margin-right: 10em;
+    margin-top: 3em;
+}
+hr {
+    margin: 0.8em 0;
+}
+
+div.bio-description {
+    grid-area: description;
+}
+
+div.bio-pic{
+    grid-area: pic;
+}
+
+div.bio-title {
+    margin-left: 2em;
+}
+
+div#discussion-all-topics{
+    grid-area: alltopics;
+}
+div#discussion-sort-by{
+    grid-area: sortby;
+}
+div#discussion-category {
+    grid-area: category;
+}
+
+section#person-nav-bar{
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr;
+    grid-template-areas: "none home subjects discussion biography none2";
+    grid-column-gap: 50px;
+    padding: 1em 2em 1em 2em;
+    font-size: larger;
+}
+
+div#person-nav-home{
+    grid-area: home;
+}
+div#person-nav-subjects{
+    grid-area: subjects;
+}
+div#person-nav-discussion{
+    grid-area: discussion;
+}
+div#person-nav-biography{
+    grid-area: biography;
+}
+
+div#topic-comments-sort-by{
+    clear: right;
+}
+
+section#topic-title{
+    background: #2b542c;
+    padding: 2em 0 2em 0;
+}
+
+section#topic-title h2,h3{
+    color:white;
+    font-size: x-large;
+}
+section#topic-section{
+    padding: 1em 0 1em 0;
+}
+#video-play{
+    background: #1E2832;
+    padding: 1em 0 0 0;
+}
+
+h1 {
+    margin: 0;
+    padding-left:1em;
+}
+
+div.title-bar {
+    padding-top: 2em;
+}
+section#video-play-option{
+    padding: 1em 0 2em 0;
+}
+section#join-us{
+    padding: 1em 0 2em 0;
+>>>>>>> 020f7cf02e2c3f3a71315c06dfbc59f7f1269440
+}

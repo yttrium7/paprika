@@ -1,9 +1,20 @@
-var express = require('express');
-var router = express.Router();
+var userController = require('../controllers/userController');
+var topicController = require('../controllers/topicController');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
-module.exports = router;
+module.exports = function(app){
+    app.get('/', userController.index);
+    app.get('/home', userController.home);
+    app.get('/sign-up', userController.signUp);
+    app.post('/sign-up', userController.signUpNew);
+    app.get('/login', userController.login);
+    app.post('/login', userController.loginCheck);
+    app.get('/logout', userController.logout);
+
+
+    app.get('/create-topic', topicController.createTopic);
+    app.get('/discussion', topicController.listTopics);
+    app.get('/topic', topicController.topic);
+
+
+};

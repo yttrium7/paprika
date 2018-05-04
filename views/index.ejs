@@ -1,11 +1,41 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+
+<%- include header %>
+
+<!-- Banner -->
+<section id="banner">
+    <i class="icon fa-leanpub"></i>
+    <h2>Learn Anywhere</h2>
+    <p>For anything, for volunteering</p>
+    <ul class="actions">
+        <li><a href="/aboutUs" class="button big special">Know about us</a></li>
+    </ul>
+</section>
+
+<!-- Our subjects list -->
+<section id="subject-list" class="wrapper style1 special">
+    <div class="inner">
+        <header class="major narrow">
+            <h3>See what classes we have</h3>
+        </header>
+
+        <div id="subject-field">
+        </div>
+    </div>
+</section>
+
+<!-- What we are discussing -->
+<section id="three" class="wrapper style3 special">
+    <div class="inner">
+        <header class="major narrow	">
+            <h2>See what we are discussing</h2>
+            <p> We talk about world</p>
+        </header>
+        <ul class="actions">
+            <li><a href="/discussion" class="button big alt">Go to Discussion</a></li>
+        </ul>
+    </div>
+</section>
+
+<%- include footer %>
+
+
