@@ -1,0 +1,39 @@
+<%- include header %>
+
+<!-- create your class -->
+
+<section id="create-new-class" class="wrapper style1">
+    <div class="inner">
+        <h3 class="align-center"> Create your own class </h3>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row uniform 50%">
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="className" placeholder="Your class name" required/>
+                </div>
+                <div class="12u$">
+                    <textarea name="classDescription" placeholder="Enter your class description" rows="6"></textarea>
+                </div>
+
+                <div class="6u 12u$(xsmall)">
+                    <label for="name"> Upload your class cover </label>
+                    <input type="file" name="postImg" />
+                </div>
+
+                <div class="6u 12u$(xsmall)">
+                    <label for="name"> Upload your first lesson </label>
+                    <input type="file" name="uploadVideo" />
+                </div>
+
+                <input type="hidden" name="enrollNumber" value=0 />
+                <div class="12u$">
+                    <ul class="actions">
+                        <li><input type="submit" value="New ClassModel create" class="special" id="sign-up-1"/></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<%- include footer %>

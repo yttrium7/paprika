@@ -2,22 +2,21 @@
 
 <!-- Topic title -->
 
-<section id="topic-title" class="wrapper">
+<section class="wrapper">
     <div class="inner">
         <div class="row">
             <header class="align-center 12u 12u(large)">
-                <h2> Class: <br/></h2>
-
-                <h3> Strategy of improving World Wide environment </h3>
+                <h2> class: <%= theClass.className %><br/></h2>
+                <h3> topic: <%= topic.topicName %> </h3>
             </header>
         </div>
+
         <div class="row">
-            <a href="video-play.html">
-                <h2>VIDEO LINK</h2>
+            <a href="/class?<%= theClass._id%>">
+                <h2>Class Link</h2>
             </a>
         </div>
     </div>
-
 </section>
 
 <hr>
@@ -28,9 +27,9 @@
     <div class="inner">
         <div class="row">
             <div id="topic-writer" class="2u$ 12u(small)">
-                <a href="person.html">
+                <a href=#>
                     <img src="../public/images/pic05.jpg" width="120px" alt="USER A" />
-                    <h2>USER A</h2>
+                    <h2><%= topic.author%></h2>
                 </a>
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
@@ -42,13 +41,13 @@
             <div id="topic-content" class="12u$ 12u$(small)">
                 <div class="row">
                     <div class="9u 12u$(medium)">
-                        <h3>How might we improve sanitation and better manager human waste in low-income urban communities?</h3>
+                        <h3><%= topic.topicName%></h3>
                     </div>
                     <div class="3u 12u$(small)">
                         <a href="#">
                             <i class="icon fa-caret-up"></i>
                         </a>
-                        <h4> 120 </h4>
+                        <h4><%= topic.viewer %></h4>
                         <a href="#">
                             <i class="icon fa-caret-down"></i>
                         </a>
@@ -56,23 +55,13 @@
                 </div>
                 <div class="row">
                     <h5> posted on </h5>
-                    <h5> 05-10-2018</h5>
+                    <h5> <%= topic.postTime%></h5>
                 </div>
 
                 <hr>
 
                 <div>
-                    <p>Urban living is the keystone of human society, the rapid urbanization brings worse urban living ecology because unsolved environment issues go along with over-quick development in the process of urbanization, which will lead to the vulnerability for the overall urban population, particularly the poor. It will also influence the economic growing rate of urban communities. That is the major cause of differences in sanitation level of urban communities, since in general, low-financial income government is hard to govern individuals and organizations in communities and support the sanitation facilities. Human waste management is exposed as one of the problems of poor sanitation.</p>
-
-                    <p>Poor sanitation and unmanageable human waste have resulted in increasing of diseases spread range and unhealthy human living conditions. Most types of people who is suffering this problem come from low-income urban communities, basically they exist in every country all over the world, including developing countries even developed countries. But Africa and Indonesia is the wildest impacted area and mostly support programs draw attention to, like Ghanasan, Uganda etc.</p>
-
-                    <p>The World Health Organization has chosen the theme of “urbanization and health” for World Health Day, on 7 April 2010, in recognition of the effect urbanization has on our collective health globally and on every individual. So, it has been a global issue.[1]
-
-                    <p>To manage this, individual perspective and global perspective can be discussed separately.</p>
-
-                    <p>For the former, for example, a Global Forum in World Health Day had showcased the year’s findings and successes on urbanization and health to encourage discussion between city leaders and their citizens to take actions to improve policies and behaviors in the face of some of the more negative aspects associated with urbanization that impact health and sanitation. And the Coca-Cola Africa Foundation, will support sustainable solutions to clean water and sanitation service delivery for at least 270,000 people in urban and peri-urban areas.<p>
-
-                    <p>For the latter, the global citizens have been monitoring the start-up teams to donate the sanitation facilities like The Ghanansan team that has made some contributes on OpenIDEO. WHO(World Health Organization) has used social media such as Facebook and YouTube so that individuals all over the world can participate and interact towards to World Health Day. UN Environment Programmer has organized annual Clean Up the World Weekend and 35 million volunteers are expected to sign up ect. All in all, world and people is realizing and taking actions to this challenge actively.</p>
+                    <p><%= topic.article%></p>
                 </div>
             </div>
         </div>
@@ -84,6 +73,7 @@
 
 <section id="topic-comments" class="wrapper">
     <div class="inner">
+
         <div id="topic-comment-sort" class="row">
             <div class="2u$ 12u$(small)">
                 <h3>Comments(50)</h3>
@@ -97,34 +87,34 @@
             </div>
         </div>
 
-        <div id="topic-comment-1" class="row uniform">
-            <div id="topic-comment-1-user" class="1u 12u$(small)">
+
+        <div class="row uniform">
+            <% topic.comments.forEach(function(comment){%>
+            <div class="1u 12u$(small)">
                 <img src="../public/images/pic06.jpg" width="50px" alt="USER B" />
-                <a href="person.html">
-                    <h4> USER B </h4>
-                    <h6> 2 days ago </h6>
+                <a href="#">
+                    <h4> <%= comment.writer %></h4>
+                    <h6> <%= comment.writeTime %></h6>
                 </a>
             </div>
-            <div id="topic-comment-1-content" class="11u$ 12u$(small)">
+            <div class="11u$ 12u$(small)">
                 <div class="box">
-                    <p>Health challenges particularly evident in cities relate to water, environment, violence and injury, noncommunicable diseases (cardiovascular diseases, cancers, diabetes and chronic respiratory diseases), unhealthy diets and physical inactivity, harmful use of alcohol as well as the risks associated with disease outbreaks. City living and its increased pressures of mass marketing, availability of unhealthy food choices and accessibility to automation and transport all have an effect on lifestyle that directly affect health.</p>
+                    <p><%= comment.content %></p>
                 </div>
             </div>
+            <%})%>
         </div>
-        <div id="topic-comment-2" class="row uniform">
-            <div id="topic-comment-2-user" class="1u 12u$(small)">
-                <img src="../public/images/pic06.jpg" width="50px" alt="USER C" />
-                <a href="person.html">
-                    <h4> USER C </h4>
-                    <h6> 2 days ago </h6>
-                </a>
-            </div>
-            <div id="topic-comment-2-content" class="11u$ 12u$(small)">
-                <div class="box">
-                    <p>Health challenges particularly evident in cities relate to water, environment, violence and injury, noncommunicable diseases (cardiovascular diseases, cancers, diabetes and chronic respiratory diseases), unhealthy diets and physical inactivity, harmful use of alcohol as well as the risks associated with disease outbreaks. City living and its increased pressures of mass marketing, availability of unhealthy food choices and accessibility to automation and transport all have an effect on lifestyle that directly affect health.</p>
-                </div>
-            </div>
-        </div>
+
+        <form method="post">
+            <header>
+                <h3>Write your opinion</h3>
+            </header>
+            <textarea name="comment" placeholder="Write your comment here" rows="3"></textarea>
+            <ul class="actions">
+                <li><input type="submit" value="send comment" class="special"/></li>
+            </ul>
+        </form>
+
     </div>
 </section>
 

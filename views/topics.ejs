@@ -1,0 +1,23 @@
+<%- include header %>
+
+<!-- discussion title -->
+<section id="discussion-title">
+    <div class="3u 12u$(small) align-center">
+        <h3>All topics</h3>
+    </div>
+</section>
+
+
+<hr>
+
+<!-- Topics Lists -->
+<section class="wrapper style1">
+
+    <hr>
+
+    <div class="inner">
+        <%- include('discussion-content', { topics: topics }) %>
+    </div>
+</section>
+
+<%- include footer %>

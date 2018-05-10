@@ -2840,7 +2840,7 @@
 /* Wrapper */
 
 	.wrapper {
-		padding: 8em 0 6em 0;
+		padding: 2em 0 2em 0;
 		position: relative;
 	}
 
@@ -3560,7 +3560,7 @@
 		@media screen and (max-width: 1280px) {
 
 			.wrapper {
-				padding: 3em 0 4em 0;
+				padding: 2em 0 2em 0;
 			}
 
 				.wrapper > .inner {

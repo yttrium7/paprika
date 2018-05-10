@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title> <%-title %></title>
+    <title> <%= title %></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/stylesheets/styles.css" />
@@ -20,7 +20,7 @@
     <h1><a href="/"></a></h1>
 
     <% if(user){ %>
-        <a href="/profile" class="button small special">Profile</a>
+        <a href="/profile" class="button small special"><%= user.username%>'s Profile</a>
         <a href="/logout" class="button small special">Log Out</a>
     <%}else{%>
         <a href="/sign-up" class="button small special">Sign Up</a>
@@ -34,8 +34,10 @@
 <nav id="nav">
     <ul class="links">
         <li><a href="/">Home</a></li>
+        <li><a href="/class/all-classes">Classes</a></li>
+        <li><a href="/topic/all-topics">Topics</a></li>
+        <li><a href="/about-us">About Us</a></li>
     </ul>
 </nav>
 
-<
 

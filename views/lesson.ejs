@@ -1,0 +1,44 @@
+<%- include header %>
+
+<section id="video-play" class="wrapper">
+    <video id="video" width="300" height="300" controls>
+        <source src="https://www.youtube.com/watch?v=To7H-ZJ_8Ic" type="video/mp4">
+    </video>
+</section>
+
+<section id="video-title" class="wrapper">
+    <div class="inner">
+        <div class="row">
+            <header class="align-center 12u 12u(large)">
+                <h2> <%= lesson.lessonName%><br/></h2>
+            </header>
+            <div class="box">
+                <p><%= lesson.description%></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="wrapper">
+    <div class="inner">
+        <div class="row">
+            <div class="6u 12u$(small)">
+                <a href="/topics?id=<%= lesson.classId%>" class="button special small fit">Join related discussion</a>
+            </div>
+            <div class="6u 12u$(small)">
+                <a href="/class?id=<%= lesson.classId%>" class="button special small fit">View Class List</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%if(user){%>
+<%if(user.username == producer){%>
+<p>
+    <span><a class="edit" href="#">edit</a></span>
+    <span><a class="edit" href="#">delete</a></span>
+</p>
+<%}%>
+<%}%>
+
+<%- include footer %>

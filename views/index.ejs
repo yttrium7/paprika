@@ -1,13 +1,12 @@
-
 <%- include header %>
 
-<!-- Banner -->
+<!-- Banner and About Us -->
 <section id="banner">
     <i class="icon fa-leanpub"></i>
     <h2>Learn Anywhere</h2>
     <p>For anything, for volunteering</p>
     <ul class="actions">
-        <li><a href="/aboutUs" class="button big special">Know about us</a></li>
+        <li><a href="/about-us" class="button big special">Know about us</a></li>
     </ul>
 </section>
 
@@ -19,6 +18,74 @@
         </header>
 
         <div id="subject-field">
+            <ul class="alt">
+                <li id="life-skill">
+                    <div id="life-skill-class" class="row">
+                        <div class="3u 12u$(small)">
+                            <i class="icon fa-book"></i>
+                            <h3> Life Skills</h3>
+                        </div>
+                        <% classes.lifeSkill.forEach(function(eachClass){%>
+                        <div class="3u 12u$(small)">
+                            <ul>
+                                <li><a href="/class/detail?id=<%= eachClass._id%>"><%= eachClass.className %></a></li>
+                            </ul>
+                        </div>
+                        <%})%>
+                    </div>
+                </li>
+                <li id="arts-and-music">
+                    <div id="arts-and-music-class" class="row">
+                        <div class="3u 12u$(small)">
+                            <i class="icon fa-book"></i>
+                            <h3> Arts & Music</h3>
+                        </div>
+                        <% classes.artsMusic.forEach(function(eachClass){%>
+                        <div class="3u 12u$(small)">
+                            <ul>
+                                <li><a href="/class/detail?id=<%= eachClass._id%>"><%= eachClass.className %></a></li>
+                            </ul>
+                        </div>
+                        <%})%>
+                    </div>
+                </li>
+                <li id="academic">
+                    <div id="academic-class" class="row">
+                        <div class="3u 12u$(small)">
+                            <i class="icon fa-book"></i>
+                            <h3> Academic </h3>
+                        </div>
+                        <% classes.academic.forEach(function(eachClass){%>
+                        <div class="3u 12u$(small)">
+                            <ul>
+                                <li><a href="/class/detail?id=<%= eachClass._id%>"><%= eachClass.className %></a></li>
+                            </ul>
+                        </div>
+                        <%})%>
+                    </div>
+                </li>
+                <li id="handcraft">
+                    <div id="handcraft-class" class="row">
+                        <div class="3u 12u$(small)">
+                            <i class="icon fa-book"></i>
+                            <h3> Handcraft </h3>
+                        </div>
+                        <% classes.handcraft.forEach(function(eachClass){%>
+                        <div class="3u 12u$(small)">
+                            <ul>
+                                <li><a href="/class/detail?id=<%= eachClass._id%>"><%= eachClass.className %></a></li>
+                            </ul>
+                        </div>
+                        <%})%>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="3u 12u$(small)">
+            <ul>
+                <li><a href="#">Find more</a></li>
+            </ul>
         </div>
     </div>
 </section>
@@ -31,7 +98,7 @@
             <p> We talk about world</p>
         </header>
         <ul class="actions">
-            <li><a href="/discussion" class="button big alt">Go to Discussion</a></li>
+            <li><a href="/topic/all-topics" class="button big alt">Go to Discussion</a></li>
         </ul>
     </div>
 </section>

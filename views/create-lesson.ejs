@@ -1,0 +1,41 @@
+<%- include header %>
+
+<!-- upload your lessons -->
+
+<section id="upload-new-lesson" class="wrapper style1">
+    <div class="inner">
+        <h3 class="align-center">
+            Upload the lesson in your class
+        </h3>
+
+        <h2 class="align-center">
+            <%= createdClass.className%>
+        </h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row uniform 50%">
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="lessonName" placeholder="Your lesson name" required/>
+                </div>
+
+                <div class="12u$">
+                    <textarea name="lessonDescription" placeholder="Enter your lesson description" rows="6"></textarea>
+                </div>
+
+                <div class="6u 12u$(xsmall)">
+                    <label for="name"> Upload your lesson </label>
+                    <input type="file" name="postVideo" />
+                </div>
+
+                <input type="hidden" value="<%= createdClass._id%>" name="id" />
+                <div class="12u$">
+                    <ul class="actions">
+                        <li><input type="submit" value="New lesson create" class="special"/></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<%- include footer %>

@@ -1,0 +1,82 @@
+<%-include header %>
+
+<!-- Class header -->
+<section class="wrapper style2">
+    <div class="3u 12u$(small) align-center">
+        <h2><%= theClass.tag %></h2>
+        <h3>Class: </h3>
+        <h3><%= theClass.className %></h3>
+    </div>
+</section>
+
+<!-- Lesson list -->
+<section class="wrapper style1">
+    <div class="inner">
+
+        <header>
+            <h3> <a href="/class?id=<%= theClass.id%>" class="button special big"></a> Enroll </h3>
+        </header>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <% theClass.lessons.forEach(function(lesson){%>
+        <div class="4u 12u$(medium) box">
+            <ul class="alt">
+                <li>
+                    <h4>
+                        Lesson : <%= lesson.lessonName%>
+                    </h4>
+                </li>
+                <li>
+                    description: <%= lesson.description %>
+                </li>
+            </ul>
+        </div>
+        <%})%>
+    </div>
+
+    <hr>
+
+    <!-- Related topics-->
+    <div class="inner">
+        <header>
+            <h1> Some related topics </h1>
+        </header>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Topic Title</th>
+                    <th>Time</th>
+                    <th>Views</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% theClass.topics.forEach(function(topic){%>
+                <tr>
+                    <td><a href="#"><%= topic.author%></a></td>
+                    <td><%= topic.topicName%></td>
+                    <td><%= topic.postTime%></td>
+                    <td><%= topic.viewer%></td>
+                </tr>
+                <%})%>
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><a href="/topics?id=<%= theClass._id%>">View more content</a></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+<%- include footer %>

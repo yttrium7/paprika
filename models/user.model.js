@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var config = require('./../config/config');
+var ClassSchema = require('../models/class.model').schema;
 
 mongoose.connect(config.mongodb);
 
@@ -7,9 +8,10 @@ var UserSchema = new mongoose.Schema({
     username:String,
     password:String,
     email:String,
-    gender:String,
-    photo: String
+    photo: String,
+    bio: String,
+    enrolledClass:[ClassSchema]
 });
 
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+var UserModel = mongoose.model('User', UserSchema);
+module.exports = UserModel;

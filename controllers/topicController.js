@@ -1,20 +1,82 @@
 var moment = require('moment');
-var formidable = require('formidable');
-var Topic = require('./../models/topic');
-var User = require('./../models/user');
+var path = require('path');
 
-exports.topic = function (req, res) {
-    res.render('topic',{
-        title:'Your topic',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+var formidable = require('formidable');
+var TopicModel = require('../models/topic.model');
+var ClassModel = require('../models/class.model');
+var CommentModel = require('../models/comment.model');
+
+exports.allTopics = function(req,res){
+
+    TopicModel.find({}, function (err, data) {
+        res.render('topics', {
+            title: 'All topics',
+            user: req.session.user,
+            topics: data
+        });
     })
 };
 
-exports.createTopic = function(req,res){
+exports.topics = function(req,res){
+    var id = req.query.id;
+
+    //var className = req.params.className;
+
+    ClassModel.findById(id, function (err, data) {
+        if(err){
+            console.log(err);
+            //req.flash('error','Class discussion showing error');
+            return res.redirect('/');
+        }
+        if(req.query.topicId){
+            var topicId = req.query.topicId;
+            TopicModel.findById(topicId, function (err, topic) {
+                if(err){
+                    console.log(err);
+                    //req.flash('error','Class discussion showing error');
+                    return res.redirect('/');
+                }
+                res.render('topic',{
+                    title: 'Single topic',
+                    user: req.session.user,
+                    topic: topic,
+                    theClass: data
+                })
+            })
+        }
+        res.render('discussion', {
+            title: 'Discussion',
+            user: req.session.user,
+            theClass: data
+        });
+    });
+};
+
+exports.postTopic = function (req, res) {
+    var id = req.query.id;
+
+    ClassModel.findById(id,function(err,data){
+        if(err){
+            console.log('err','postTopic wrong');
+            //req.flash('error','Class lesson upload error');
+            return res.redirect('/');
+        }
+        res.render('create-topic',{
+            title:'Post your topic',
+            user: req.session.user,
+            //success: req.flash('success').toString(),
+            //error: req.flash('error').toString(),
+            theClass:data,
+            //img:path.dirname(__dirname) + '/public/images/'+data.postImg
+        })
+    });
+};
+
+exports.postNewTopic = function(req,res){
     var imgPath = path.dirname(__dirname) + '/public/images/';
     var form = new formidable.IncomingForm();
+    var id = req.query.id;
+
     form.encoding = 'utf-8';
     form.uploadDir = imgPath;
     form.keepExtensions = true;
@@ -23,71 +85,92 @@ exports.createTopic = function(req,res){
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
-            req.flash('error','Upload image failed');
+            //req.flash('error','Upload image failed');
             return;
         }
         var file = files.postImg;
 
-        if(file.type != 'image/png' && file.type != 'image/jpeg' && file.type != 'image/gif' && file.type != 'image/jpg'){
+        if(file.type !== 'image/png' && file.type !== 'image/jpeg' && file.type !== 'image/gif' && file.type !== 'image/jpg'){
             console.log('Only png/jpeg/gif are available');
-            req.flash('error','Only png/jpeg/gif are available');
-            return res.redirect('/upload');
+            //req.flash('error','Only png/jpeg/gif are available');
+            return res.redirect('/profile/create-topic');
         }
-        var title = fields.title;
-        var author = req.session.user.username;
-        var content = fields.content;
+
+        var topicName = fields.topicName;
+        var article = fields.article;
         var postImg = file.path.split(path.sep).pop();
         var viewer= fields.viewer;
 
         try {
-            if (!title.length) {
-                throw new Error('Please write the title');
+            if (!topicName.length) {
+                throw new Error('Please write the topic name');
             }
-            if (!content.length) {
-                throw new Error('Please write the content');
+            if (!article.length) {
+                throw new Error('Please write the topic content');
             }
         } catch (e) {
-            req.flash('error', e.message);
+            //req.flash('error', e.message);
             return res.redirect('back');
         }
 
-        var topic = new Topic({
-            title:title,
-            author:author,
-            content:content,
-            postImg:postImg,
-            publishTime:moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
-            viewer:viewer
+        var newTopic = new TopicModel({
+            topicName:topicName,
+            author:req.session.user.username,
+            article: article,
+            postImg: postImg,
+            postTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+            viewer: viewer
         });
-        topic.save(function(err){
+
+        newTopic.save(function(err){
             if(err){
-                console.log('Post topic error');
-                req.flash('err','Post topic error');
-                return res.redirect('/post');
+                console.log('Create topic error');
+                //req.flash('err','Create topic error');
+                return res.redirect('/discussion/:className');
             }
-            console.log('Post topic success');
-            req.flash('success','Post topic success');
-            res.redirect('/');
+            console.log('Create topic success');
+            //req.flash('success','Post topic success');
         });
+
+        ClassModel.update({"_id": id},{$addToSet:{"topics":newTopic}},function (err) {
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("new topic update success");
+
+            res.redirect('/topics?id='+id);
+        })
     });
 };
 
-exports.listTopics = function(req,res){
-    Topic.find({},function(err,topics){
-        User.find({},function(err,users){
+exports.writeComment = function(req,res) {
+    var topicId = req.query.topicId;
 
-        })
+    var newComment = new CommentModel({
+        writer:req.session.user,
+        content: req.body.comment,
+        writeTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString()
+    });
+
+    newComment.save(function(err){
         if(err){
-            console.log(err,'Error Found');
-            //req.flash('error','Error Found');
-            return res.redirect('/');
+            console.log('Create comment error');
+            //req.flash('err','Create topic error');
+            return res.redirect('back');
         }
-        res.render('discussion',{
-            title:'Discussion',
-            //success: req.flash('success').toString(),
-            //error: req.flash('error').toString(),
-            topics:data,
-            time:moment(new Date()).format('DD-MM-YYYY HH:mm:ss'),
-        });
+        console.log('save comment success');
+        //req.flash('success','Post topic success');
+    });
+
+    TopicModel.update({"_id": topicId},{$addToSet:{"comments":newComment}},function (err) {
+        if(err){
+            console.log(err);
+            return;
+        }
+        console.log("new comment update success");
+
+        res.redirect('/topics?id='+id+'&topicId='+topicId);
     })
 };
+
