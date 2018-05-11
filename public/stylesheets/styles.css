@@ -1,28 +1,16 @@
 section#profile-id{
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr 4fr 1fr;
-    grid-template-areas: "bio name upload blank edit";
+    grid-template-columns: 1fr 2fr 4fr;
+    grid-template-areas: "avatar username blank";
     grid-column-gap: 50px;
     padding: 4em 4em 2em 4em;
 }
 
-div#bio{
-    grid-area: bio;
+div#avatar{
+    grid-area: avatar;
 }
-div#name{
-    grid-area: name;
-}
-div#add{
-    grid-area: upload;
-}
-div#edit{
-    grid-area: edit;
-}
-div#your-subject-1{
-    padding: 4em 4em 2em 2em;
-}
-div#your-subject-2{
-    padding: 4em 4em 2em 2em;
+div#username{
+    grid-area: username;
 }
 
 section#discussion-title{

@@ -8,7 +8,8 @@ var UserSchema = new mongoose.Schema({
     username:String,
     password:String,
     email:String,
-    photo: String,
+    gender:String,
+    avatar:String,
     bio: String,
     enrolledClass:[ClassSchema]
 });

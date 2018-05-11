@@ -9,26 +9,33 @@
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform 50%">
                 <div class="6u 12u$(xsmall)">
-                    <input type="text" name="className" placeholder="Your class name" required/>
+                    <label>class name</label>
+                    <input type="text" name="className" placeholder="Enter Your class name" required/>
                 </div>
                 <div class="12u$">
+                    <label>class description</label>
                     <textarea name="classDescription" placeholder="Enter your class description" rows="6"></textarea>
                 </div>
 
                 <div class="6u 12u$(xsmall)">
-                    <label for="name"> Upload your class cover </label>
-                    <input type="file" name="postImg" />
+                    <label>Category</label>
+                    <select name="tag">
+                        <option value="Life Skill">Life Skill</option>
+                        <option value="Arts and Music">Arts and Music</option>
+                        <option value="Academic">Academic</option>
+                        <option value="Handcraft">Handcraft</option>
+                    </select>
                 </div>
 
                 <div class="6u 12u$(xsmall)">
-                    <label for="name"> Upload your first lesson </label>
-                    <input type="file" name="uploadVideo" />
+                    <label for="name"> Upload your class cover </label>
+                    <input type="file" name="coverImg" />
                 </div>
 
                 <input type="hidden" name="enrollNumber" value=0 />
-                <div class="12u$">
-                    <ul class="actions">
-                        <li><input type="submit" value="New ClassModel create" class="special" id="sign-up-1"/></li>
+                <div class="12u$ align-center">
+                    <ul class="actions align-center">
+                        <li><input type="submit" value="New ClassModel create" class="special"/></li>
                     </ul>
                 </div>
             </div>

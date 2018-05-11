@@ -7,7 +7,10 @@ mongoose.connect(config.mongodb);
 
 var ClassSchema = new mongoose.Schema({
     className:String,
-    producer:String,
+    producer: {
+        name: String,
+        avatar: String
+    },
     description: String,
     coverImg:String,
     enrollNumber: Number,

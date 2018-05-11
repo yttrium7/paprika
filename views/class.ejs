@@ -12,10 +12,15 @@
 <!-- Lesson list -->
 <section class="wrapper style1">
     <div class="inner">
-
-        <header>
-            <h3> <a href="/class?id=<%= theClass.id%>" class="button special big"></a> Enroll </h3>
-        </header>
+        <% if(enrolled){%>
+        <ul class="actions align-center">
+            <li class="button disabled align-center"> Enrolled </li>
+        </ul>
+        <%}else{%>
+        <form method="post">
+            <input type="submit" value="Enroll" name="enroll"/>
+        </form>
+        <%}%>
     </div>
 
     <hr>
@@ -58,8 +63,16 @@
                 <tbody>
                 <% theClass.topics.forEach(function(topic){%>
                 <tr>
-                    <td><a href="#"><%= topic.author%></a></td>
-                    <td><%= topic.topicName%></td>
+                    <td>
+                        <a href="/user/<%= topic.author%>">
+                            <%= topic.author%>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/topic/detail?id=<%theClass._id%>/article?topicId=<%=topic._id%>">
+                            <%= topic.topicName%>
+                        </a>
+                    </td>
                     <td><%= topic.postTime%></td>
                     <td><%= topic.viewer%></td>
                 </tr>
@@ -69,7 +82,7 @@
                 <tfoot>
                 <tr>
                     <td colspan="3"></td>
-                    <td><a href="/topics?id=<%= theClass._id%>">View more content</a></td>
+                    <td><a href="/topic/detail?id=<%= theClass._id%>">View more content</a></td>
                 </tr>
                 </tfoot>
             </table>

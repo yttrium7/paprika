@@ -1,6 +1,6 @@
 <%-include header %>
 
-<!-- Topic title -->
+<!-- Single Topic title -->
 
 <section class="wrapper">
     <div class="inner">
@@ -12,7 +12,7 @@
         </div>
 
         <div class="row">
-            <a href="/class?<%= theClass._id%>">
+            <a href="/class/detail?<%= theClass._id%>">
                 <h2>Class Link</h2>
             </a>
         </div>
@@ -27,9 +27,8 @@
     <div class="inner">
         <div class="row">
             <div id="topic-writer" class="2u$ 12u(small)">
-                <a href=#>
-                    <img src="../public/images/pic05.jpg" width="120px" alt="USER A" />
-                    <h2><%= topic.author%></h2>
+                <a href='/user/<%= topic.author.name%>'>
+                    <img src="../images/<%=topic.author.avatar%>" alt="<%topic.author.name%>'s avatar" width="100px"/>
                 </a>
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
@@ -71,12 +70,16 @@
 
 <hr>
 
+<!-- Comment Part -->
+
 <section id="topic-comments" class="wrapper">
     <div class="inner">
 
+
         <div id="topic-comment-sort" class="row">
             <div class="2u$ 12u$(small)">
-                <h3>Comments(50)</h3>
+                <h3>Comments: </h3>
+                <h4> total: <% topic.comments.length%> </h4>
             </div>
             <div id="topic-comments-sort-by" class="select-wrapper 2u$ 12u$(small)">
                 <select name="category" class="align-right">
@@ -91,12 +94,13 @@
         <div class="row uniform">
             <% topic.comments.forEach(function(comment){%>
             <div class="1u 12u$(small)">
-                <img src="../public/images/pic06.jpg" width="50px" alt="USER B" />
-                <a href="#">
-                    <h4> <%= comment.writer %></h4>
-                    <h6> <%= comment.writeTime %></h6>
+
+                <a href="/user/<%comment.writer.name%>">
+                    <img src="../images/<%=comment.writer.avatar%>" width="100px" alt="user's avatar"/>
                 </a>
+                    <h6> <%= comment.writeTime %></h6>
             </div>
+
             <div class="11u$ 12u$(small)">
                 <div class="box">
                     <p><%= comment.content %></p>
@@ -105,10 +109,12 @@
             <%})%>
         </div>
 
+
         <form method="post">
             <header>
                 <h3>Write your opinion</h3>
             </header>
+
             <textarea name="comment" placeholder="Write your comment here" rows="3"></textarea>
             <ul class="actions">
                 <li><input type="submit" value="send comment" class="special"/></li>

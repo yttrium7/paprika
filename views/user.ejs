@@ -1,21 +1,23 @@
 <%- include header %>
 
-<!-- Profile Banner -->
+<!-- User Banner -->
 <section id="profile-id" class="wrapper style2">
 
-    <div id="bio">
-        <a href="#" class="image"><img src="../public/images/pic07.jpg" width="100px" alt="" /></a>
+    <div id="photo">
+        <%
+        var imgsrc='../images/'+<%=user.avatar %>
+        %>
+        <img src=<%- imgsrc %> width="100px" alt="user's avatar" />
     </div>
 
     <div id="name">
         <h2><%= user.username %></h2>
-        <a href="#">Add your bio</a>
     </div>
 
     <div id="bio">
         <p><%= user.bio %></p>
-        <a href="#">Change your bio</a>
     </div>
+
 </section>
 
 
@@ -23,15 +25,12 @@
 
     <div id="info-subject">
         <div class="box">
-            <div class="title-bar"><h2><%= user.username%>'s Class</h2></div>
+            <div class="title-bar"><h2><%= user.username%>'s Enrolled Class</h2></div>
             <div class="info-content align-left">
                 <ul class="alt">
-                    <% user.createdClass.forEach(function(eachClass){%>
-
-                    <li><a href="#" class="thread"></a></li>
-                    <li><a href="#" class="thread">Algebra</a></li>
-                    <li><a href="#" class="thread">Literature</a></li>
-                    <li><a href="#" class="thread">French</a></li>
+                    <% user.enrolledClass.forEach(function(eachClass){%>
+                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                    <%})%>
                 </ul>
             </div>
         </div>
@@ -39,13 +38,12 @@
 
     <div id="info-videos">
         <div class="box">
-            <div class="title-bar"><h2>Videos</h2></div>
+            <div class="title-bar"><h2><%= user.username %>'s Created Class</h2></div>
             <div class="info-content align-left">
                 <ul class="alt">
-                    <li><a href="#" class="thread">Video A</a></li>
-                    <li><a href="#" class="thread">Video B</a></li>
-                    <li><a href="#" class="thread">Video C</a></li>
-                    <li><a href="#" class="thread">Video D</a></li>
+                    <% createdClasses.forEach(function(eachClass){%>
+                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                    <%})%>
                 </ul>
             </div>
         </div>
@@ -55,10 +53,9 @@
             <div class="title-bar"><h2>Discussion</h2></div>
             <div class="info-content align-left">
                 <ul class="alt">
-                    <li><a href="#" class="thread">Thread A</a></li>
-                    <li><a href="#" class="thread">Thread B</a></li>
-                    <li><a href="#" class="thread">Thread C</a></li>
-                    <li><a href="#" class="thread">Thread D</a></li>
+                    <% topics.forEach(function(topic){%>
+                        <li><a href="/topic/detail?id=<%= topic._id%>" class="thread"><%= topic.topicName%></a></li>
+                    <%})%>
                 </ul>
             </div>
         </div>
@@ -68,16 +65,13 @@
 
 <section id="bio-content">
     <div class="user-box">
-        <div class="bio-title">User Bio</div>
+        <div class="bio-title">Bio</div>
         <hr>
         <div class="bio-content inner">
 
             <article class="feature right align-center">
-                <span class="image"><img src="../public/images/bio.jpg" alt="" /></span>
                 <div class="content">
-                    <p>Albert Einstein was a German-born theoretical physicist who developed the theory of relativity,
-                        one of the two pillars of modern physics. His work is also known for its influence on the
-                        philosophy of science.
+                    <p><%= user.bio%>
                     </p>
                 </div>
             </article>

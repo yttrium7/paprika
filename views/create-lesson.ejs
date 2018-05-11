@@ -15,21 +15,24 @@
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform 50%">
                 <div class="6u 12u$(xsmall)">
+                    <label> lesson name </label>
                     <input type="text" name="lessonName" placeholder="Your lesson name" required/>
                 </div>
 
                 <div class="12u$">
+                    <label> lesson description </label>
                     <textarea name="lessonDescription" placeholder="Enter your lesson description" rows="6"></textarea>
                 </div>
 
                 <div class="6u 12u$(xsmall)">
-                    <label for="name"> Upload your lesson </label>
-                    <input type="file" name="postVideo" />
+                    <label> Upload your lesson </label>
+                    <label> Choose lesson file </label>
+                    <input type="file" name="lessonFile" />
                 </div>
 
                 <input type="hidden" value="<%= createdClass._id%>" name="id" />
-                <div class="12u$">
-                    <ul class="actions">
+                <div class="12u$ align-center">
+                    <ul class="actions align-center">
                         <li><input type="submit" value="New lesson create" class="special"/></li>
                     </ul>
                 </div>

@@ -1,27 +1,22 @@
 var ClassModel = require('../models/class.model');
 
 exports.index = function(req,res) {
-    var lifeSkill;
-    var artsMusic;
-    var academic;
-    var handCraft;
 
     ClassModel.find({"tag": "Life Skill"}, function(err, life){
-        lifeSkill = life;
-        ClassModel.find({"tag": "Life Arts and Music"}, function(err, arts){
-            artsMusic = arts;
-            ClassModel.find({"tag": "Life Arts and Academic"}, function(err, aca){
-                academic = aca;
-                ClassModel.find({"tag": "Life Arts and HandCraft"}, function(err, hand){
-                    handCraft = hand;
+        ClassModel.find({"tag": "Arts and Music"}, function(err, arts){
+            ClassModel.find({"tag": "Academic"}, function(err, aca){
+                ClassModel.find({"tag": "HandCraft"}, function(err, hand){
                     var indexClass = {
-                        lifeSkill:lifeSkill,
-                        artsMusic:artsMusic,
-                        academic:academic,
-                        handcraft:handCraft
+                        lifeSkill:life,
+                        artsMusic:arts,
+                        academic:aca,
+                        handcraft:hand
                     };
                     console.log(indexClass);
-                    res.render('index', {title: 'index', user: req.session.user, classes: indexClass});
+                    res.render('index', {classes: indexClass,
+                        user:req.session.user,
+                        success: req.flash('success').toString(),
+                        error: req.flash('error').toString()});
                 });
             });
         });
@@ -29,5 +24,7 @@ exports.index = function(req,res) {
 };
 
 exports.aboutUs = function(req,res) {
-    res.render('about-us', {title: 'About Us', user: req.session.user});
+    res.render('about-us',{user: req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()});
 };

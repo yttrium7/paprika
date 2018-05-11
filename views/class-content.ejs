@@ -1,7 +1,5 @@
-<% if(createdClasses){ %>
 
-<div class="row">
-    <% createdClasses.forEach(function(eachClass){%>
+    <% classes.forEach(function(eachClass){%>
     <div class="4u 12u$(medium) box">
         <ul class="alt">
             <li>
@@ -11,9 +9,10 @@
 
             <% eachClass.lessons.forEach(function(lesson){%>
             <li>
-                <h4> <a href="/class/<%= eachClass.className%>/<%= lesson.lessonName%>?lessonId=<%= lesson._id%>&classId=<%= eachClass._id%>&producer=<%= eachClass.producer%>">
+                <h4> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
                         Lesson : <%= lesson.lessonName%></a>
                 </h4>
+
                 description: <%= lesson.description %>
             </li>
             <%})%>
@@ -24,10 +23,6 @@
         </ul>
     </div>
     <%})%>
-    <div id="add-new-subject" class="3u$ 12u$(medium)">
-        <a href="/profile/create-class" class="button special small">+ Add more classes</a>
-    </div>
-</div>
 
-<%}%>
+
 

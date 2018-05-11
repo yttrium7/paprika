@@ -7,7 +7,10 @@ mongoose.connect(config.mongodb);
 
 var TopicSchema = new mongoose.Schema({
     topicName:String,
-    author:String,
+    author:{
+        name: String,
+        avatar: String
+    },
     article: String,
     postImg: String,
     postTime: String,

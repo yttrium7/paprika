@@ -5,7 +5,10 @@ var config = require('./../config/config');
 mongoose.connect(config.mongodb);
 
 var CommentSchema = mongoose.Schema({
-    writer:String,
+    writer:{
+        name: String,
+        avatar: String
+    },
     content: String,
     writeTime: String,
 });

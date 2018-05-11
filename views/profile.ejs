@@ -2,21 +2,33 @@
 
 <!-- Profile Banner -->
 <section id="profile-id" class="wrapper style2">
-    <div id="bio">
-        <a href="#" class="image"><img src="../public/images/pic06.jpg" width="100px" alt="user-photo" /></a>
+
+    <div id="photo">
+        <img src="../images/<%=user.avatar%>" width="100px" alt="user's avatar" />
     </div>
+
     <div id="name">
         <h2><%= user.username %></h2>
     </div>
+
 </section>
 
 <!-- Enrolled classes -->
 <section id="profile-enrolled-class" class="wrapper style1">
     <div class="inner">
         <header>
-            <h3> The classes you created</h3>
+            <h3> Classes you Enrolled</h3>
         </header>
-        <%- include('class-content', { createdClasses: createdClasses }) %>
+        <div class="row">
+            <%- include('class-content', { classes: user.enrolledClass }) %>
+
+            <div id="add-new-subject" class="3u$ 12u$(medium)">
+                <p> Find more classes that you are interested </p>
+                <a href="/#subject-field" class="button special small">+ Add more classes</a>
+            </div>
+
+        </div>
+
     </div>
 </section>
 
@@ -24,14 +36,19 @@
 <section id="profile-uploaded-class" class="wrapper style3">
     <div class="inner">
         <header>
-            <h3> The classes you created</h3>
+            <h3> The Classes you created</h3>
         </header>
-        <%- include('class-content', { createdClasses: createdClasses }) %>
+        <div class="row">
+            <%- include('class-content', { classes: createdClasses }) %>
+            <div id="add-new-subject" class="3u$ 12u$(medium)">
+                <p> Share your Knowledge and grow with people those need helps</p>
+                <a href="/profile/create-class" class="button special small">+ Create more classes</a>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- your discussion-->
-
 <section id="profile-your-discussion" class="wrapper style1">
     <div class="inner">
         <header>
@@ -41,43 +58,22 @@
             <table>
                 <thead>
                 <tr>
-                    <th>TopicModel Name</th>
-                    <th>Description</th>
+                    <th>Topic Name</th>
                     <th>Time</th>
                     <th>Views</th>
                 </tr>
                 </thead>
                 <tbody>
+                <% topics.forEach(function(topic){%>
                 <tr>
-                    <td><a href="#">TopicModel</a> 1</td>
-                    <td>Ante turpis integer aliquet porttitor.</td>
-                    <td>05-10-2018</td>
-                    <td> 3 views </td>
+                    <td><a href="/topic/detail/article?topicId=<%= topic._id%>">
+                            <%= topic.topicName%>
+                        </a>
+                    </td>
+                    <td><%= topic.postTime%></td>
+                    <td><%= topic.viewer%></td>
                 </tr>
-                <tr>
-                    <td><a href="#">TopicModel</a> 2</td>
-                    <td>Vis ac commodo adipiscing arcu aliquet.</td>
-                    <td>06-10-2018</td>
-                    <td> 5 views </td>
-                </tr>
-                <tr>
-                    <td><a href="#">TopicModel</a> 3</td>
-                    <td> Morbi faucibus arcu accumsan lorem.</td>
-                    <td>05-10-2018</td>
-                    <td> 10 views </td>
-                </tr>
-                <tr>
-                    <td><a href="#">TopicModel</a> 4</td>
-                    <td>Vitae integer tempus condimentum.</td>
-                    <td>06-10-2018</td>
-                    <td> 3 views </td>
-                </tr>
-                <tr>
-                    <td><a href="#">TopicModel</a> 5</td>
-                    <td>Ante turpis integer aliquet porttitor.</td>
-                    <td>05-10-2018</td>
-                    <td> 0 views </td>
-                </tr>
+                <%})%>
                 </tbody>
                 <tfoot>
                 <tr>
@@ -87,7 +83,6 @@
                 </tfoot>
             </table>
         </div>
-
     </div>
 </section>
 
