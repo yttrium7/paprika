@@ -42,10 +42,9 @@ exports.createClass = function (req, res) {
 
 exports.createNewClass = function(req,res){
 
-    var imgPath = path.dirname(__dirname) + '/public/images/';
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = imgPath;
+    form.uploadDir = path.dirname(__dirname) + '/public/classcovers/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
@@ -127,11 +126,10 @@ exports.uploadLesson = function (req, res) {
 exports.uploadNewLesson = function(req,res){
 
     var id = req.query.id;
-
-    var videoPath = path.dirname(__dirname) + '/public/videos/';
     var form = new formidable.IncomingForm();
+    
     form.encoding = 'utf-8';
-    form.uploadDir = videoPath;
+    form.uploadDir = path.dirname(__dirname) + '/public/lessonfiles/';
     form.keepExtensions = true;
     form.type = true;
     form.parse(req, function(err, fields, files) {

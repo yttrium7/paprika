@@ -18,6 +18,7 @@ exports.login = function(req,res) {
 };
 
 exports.userPage = function (req, res) {
+
     var username = req.params.username;
 
     ClassModel.find({"producer": username}, function (err, classes) {
@@ -35,10 +36,10 @@ exports.userPage = function (req, res) {
 
 exports.signUpNew = function(req,res) {
 
-    var imgPath = path.dirname(__dirname) + '/public/images/';
+    var avatarPath = path.dirname(__dirname) + '/public/avatars/';
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = imgPath;
+    form.uploadDir = avatarPath;
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
@@ -46,7 +47,7 @@ exports.signUpNew = function(req,res) {
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
-            req.flash('error','Sign Up Failed, Try Again');
+            req.flash('error','Data cannot retrieve from sign up table');
             return res.redirect('/sign-up');
         }
         var username = fields.username;

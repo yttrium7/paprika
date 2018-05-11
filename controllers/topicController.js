@@ -88,12 +88,12 @@ exports.postTopic = function (req, res) {
 };
 
 exports.postNewTopic = function(req,res){
-    var imgPath = path.dirname(__dirname) + '/public/images/';
+    var 
     var form = new formidable.IncomingForm();
     var id = req.query.id;
 
     form.encoding = 'utf-8';
-    form.uploadDir = imgPath;
+    form.uploadDir = path.dirname(__dirname) + '/public/topicimages/';;
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;

@@ -14,9 +14,9 @@ module.exports = function(app){
     app.get('/sign-up', checkNoLogin, userController.signUp);
     app.post('/sign-up', userController.signUpNew);
 
-    app.get('/login', userController.login);
+    app.get('/login', checkNoLogin, userController.login);
     app.post('/login', checkNoLogin, userController.loginCheck);
-    app.get('/logout', userController.logout);
+    app.get('/logout', checkLogin, userController.logout);
 
     app.get('/user/:username', userController.userPage);
 
@@ -29,13 +29,16 @@ module.exports = function(app){
 
     app.get('/class/detail', classController.class);
     app.post('/class/detail', checkLogin, classController.enrollClass);
-    app.get('/class/detail/lesson',classController.lesson);
+
+    app.get('/class/detail/lesson',checkLogin, classController.lesson);
 
 
     app.get('/topic/all-topics', topicController.allTopics);
+
     app.get('/topic/detail/article', topicController.topics);
     app.post('/topic/detail/article', checkLogin, topicController.writeComment);
-    app.get('/topic/create-topic', topicController.postTopic);
-    app.post('/topic/create-topic', topicController.postNewTopic);
+
+    app.get('/topic/create-topic', checkLogin, topicController.postTopic);
+    app.post('/topic/create-topic', checkLogin, topicController.postNewTopic);
 
 };

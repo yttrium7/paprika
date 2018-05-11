@@ -49,7 +49,7 @@ exports.lesson = function (req, res) {
                 res.render('lesson',{
                     title:'Lesson',
                     user: req.session.user,
-                    lessonpath: path.dirname(__dirname) + '/public/videos/'+ data.content,
+                    lessonpath: path.dirname(__dirname) + '/public/lessonfiles/'+ data.content,
                     classId: id,
                     lesson:data,
                     success: req.flash('success').toString(),
