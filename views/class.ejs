@@ -12,11 +12,11 @@
 <!-- Lesson list -->
 
 <section class="wrapper style1">
-
-    <header class="align-center">
+    <div class="inner">
+        <header class="align-center">
         <h1> Class lessons list </h1>
     </header>
-
+    <div class="inner">
     <div class="row">
         <% theClass.lessons.forEach(function(lesson){%>
         <div class="4u 12u$(medium) box">
@@ -33,6 +33,9 @@
         </div>
         <%})%>
     </div>
+    </div>
+    </div>
+    
 
 </section>
 

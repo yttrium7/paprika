@@ -5,6 +5,8 @@ var TopicModel = require('../models/topic.model');
 var sha1 = require('sha1');
 var formidable = require('formidable');
 var path = require('path');
+//var bcrypt = require('bcrypt');
+//const saltRounds = 30;
 
 
 exports.signUp = function(req,res) {
@@ -86,6 +88,8 @@ exports.signUpNew = function(req,res) {
             return res.redirect('back');
         }
 
+        //bcrypt.hash(password, saltRounds, function(err, hash){});
+        
         password = sha1(password);
 
         var user = new UserModel({
@@ -133,11 +137,12 @@ exports.loginCheck = function(req,res) {
             return res.redirect('/login');
         }
 
-        if(user.password !== sha1(password)){
-
+        if(sha1(password) != user.password){
             req.flash('error','Wrong Password');
             return res.redirect('/login');
         }
+        
+        //bcrypt.compare(password,user.password,function(err, found){});
 
         delete user.password;
         req.session.user = user;

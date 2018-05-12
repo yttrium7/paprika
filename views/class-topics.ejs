@@ -22,13 +22,13 @@
         <div class="row box">
             <div class="2u 12u(medium)">
 
-                <a href="/user?username=<%= topic.author%>">
-                    <%= topic.author%>
+                <a href="/user?username=<%= topic.author.name%>">
+                    <img src='/avatars/<%= topic.author.avatar%>' width="50px" alt="user's avatar" />
                 </a>
             </div>
 
             <div class="6u 12u(medium)">
-                <h4><a href="/topic/detail?topicId=<%= topic._id%>">
+                <h4><a href="/topic/detail/article?topicId=<%= topic._id%>">
                         <%= topic.topicName%>
                     </a>
                 </h4>
