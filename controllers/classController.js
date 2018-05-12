@@ -10,29 +10,23 @@ exports.class = function (req, res) {
 
     if(req.session.user){
         UserModel.findOne({'_id': req.session.user._id, "enrolledClass._id":id}, function (err, userEnrolled) {
-            console.log("enrolled? x0 ",enrolled);
-            console.log("userEnolled? ", userEnrolled);
-            if(userEnrolled){
-                enrolled = true;
-            }
-            console.log("enrolled? x1", enrolled);
-            ClassModel.findById(id,function(err, data){
-                if(err){
-                    req.flash('error','Class finding error');
-                    return res.redirect('/');
-                }
-                console.log("enrolled? x2", enrolled);
-                res.render('class',{
-                    title:'Class',
-                    user: req.session.user,
-                    theClass:data,
-                    enrolled: enrolled,
-                    success: req.flash('success').toString(),
-                    error: req.flash('error').toString()
-                });
-            });    
+            if(userEnrolled){enrolled = true;}
         });
     };
+    ClassModel.findById(id,function(err, data){
+        if(err){
+            req.flash('error','Class finding error');
+            return res.redirect('/');
+        }
+        res.render('class',{
+            title:'Class',
+            user: req.session.user,
+            theClass:data,
+            enrolled: enrolled,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
 };
 
 
