@@ -42,9 +42,10 @@ exports.lesson = function (req, res) {
     var id = req.query.id;
     
     ClassModel.findById(id, function(err, theClass){
+
         var producer = theClass.producer;
-        UserModel.find({'username': producer}, function (err, ) {
-            LessonModel.findById(lessonId,function(err, data){
+        UserModel.findOne({'username': producer.name}, function (err, user) {
+            LessonModel.findById(lessonId,function(err, lesson){
                 if(err){
                     req.flash('error','Lesson showing error');
                     return res.redirect('/profile');
@@ -52,9 +53,8 @@ exports.lesson = function (req, res) {
                 res.render('lesson',{
                     title:'Lesson',
                     user: req.session.user,
-                    lessonpath: path.dirname(__dirname) + '/public/lessonfiles/'+ data.content,
                     classId: id,
-                    lesson:data,
+                    lesson:lesson,
                     success: req.flash('success').toString(),
                     error: req.flash('error').toString()
                 });

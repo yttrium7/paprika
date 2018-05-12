@@ -1,10 +1,16 @@
 <%- include header %>
 
 <!-- lesson file showing -->
+
 <section id="video-play" class="wrapper">
-    <video id="video" width="300" height="300" controls>
-        <source src=<%= lessonpath%> type="video/mp4">
-    </video>
+    <div class="row">
+        <video id="video" width="300" height="300" controls>
+            <source src="/lessonfiles/<%=lesson.content%>" type="video/mp4">
+        </video>
+    </div>
+    <div class="row">
+        <img src='/lessonfiles/<%=lesson.content%>' width="500"/>   
+    </div>
 </section>
 
 <!-- lesson name and description -->
