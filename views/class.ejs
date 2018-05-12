@@ -10,24 +10,12 @@
 </section>
 
 <!-- Lesson list -->
+
 <section class="wrapper style1">
+
     <header class="align-center">
         <h1> Class lessons list </h1>
     </header>
-
-    <div class="inner">
-        <% if(enrolled){%>
-        <ul class="actions align-center">
-            <li class="button disabled align-center"> Enrolled </li>
-        </ul>
-        <%}else{%>
-        <form method="post">
-            <input type="submit" value="Enroll" name="enroll"/>
-        </form>
-        <%}%>
-    </div>
-
-    <hr>
 
     <div class="row">
         <% theClass.lessons.forEach(function(lesson){%>
@@ -46,54 +34,69 @@
         <%})%>
     </div>
 
-    <hr>
+</section>
 
-    <!-- Related topics-->
+<!-- Enroll the class -->
+<section class="wrapper style 2">
     <div class="inner">
-        <header>
-            <h1> Some related topics </h1>
-        </header>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                <tr>
-                    <th>Author</th>
-                    <th>Topic Title</th>
-                    <th>Time</th>
-                    <th>Views</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <% theClass.topics.forEach(function(topic){%>
-                <tr>
-                    <td>
-                        <a href="/user/<%= topic.author.name%>">
-                            <img src="../avatars/<%= topic.author.avatar%>" width="50px" alt="user's avatar"/>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/topic/detail/article?topicId=<%=topic._id%>">
-                            <%= topic.topicName%>
-                        </a>
-                    </td>
-                    <td><%= topic.postTime%></td>
-                    <td><%= topic.viewer%></td>
-                </tr>
-                <%})%>
-                </tbody>
-
-                <tfoot>
-                <tr>
-                    <td colspan="3"></td>
-                    <td><a href="/topic/detail?id=<%= theClass._id%>">View more content</a></td>
-                </tr>
-                </tfoot>
-            </table>
+            <% if(enrolled){%>
+            <ul class="actions align-center">
+                <li class="button disabled align-center"> Enrolled </li>
+            </ul>
+            <%}else{%>
+            <form method="post">
+                <input type="submit" value="Enroll" name="enroll"/>
+            </form>
+            <%}%>
         </div>
+</section>
 
-    </div>
-
+<!-- Related topics-->
+<section class="wrapper style 1">
+    <div class="inner">
+            <header>
+                <h1> Some related topics </h1>
+            </header>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Topic Title</th>
+                        <th>Time</th>
+                        <th>Views</th>
+                    </tr>
+                    </thead>
+    
+                    <tbody>
+                    <% theClass.topics.forEach(function(topic){%>
+                    <tr>
+                        <td>
+                            <a href="/user/<%= topic.author.name%>">
+                                <img src="../avatars/<%= topic.author.avatar%>" width="50px" alt="user's avatar"/>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/topic/detail/article?topicId=<%=topic._id%>">
+                                <%= topic.topicName%>
+                            </a>
+                        </td>
+                        <td><%= topic.postTime%></td>
+                        <td><%= topic.viewer%></td>
+                    </tr>
+                    <%})%>
+                    </tbody>
+    
+                    <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td><a href="/topic/detail?id=<%= theClass._id%>">View more content</a></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+    
+        </div>
 </section>
 
 <%- include footer %>

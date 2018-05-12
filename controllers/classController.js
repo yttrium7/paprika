@@ -10,12 +10,8 @@ exports.class = function (req, res) {
 
     if(req.session.user){
         UserModel.find({"username": req.session.user.username, "enrolledClass._id":id}, function (err, userEnrolled) {
-            console.log("did the user entolled? userEnrolled", userEnrolled);
-            
-            if(userEnrolled){
+            if(userEnrolled.enrollClass.length!=0){
                 enrolled = true;
-            }else{
-                enrolled = false;
             };
         });
     };
