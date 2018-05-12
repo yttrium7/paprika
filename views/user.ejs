@@ -55,7 +55,9 @@
             <div class="info-content align-left">
                 <ul class="alt">
                     <% topics.forEach(function(topic){%>
-                        <li><a href="/topic/detail?id=<%= topic._id%>" class="thread"><%= topic.topicName%></a></li>
+                        <li><a href="/topic/detail/article?topicId=<%= topic._id %>" class="thread">
+                            <%= topic.topicName%></a>
+                        </li>
                     <%})%>
                 </ul>
             </div>
