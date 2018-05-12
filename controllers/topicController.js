@@ -21,18 +21,40 @@ exports.allTopics = function(req,res){
     });
 };
 
-exports.topics = function(req,res){
+exports.topicsUnderClass = function(req,res){
 
     var id = req.query.id;
+    if(id){
+        ClassModel.findById(id, function (err, data) {
+            if(err){
+                console.log(err);
+                req.flash('error','topics under class showing error');
+                return res.redirect('/topic/all-topics');
+            }
+            res.render('class-topics', {
+                title: 'Topics under class',
+                user: req.session.user,
+                theClass: data,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    }else{
+        req.flash('error','Invalid class id');
+        res.redirect('back');
+    };
+};
+
+
+exports.topic = function(req,res){
     var topicId = req.query.topicId;
-
-
-
+    console.log("what is the id? ");
+    console.log(topicId);
     if(topicId) {
         TopicModel.findById(topicId, function (err, topic) {
             if (err) {
                 req.flash('error', 'Single topic showing error');
-                return res.redirect('/topic/all-topic');
+                return res.redirect('/topic/all-topics');
             }
             ClassModel.findOne({"topics._id": topicId}, function (err, theClass) {
                 if(err){
@@ -50,22 +72,8 @@ exports.topics = function(req,res){
             });
         });
     }else{
-        if(id){
-            ClassModel.findById(id, function (err, data) {
-                if(err){
-                    console.log(err);
-                    req.flash('error','topics under class showing error');
-                    return res.redirect('/topic/all-topic');
-                }
-                res.render('class-topics', {
-                    title: 'Topics under class',
-                    user: req.session.user,
-                    theClass: data,
-                    success: req.flash('success').toString(),
-                    error: req.flash('error').toString()
-                });
-            });
-        };
+        req.flash('error','Invalid class id and topic id');
+        res.redirect('/profile');
     };
 };
 
@@ -88,7 +96,6 @@ exports.postTopic = function (req, res) {
 };
 
 exports.postNewTopic = function(req,res){
-    var 
     var form = new formidable.IncomingForm();
     var id = req.query.id;
 

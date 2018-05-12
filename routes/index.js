@@ -35,7 +35,8 @@ module.exports = function(app){
 
     app.get('/topic/all-topics', topicController.allTopics);
 
-    app.get('/topic/detail/article', topicController.topics);
+    app.get('/topic/detail', topicController.topicsUnderClass);
+    app.get('/topic/detail/article', topicController.topic);
     app.post('/topic/detail/article', checkLogin, topicController.writeComment);
 
     app.get('/topic/create-topic', checkLogin, topicController.postTopic);

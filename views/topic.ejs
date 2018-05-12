@@ -1,19 +1,19 @@
 <%-include header %>
 
-<!-- Single Topic title -->
+<!-- Single Topic -->
 
 <section class="wrapper">
     <div class="inner">
         <div class="row">
-            <header class="align-center 12u 12u(large)">
+            <header class="align-center 12u 12u(large) align-center">
                 <h2> class: <%= theClass.className %><br/></h2>
                 <h3> topic: <%= topic.topicName %> </h3>
             </header>
         </div>
 
-        <div class="row">
-            <a href="/class/detail?<%= theClass._id%>">
-                <h2>Class Link</h2>
+        <div class="row align-center">
+            <a href="/class/detail?id=<%= theClass._id%>">
+                <h2 class="align-center">Class Link</h2>
             </a>
         </div>
     </div>
@@ -28,28 +28,23 @@
         <div class="row">
             <div id="topic-writer" class="2u$ 12u(small)">
                 <a href='/user/<%= topic.author.name%>'>
-                    <img src="../images/<%=topic.author.avatar%>" alt="<%topic.author.name%>'s avatar" width="100px"/>
+                    <img src="/avatars/<%=topic.author.avatar%>" alt="user's avatar" width="100px"/>
                 </a>
+            </div>
+            <div class="12u$ 12u$">
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
                 <i class="icon fa-angellist"></i>
             </div>
-
             <div id="topic-content" class="12u$ 12u$(small)">
                 <div class="row">
                     <div class="9u 12u$(medium)">
                         <h3><%= topic.topicName%></h3>
                     </div>
                     <div class="3u 12u$(small)">
-                        <a href="#">
-                            <i class="icon fa-caret-up"></i>
-                        </a>
                         <h4><%= topic.viewer %></h4>
-                        <a href="#">
-                            <i class="icon fa-caret-down"></i>
-                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -79,7 +74,7 @@
         <div id="topic-comment-sort" class="row">
             <div class="2u$ 12u$(small)">
                 <h3>Comments: </h3>
-                <h4> total: <% topic.comments.length%> </h4>
+                <h4> total: <%= topic.comments.length%> </h4>
             </div>
             <div id="topic-comments-sort-by" class="select-wrapper 2u$ 12u$(small)">
                 <select name="category" class="align-right">
@@ -95,8 +90,8 @@
             <% topic.comments.forEach(function(comment){%>
             <div class="1u 12u$(small)">
 
-                <a href="/user/<%comment.writer.name%>">
-                    <img src="../images/<%=comment.writer.avatar%>" width="100px" alt="user's avatar"/>
+                <a href="/user/<%=comment.writer.name%>">
+                    <img src="/avatars/<%=comment.writer.avatar%>" width="50px" alt="user's avatar"/>
                 </a>
                     <h6> <%= comment.writeTime %></h6>
             </div>
@@ -109,7 +104,8 @@
             <%})%>
         </div>
 
-
+        <hr>
+        
         <form method="post">
             <header>
                 <h3>Write your opinion</h3>

@@ -12,7 +12,7 @@ exports.index = function(req,res) {
                         academic:aca,
                         handcraft:hand
                     };
-                    console.log(indexClass);
+                    
                     res.render('index', {classes: indexClass,
                         user:req.session.user,
                         success: req.flash('success').toString(),

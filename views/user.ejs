@@ -4,10 +4,7 @@
 <section id="profile-id" class="wrapper style2">
 
     <div id="photo">
-        <%
-        var imgsrc='../images/'+<%=user.avatar %>
-        %>
-        <img src=<%- imgsrc %> width="100px" alt="user's avatar" />
+        <img src='../avatars/<%=user.avatar%>' width="100px" alt="user's avatar" />
     </div>
 
     <div id="name">
@@ -20,9 +17,10 @@
 
 </section>
 
-
+<!--User information -->
 <section id="person-info" class="wrapper style1 special">
 
+    <!-- User enrolled classes-->
     <div id="info-subject">
         <div class="box">
             <div class="title-bar"><h2><%= user.username%>'s Enrolled Class</h2></div>
@@ -36,6 +34,7 @@
         </div>
     </div>
 
+    <!-- User created classes -->
     <div id="info-videos">
         <div class="box">
             <div class="title-bar"><h2><%= user.username %>'s Created Class</h2></div>
@@ -48,6 +47,8 @@
             </div>
         </div>
     </div>
+
+    <!-- User posted topics-->
     <div id="info-discussion">
         <div class="box">
             <div class="title-bar"><h2>Discussion</h2></div>
@@ -62,7 +63,7 @@
     </div>
 </section>
 
-
+<!-- User bio-->
 <section id="bio-content">
     <div class="user-box">
         <div class="bio-title">Bio</div>

@@ -11,6 +11,10 @@
 
 <!-- Lesson list -->
 <section class="wrapper style1">
+    <header class="align-center">
+        <h1> Class lessons list </h1>
+    </header>
+
     <div class="inner">
         <% if(enrolled){%>
         <ul class="actions align-center">
@@ -64,12 +68,12 @@
                 <% theClass.topics.forEach(function(topic){%>
                 <tr>
                     <td>
-                        <a href="/user/<%= topic.author%>">
-                            <%= topic.author%>
+                        <a href="/user/<%= topic.author.name%>">
+                            <img src="../avatars/<%= topic.author.avatar%>" width="50px" alt="user's avatar"/>
                         </a>
                     </td>
                     <td>
-                        <a href="/topic/detail?id=<%theClass._id%>/article?topicId=<%=topic._id%>">
+                        <a href="/topic/detail/article?topicId=<%=topic._id%>">
                             <%= topic.topicName%>
                         </a>
                     </td>

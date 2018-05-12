@@ -1,5 +1,7 @@
 var UserModel = require('../models/user.model');
 var ClassModel = require('../models/class.model');
+var TopicModel = require('../models/topic.model');
+
 var sha1 = require('sha1');
 var formidable = require('formidable');
 var path = require('path');
@@ -21,14 +23,23 @@ exports.userPage = function (req, res) {
 
     var username = req.params.username;
 
-    ClassModel.find({"producer": username}, function (err, classes) {
+    console.log("User name is");
+    console.log(username);
+
+    ClassModel.find({"producer.name": username}, function (err, classes) {
         UserModel.findOne({'username': username}, function (err, user) {
-            TopicModel.find({'author': username}, function(err, topics){
+            TopicModel.find({'author.name': username}, function(err, topics){
+                if(err){
+                    console.log(err);
+                    req.flash('error','the user does not match');
+                    res.redirect('back');
+                }
                 res.render('user', {user: user,
                     createdClasses:classes,
                     topics:topics,
                     success: req.flash('success').toString(),
-                    error: req.flash('error').toString()});
+                    error: req.flash('error').toString()
+                });
             })
         })
     });
@@ -56,9 +67,6 @@ exports.signUpNew = function(req,res) {
         var password = fields.password;
         var repassword = fields.repassword;
 
-        console.log('the gender is ');
-        console.log(gender);
-
         try {
             if (!(username.length >= 1 && username.length <= 10)) {
                 throw new Error('Make the username length between 1~50 characters');
@@ -73,7 +81,7 @@ exports.signUpNew = function(req,res) {
                 throw new Error('Passwords are different');
             }
         } catch (e) {
-            //fs.unlink(files.avatar.path);
+            fs.unlink(files.avatar.path);
             req.flash('error',e.message);
             return res.redirect('back');
         }

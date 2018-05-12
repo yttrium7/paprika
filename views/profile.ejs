@@ -4,7 +4,7 @@
 <section id="profile-id" class="wrapper style2">
 
     <div id="photo">
-        <img src="../images/<%=user.avatar%>" width="100px" alt="user's avatar" />
+        <img src="../avatars/<%=user.avatar%>" width="100px" alt="user's avatar" />
     </div>
 
     <div id="name">
@@ -20,15 +20,29 @@
             <h3> Classes you Enrolled</h3>
         </header>
         <div class="row">
-            <%- include('class-content', { classes: user.enrolledClass }) %>
+            <% user.enrolledClass.forEach(function(eachClass){%>
+                <div class="4u 12u$(medium) box">
+                    <ul class="alt">
+                        <li>
+                            <h3>Class Name: <%= eachClass.className %></h3>
+                        </li>
+                        <% eachClass.lessons.forEach(function(lesson){%>
+                        <li>
+                            <h4> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
+                                Lesson : <%= lesson.lessonName%></a>
+                            </h4>
 
+                            description: <%= lesson.description %>
+                        </li>
+                        <%})%>
+                    </ul>
+                </div>
+            <%})%>
             <div id="add-new-subject" class="3u$ 12u$(medium)">
                 <p> Find more classes that you are interested </p>
                 <a href="/#subject-field" class="button special small">+ Add more classes</a>
             </div>
-
         </div>
-
     </div>
 </section>
 

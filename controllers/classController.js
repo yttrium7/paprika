@@ -6,30 +6,34 @@ var path = require('path');
 exports.class = function (req, res) {
 
     var id = req.query.id;
-    var enrolled;
-    UserModel.find({"_id": req.session.user._id, "enrolledClass._id":id}, function (err, enroll) {
-        console.log("ENROLLED?", enroll);
-        if(enroll && enroll!==[]){
-            enrolled = true;
-        }else{
-            enrolled = false;
-        }
-        ClassModel.findById(id,function(err, data){
-            if(err){
-                req.flash('error','Class finding error');
-                return res.redirect('/');
-            }
-            res.render('class',{
-                title:'Class',
-                user: req.session.user,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString(),
-                theClass:data,
-                enrolled: enrolled
-            });
-        });
+    var enrolled = false;
 
-    })
+    if(req.session.user){
+        UserModel.find({"username": req.session.user.username, "enrolledClass._id":id}, function (err, userEnrolled) {
+            console.log("did the user entolled? userEnrolled", userEnrolled);
+            
+            if(userEnrolled){
+                enrolled = true;
+            }else{
+                enrolled = false;
+            };
+        });
+    };
+
+    ClassModel.findById(id,function(err, data){
+        if(err){
+            req.flash('error','Class finding error');
+            return res.redirect('/');
+        }
+        res.render('class',{
+            title:'Class',
+            user: req.session.user,
+            theClass:data,
+            enrolled: enrolled,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
 };
 
 
@@ -63,16 +67,18 @@ exports.lesson = function (req, res) {
 exports.enrollClass = function (req, res) {
     var id = req.query.id;
     ClassModel.findById(id, function (err, data) {
-        UserModel.update({"_id": req.session.user._id},{$addToSet:{"enrolledClass": data}}, function (err) {
+
+        if(data.producer.name == req.session.user.username){
+            req.flash('error', 'You are the producer !');
+            return res.redirect('back');
+        };
+
+        UserModel.update({"username": req.session.user.username},{$addToSet:{"enrolledClass": data}}, function (err) {
             if(err){
                 req.flash('error','Class Enroll error');
                 return res.redirect('/profile');
             }
             res.redirect("/profile");
-        })
-    })
+        });
+    });
 };
-
-
-
-

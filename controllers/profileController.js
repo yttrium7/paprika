@@ -1,6 +1,7 @@
 var ClassModel = require('../models/class.model');
 var LessonModel = require('../models/lesson.model');
 var TopicModel = require('../models/topic.model');
+var UserModel = require('../models/user.model');
 
 var moment = require('moment');
 var formidable = require('formidable');
@@ -9,25 +10,28 @@ var path = require('path');
 
 exports.profile = function(req,res) {
 
-    var user = req.session.user;
-    ClassModel.find({"producer.name" : user.username},function(err,createdClass){
-        TopicModel.find({'author.name': user.username}, function (err, topics) {
-            if(err){
-                console.log(err);
-                req.flash('error','System error');
-                return res.redirect('/profile');
-            }
-            res.render('profile',{
-                title:'Profile',
-                user: user,
-                createdClasses:createdClass,
-                topics: topics,
-                time:moment(new Date()).format('DD-MM-YYYY HH:mm:ss'),
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString()
+    UserModel.findById(req.session.user._id, function(err, user){
+        ClassModel.find({"producer.name" : user.username},function(err,createdClass){
+            TopicModel.find({'author.name': user.username}, function (err, topics) {
+                if(err){
+                    console.log(err);
+                    req.flash('error','System error');
+                    return res.redirect('/profile');
+                }
+                console.log('check the enrolled classes');
+                console.log(user.enrolledClass);
+                res.render('profile',{
+                    title:'Profile',
+                    user: user,
+                    createdClasses:createdClass,
+                    topics: topics,
+                    time:moment(new Date()).format('DD-MM-YYYY HH:mm:ss'),
+                    success: req.flash('success').toString(),
+                    error: req.flash('error').toString()
+                });
             });
         });
-    });
+    });   
 };
 
 
