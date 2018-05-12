@@ -12,7 +12,6 @@ var UserSchema = new mongoose.Schema({
     avatar:String,
     bio: String,
     enrolledClass:[ClassSchema],
-    hash: String
 });
 
 var UserModel = mongoose.model('User', UserSchema);
