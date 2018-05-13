@@ -1,16 +1,13 @@
 var mongoose = require('mongoose');
 var config = require('./../config/config');
-var CommentSchema = require('../models/comment.model');
+var CommentSchema = require('../models/comment.model').schema;
 
 
 mongoose.connect(config.mongodb);
 
 var TopicSchema = new mongoose.Schema({
     topicName:String,
-    author:{
-        name: String,
-        avatar: String
-    },
+    author:String,
     article: String,
     postImg: String,
     postTime: String,

@@ -106,7 +106,7 @@ exports.signUpNew = function(req,res) {
             }
             if(data != null){
                 req.flash('error','Username has been used');
-                return res.redirect('/sign-up');
+                return res.redirect('back');
             }else{
                 user.save(function(err){
                     if(err){
@@ -116,7 +116,7 @@ exports.signUpNew = function(req,res) {
                     delete user.password;
                     req.session.user = user;
                     req.flash('success','Sign up Success');
-                    res.redirect('/');
+                    res.redirect('/profile');
                 })
             }
         });

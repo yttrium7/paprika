@@ -1,13 +1,15 @@
 <%- include header %>
 
-<!-- lesson file showing -->
-
-<section id="video-play" class="wrapper">
-    <div class="row">
-        <video id="video" width="300" height="300" controls>
-            <source src="/lessonfiles/<%=lesson.content%>" type="video/mp4">
-        </video>
+<!-- lesson header -->
+<section id="discussion-title">
+    <div class="3u 12u$(small) align-center">
+        <h2>Class : </h2>
+        <h3><%= theClass.className%></h3>
     </div>
+</section>
+
+<!-- lesson file showing -->
+<section id="video-play" class="wrapper">
     <div class="row">
         <img src='/lessonfiles/<%=lesson.content%>' width="500"/>   
     </div>
@@ -40,5 +42,19 @@
         </div>
     </div>
 </section>
+
+<!-- lesson edit -->
+<% if (producer == user.username){%>
+    <section>
+        <div>
+            <ul class="actions">
+                <li class="button small"> <a href="edit?id=<%= classId%>&lessonId=<%= lesson._id%>">Edit</a></li>
+                <li class="button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete</a></li>
+            </ul>
+        </div>
+    </section>
+<%}%>
+
+<%- include('pop-block',{ id: lesson._id, word:"delete", root:"class/detail" }) %>
 
 <%- include footer %>

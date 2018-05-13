@@ -1,0 +1,51 @@
+<%- include header %>
+
+<!-- edit your topic -->
+
+<section class="wrapper style1">
+    <div class="inner">
+
+        <h2 class="align-center"> Edit your own topic </h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row uniform 50%">
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="topicName" value="<%- topic.topicName %>" required/>
+                </div>
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Update your topic content</h4>
+                            <h6 class="card-subtitle">Improve Your Mind</h6>
+                                <form method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <textarea name="article" class="textarea_editor form-control" rows="15">
+                                            <%- topic.article %>
+                                        </textarea>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="6u 12u$(xsmall)">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Update your topic associated image </h5>
+                            <input type="file" name="postImg"/>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="viewer" value="<%= topic.viewer %>">
+                <div class="12u$">
+                    <ul class="actions align-center">
+                        <li class="align-center"><input type="submit" value="Update my topic" class="special fit" /></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<%- include footer %>

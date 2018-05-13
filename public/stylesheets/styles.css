@@ -168,5 +168,46 @@ section#video-play-option{
 }
 section#join-us{
     padding: 1em 0 2em 0;
->>>>>>> 020f7cf02e2c3f3a71315c06dfbc59f7f1269440
+}
+
+.pop{
+    position: fixed;
+    display: none;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 200;
+    width:240px;
+    height:500px;
+    border:1px solid #CACACA;
+    font:1rem "微软雅黑";
+}
+.pop .title{
+    width:240px;
+    height:440px;
+    line-height: 440px;
+    text-align: center;
+    border-bottom:1px solid #CACACA;
+}
+.pop .btn{
+    text-align: center;
+    width: 49%;
+    height: 60px;
+    line-height: 60px;
+    float:left;
+    color: #2B8AFB;
+}
+#btn-left{
+    border-right:1px solid #CACACA;
+}
+
+.bigicon .icon{
+    font-size: 3em;
+}
+
+#subject-field ul li{
+    margin-bottom: 3em;
+}
+#subject-field .icon{
+    font-size: 2em;
+    color:#51BAA4;
 }

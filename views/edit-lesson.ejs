@@ -1,0 +1,33 @@
+<%- include header %>
+
+<!-- edit your lesson -->
+
+<section class="wrapper style1">
+    <div class="inner">
+
+        <h2 class="align-center"> Edit your Lesson </h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row uniform 50%">
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="lessonName" value="<%- lesson.lessonName %>" required/>
+                </div>
+                <div class="12u$">
+                    <textarea name="description" rows="6"><%- lesson.description %></textarea>
+                </div>
+
+                <div class="6u 12u$(xsmall)">
+                    <h4><label for="name"> Update your lesson associated files </label></h4>
+                    <input type="file" name="content" />
+                </div>
+                <div class="12u$">
+                    <ul class="actions align-center">
+                        <li class="align-center"><input type="submit" value="Update my lesson" class="special small" /></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<%- include footer %>

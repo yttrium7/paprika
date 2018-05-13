@@ -21,8 +21,12 @@
         <% eachClass.topics.forEach(function(topic){%>
         <div class="row box">
             <div class="2u 12u(medium)">
-                <a href="/user/<%= topic.author.name%>">
-                    <img src="../avatars/<%= topic.author.avatar%>" alt="user-avatar" width="100px"/>
+                <a href="/user/<%= topic.author%>">
+                    <% users.forEach(function(user){ %>
+                        <% if(user.username == topic.author){ %>
+                            <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
+                        <% }%>
+                    <%})%>
                 </a>
             </div>
 

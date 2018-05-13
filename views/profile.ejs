@@ -6,12 +6,20 @@
     <div id="photo">
         <img src="../avatars/<%=user.avatar%>" width="100px" alt="user's avatar" />
     </div>
-
     <div id="name">
         <h2><%= user.username %></h2>
+        <p><%= user.bio%></p>
+        <a class="editBio">Edit your bio</a>
+		<div id="editBio"></div>
+    </div>
+    <div id="add">
+        <a class="editAvatar">pick your avatar</a>
+        <div id="editAvatar"></div>
     </div>
 
 </section>
+
+
 
 <!-- Enrolled classes -->
 <section id="profile-enrolled-class" class="wrapper style1">
@@ -35,6 +43,10 @@
                             description: <%= lesson.description %>
                         </li>
                         <%})%>
+                        <li>
+                            <a onclick="toggle_visibility('popupBoxOnePosition');" class="button small">- Withdraw this class</a>
+                        </li>
+                        <%- include('pop-block', { id: eachClass._id, word: "withdraw", root:"profile"}) %>
                     </ul>
                 </div>
             <%})%>
@@ -99,5 +111,7 @@
         </div>
     </div>
 </section>
+<script src="./javascripts/ajax.js"></script>
+
 
 <%- include footer %>

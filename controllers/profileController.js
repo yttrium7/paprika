@@ -2,24 +2,77 @@ var ClassModel = require('../models/class.model');
 var LessonModel = require('../models/lesson.model');
 var TopicModel = require('../models/topic.model');
 var UserModel = require('../models/user.model');
+var CommentModel = require('../models/comment.model');
 
 var moment = require('moment');
 var formidable = require('formidable');
 var path = require('path');
 
+exports.editBio = function(req,res){
+    var editBio = {
+        data : '<form action="/profile/editBio" method="post"><textarea name="bio" class="3 rows"></textarea><input type="submit" value="submit"/></form>'
+    };
+    res.send(editBio);
+};
+
+exports.editAvatar = function(req,res){
+    var editAvatar = {
+        data : '<form action="/profile/editAvatar" method="post" enctype="multipart/form-data"><input name="avatar" type="file" value="choose your avatar"><input type="submit" value="submit"></form>'
+    };
+    res.send(editAvatar);
+};
+
+exports.editNewBio = function(req, res){
+    var bio = req.body.bio;
+    UserModel.update({"_id":req.session.user._id}, {$set:{"bio":bio}}, function(err){
+        if(err){
+            req.flash('error','Update bio error');
+            return res.redirect('back');
+        }
+        res.redirect("/profile");
+    });
+};
+
+exports.editNewAvatar = function(req, res){
+
+    var form = new formidable.IncomingForm();
+    form.uploadDir = path.dirname(__dirname) + '/public/avatars/';
+    form.keepExtensions = true;
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.type = true;
+
+    form.parse(req, function(err, fields, files) {
+        if (err) {
+            console.log(err);
+            req.flash('error','Uplaod new avatar error');
+            return res.redirect('/profile');
+        }
+
+        var avatar = files.avatar.path.split(path.sep).pop();
+        var username = req.session.user.username;
+        console.log("new avatar is : ", avatar);
+
+        UserModel.update({"username":username}, {$set:{"avatar":avatar}}, function(err){
+            if(err){console.log('error ','user avatar update')}
+        });
+
+        console.log('successs', 'avatar update');
+        res.redirect('/profile');
+
+    });
+};
 
 exports.profile = function(req,res) {
 
     UserModel.findById(req.session.user._id, function(err, user){
-        ClassModel.find({"producer.name" : user.username},function(err,createdClass){
-            TopicModel.find({'author.name': user.username}, function (err, topics) {
+        ClassModel.find({"producer" : user.username},function(err,createdClass){
+            TopicModel.find({'author': user.username}, function (err, topics) {
                 if(err){
                     console.log(err);
                     req.flash('error','System error');
                     return res.redirect('/profile');
                 }
-                console.log('check the enrolled classes');
-                console.log(user.enrolledClass);
+                
                 res.render('profile',{
                     title:'Profile',
                     user: user,
@@ -34,6 +87,20 @@ exports.profile = function(req,res) {
     });   
 };
 
+exports.withdrawClass = function(req, res){
+    var id = req.query.id;
+    ClassModel.update({"_id":id}, {$inc:{"enrollNumber":-1}}, function(err){
+        if(err){console.log("error ","enroll number dec failed")}
+    });
+    UserModel.update({"enrolledClass._id":id}, {$pull: {enrolledClass:{$in:{"_id":id}}}}, function(err){
+        if(err){
+            req.flash("error", "Could not find the class you want to withdraw");
+            res.redirect('/profile');
+        }
+        req.flash("success", "Class withdrawed success");
+        res.redirect('/profile');
+    });
+}
 
 exports.createClass = function (req, res) {
     res.render('create-class',{
@@ -84,10 +151,7 @@ exports.createNewClass = function(req,res){
 
         var newClass = new ClassModel({
             className:className,
-            producer:{
-                name:req.session.user.username,
-                avatar:req.session.user.avatar
-            },
+            producer:req.session.user.username,
             description: description,
             coverImg:coverImg,
             enrollNumber: enrollNumber,

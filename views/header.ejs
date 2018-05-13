@@ -5,15 +5,38 @@
     <title> <%= web.title %></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
     <link rel="stylesheet" href="/stylesheets/styles.css" />
     <link rel="stylesheet" href="/stylesheets/main.css" />
-    <script src="/javascripts/jquery.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/bootstrap-wysihtml5.css" />
+    <link rel="stylesheet" href="../lib/css/wysiwyg-color.css" />
+    
+    
+    <!--
+    <link rel="stylesheet" href="/assets/style.css" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <link href="/assets/bootstrap.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link href="/assets/blue.css" id="theme" rel="stylesheet">
+    -->
+    
     <script src="/javascripts/skel.min.js"></script>
     <script src="/javascripts/util.js"></script>
     <script src="/javascripts/main.js"></script>
+    
+    
+    <script src="/javascripts/wysihtml5-0.3.0.js"></script>
+    <script src="/javascripts/bootstrap-wysihtml5.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('.textarea_editor').wysihtml5();
+    });
+    </script>
 </head>
 
-<body class="sub">
+<body>
 
 <!-- Header -->
 <header id="header">
