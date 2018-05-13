@@ -16,17 +16,17 @@ exports.class = function (req, res) {
         UserModel.findOne({'_id': req.session.user._id, "enrolledClass._id":id}, function (err, userEnrolled) {
             if(userEnrolled){enrolled = true;}
         });
-    };
+    }
     ClassModel.findById(id,function(err, data){
         if(err){
             req.flash('error','Class finding error');
             return res.redirect('/');
         }
-        UserModel.findById(req.session.user._id, function(err, user){
+        if(!req.session.user){
             UserModel.find({}, function(err, users){
                 res.render('class',{
                     title:'Class',
-                    user: user,
+                    user: null,
                     theClass: data,
                     enrolled: enrolled,
                     users : users,
@@ -34,8 +34,21 @@ exports.class = function (req, res) {
                     error: req.flash('error').toString()
                 });
             })
-            
-        });
+        }else{
+            UserModel.findById(req.session.user._id, function(err, user){
+                UserModel.find({}, function(err, users){
+                    res.render('class',{
+                        title:'Class',
+                        user: user,
+                        theClass: data,
+                        enrolled: enrolled,
+                        users : users,
+                        success: req.flash('success').toString(),
+                        error: req.flash('error').toString()
+                    });
+                });
+            });   
+        };
     });
 };
 

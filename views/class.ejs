@@ -46,10 +46,16 @@
                 <li class="button disabled align-center"> Enrolled </li>
             </ul>
             <%}else{%>
-                <% if(theClass.producer == user.username){ %>
-                    <ul class="actions align-center">
-                        <li class="button disabled align-center"> You are the producer </li>
-                    </ul>
+                <% if(user){ %>
+                    <% if(theClass.producer == user.username){ %>
+                        <ul class="actions align-center">
+                            <li class="button disabled align-center"> You are the producer </li>
+                        </ul>
+                    <% }else{ %>
+                        <form method="post">
+                            <input type="submit" value="Enroll" name="enroll"/>
+                        </form>
+                    <%}%>
                 <% }else{ %>
                     <form method="post">
                         <input type="submit" value="Enroll" name="enroll"/>
@@ -112,15 +118,18 @@
 </section>
 <!-- Class Edit -->
 
-<% if (theClass.producer == user.username){%>
-    <section>
-        <div>
-            <ul class="actions">
-                <li class="button small"> <a href="edit?id=<%= theClass._id%>">Edit</a></li>
-                <li class="button small"> <a href="delete?id=<%= theClass._id%>">Delete</a> </li>
-            </ul>
-        </div>
-    </section>
+<% if(user){ %>
+    <% if (theClass.producer == user.username){%>
+        <section>
+            <div>
+                <ul class="actions">
+                    <li class="button small"> <a href="edit?id=<%= theClass._id%>">Edit</a></li>
+                    <li class="button small"> <a href="delete?id=<%= theClass._id%>">Delete</a> </li>
+                </ul>
+            </div>
+        </section>
+    <%}%>
 <%}%>
+
 
 <%- include footer %>
