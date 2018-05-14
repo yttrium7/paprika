@@ -10,7 +10,7 @@ var path = require('path');
 
 exports.editBio = function(req,res){
     var editBio = {
-        data : '<form action="/profile/editBio" method="post"><textarea name="bio" class="3 rows"></textarea><input type="submit" value="submit"/></form>'
+        data : '<form action="/profile/editBio" method="post"><textarea name="bio" class="2 rows"></textarea><input type="submit" value="submit"/></form>'
     };
     res.send(editBio);
 };

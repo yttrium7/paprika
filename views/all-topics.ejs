@@ -1,7 +1,7 @@
 <%- include header %>
 
 <!-- All topics -->
-<section id="discussion-title">
+<section class="wrapper style3">
     <div class="3u 12u$(small) align-center">
         <h3>All topics</h3>
     </div>
@@ -17,35 +17,34 @@
 
     <div class="inner">
         <% classes.forEach(function(eachClass){%>
-
-        <% eachClass.topics.forEach(function(topic){%>
-        <div class="row box">
-            <div class="2u 12u(medium)">
-                <a href="/user/<%= topic.author%>">
+            <% eachClass.topics.forEach(function(topic){%>
+            <div class="row box">
+                <div class="2u 12u(xsmall)">
+                    <a href="/user/<%= topic.author%>">
                     <% users.forEach(function(user){ %>
                         <% if(user.username == topic.author){ %>
                             <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
                         <% }%>
                     <%})%>
-                </a>
-            </div>
-
-            <div class="6u 12u(medium)">
-                <h4><a href="/topic/detail/article?topicId=<%= topic._id%>">
-                        <%= topic.topicName%>
                     </a>
-                </h4>
-            </div>
+                </div>
 
-            <div class="2u 12u(medium)">
-                <h4><%= topic.postTime %></h4>
-            </div>
+                <div class="6u 12u(xsmall)">
+                    <h5><a href="/topic/detail/article?topicId=<%= topic._id%>">
+                        <%= topic.topicName%>
+                        </a>
+                    </h5>
+                </div>
 
-            <div>
-                <i class="icon fa-comment"></i>
-                <%= topic.viewer %>
+                <div class="2u 12u(xsmall)">
+                    <h6><%= topic.postTime %></h6>
+                </div>
+
+                <div>
+                    <i class="icon fa-comment"></i>
+                    <%= topic.viewer %>
+                </div>
             </div>
-        </div>
         <hr>
         <%})%>
         <%})%>

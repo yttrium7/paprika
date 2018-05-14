@@ -2,46 +2,53 @@
 
 <!-- Profile Banner -->
 <section id="profile-id" class="wrapper style2">
-
-    <div id="photo">
-        <img src="../avatars/<%=user.avatar%>" width="100px" alt="user's avatar" />
+    <div class="inner">
+        <div class="row">
+            <div class="2u 12u$(xsmall)">
+                <img src="../avatars/<%=user.avatar%>" width="120px" alt="user's avatar" />
+            </div>
+            <div class="3u 12u$(xsmall)">
+                <h2><%= user.username %></h2>
+                <p><%= user.bio%></p>
+            </div>
+            <div class="7u 12u$(xsmall)">
+                <ul class="actions align-right">
+                    <li class="editAvatar button small">Pick your avatar
+                        <div id="editAvatar"></div>
+                    </li>
+                    <li class="editBio button small">Edit your bio
+                        <div id="editBio"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div id="name">
-        <h2><%= user.username %></h2>
-        <p><%= user.bio%></p>
-        <a class="editBio">Edit your bio</a>
-		<div id="editBio"></div>
-    </div>
-    <div id="add">
-        <a class="editAvatar">pick your avatar</a>
-        <div id="editAvatar"></div>
-    </div>
-
 </section>
 
 
 
 <!-- Enrolled classes -->
-<section id="profile-enrolled-class" class="wrapper style1">
+<section class="wrapper style1 classPage">
     <div class="inner">
-        <header>
-            <h3> Classes you Enrolled</h3>
-        </header>
+        <header class="align-center"><h2> Classes you Enrolled</h2></header>
+        <header class="align-center"><h2>----</h2></header>
+        <hr>
         <div class="row">
             <% user.enrolledClass.forEach(function(eachClass){%>
                 <div class="4u 12u$(medium) box">
                     <ul class="alt">
+                        <li><h5>Class</h5></li>
                         <li>
-                            <h3>Class Name: <%= eachClass.className %></h3>
+                            <h4><%= eachClass.className %></h4>
                         </li>
                         <% eachClass.lessons.forEach(function(lesson){%>
-                        <li>
-                            <h4> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
-                                Lesson : <%= lesson.lessonName%></a>
-                            </h4>
-
-                            description: <%= lesson.description %>
-                        </li>
+                            <li><h6>Lesson</h6></li>
+                            <li>
+                                <h5> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
+                                    <%= lesson.lessonName%></a>
+                                </h5>
+                            </li>
+                            <li><p><%= lesson.description %></p></li>
                         <%})%>
                         <li>
                             <a onclick="toggle_visibility('popupBoxOnePosition');" class="button small">- Withdraw this class</a>
@@ -59,11 +66,11 @@
 </section>
 
 <!-- Created classes -->
-<section id="profile-uploaded-class" class="wrapper style2">
+<section class="wrapper style2 classPageAnti">
     <div class="inner">
-        <header>
-            <h3> The Classes you created</h3>
-        </header>
+        <header class="align-center"><h2>Classes you Created</h2></header>
+        <header class="align-center"><h2>----</h2></header>
+        <hr>
         <div class="row">
             <%- include('class-content', { classes: createdClasses }) %>
             <div id="add-new-subject" class="3u$ 12u$(medium)">
@@ -74,21 +81,26 @@
     </div>
 </section>
 
+
 <!-- your discussion-->
 <section id="profile-your-discussion" class="wrapper style1">
     <div class="inner">
-        <header>
-            <h1> Your discussion topics</h1>
-        </header>
+        <header class="align-center"><h2>Your topics</h2></header>
+        <header class="align-center"><h2>----</h2></header>
+    </div>
+    <div class="container">
+
+    
         <div class="table-wrapper">
             <table>
                 <thead>
                 <tr>
-                    <th>Topic Name</th>
-                    <th>Time</th>
-                    <th>Views</th>
+                    <th class="align-center">Topic Name</th>
+                    <th class="align-center">Time</th>
+                    <th class="align-center">Views</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <% topics.forEach(function(topic){%>
                 <tr>

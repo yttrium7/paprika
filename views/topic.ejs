@@ -1,4 +1,5 @@
 <%-include header %>
+<%- include('pop-block',{ id: topic._id, word:"delete", root:"topic" }) %>
 
 <!-- Single Topic -->
 
@@ -94,105 +95,108 @@
 
 <!-- Comment Part -->
 
-<section id="topic-comments" class="wrapper">
+<section id="topic-comments" class="wrapper style2">
     <div class="inner">
-
         <!-- Comment Abstraction -->
-        <div id="topic-comment-sort" class="row">
-            <div class="2u$ 12u$(small)">
+        <div class="row uniform">
+            <div class="12u$ 12u$(small)">
                 <h3>Comments: </h3>
-                <h4> total: <%= topic.comments.length%> </h4>
-            </div>
-            <div id="topic-comments-sort-by" class="select-wrapper 2u$ 12u$(small)">
-                <select name="category" class="align-right">
-                    <option value="">- Hotness -</option>
-                    <option value="1">Newest</option>
-                    <option value="1">Oldest</option>
-                </select>
+                <h5> total: <%= topic.comments.length%> </h5>
             </div>
         </div>
 
+        <hr><hr>
+
         <!-- Comment Details -->
-        <div class="row uniform">
-            <% topic.comments.forEach(function(comment){%>
-                <% if(user){ %>
-                    <% if(user.username == comment.writer){ %>
-                        <a href="/profile">
+        <div class="row">
+                <% topic.comments.forEach(function(comment){%>
+                    <div class="1u$ 12u$(xsmall)">
+                    <% if(user){ %>
+                        <% if(user.username == comment.writer){ %>
+                            <a href="/profile">
                             <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
-                        </a>
+                            </a>
+                        <% }else{ %>
+                            <% users.forEach(function(user){%>
+                                <%if (user.username==comment.writer){%>
+                                    <a href="/user/<%=comment.writer%>">
+                                    <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                                    </a>
+                                <%}%>
+                            <%})%>
+                        <% } %>
                     <% }else{ %>
                         <% users.forEach(function(user){%>
                             <%if (user.username==comment.writer){%>
                                 <a href="/user/<%=comment.writer%>">
-                                    <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                                <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
                                 </a>
                             <%}%>
                         <%})%>
-                    <% } %>
-                <% }else{ %>
-                    <% users.forEach(function(user){%>
-                        <%if (user.username==comment.writer){%>
-                            <a href="/user/<%=comment.writer%>">
-                                <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
-                            </a>
+                    <% }%>
+                    <h5> <%= comment.writer %></h5>
+                    </div>
+
+                    <div class="9u$ 12u$(small)">
+                        <div class="box">
+                            <p><%= comment.content %></p>
+                        </div>
+                    </div>
+
+                    <div class="2u$ 12u$(xsmall)">
+                        <% if(user){ %>
+                            <% if(user.username == comment.writer){ %>
+                                <a onclick="toggle_visibility('popupBoxOnePosition');"> delete </a>
+                                <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
+                            <%}%>
                         <%}%>
-                    <%})%>
-                <% }%>
-            <div class="1u 12u$(small)">                
-                <h5> <%= comment.writer %></h5>
-                <h6> <%= comment.writeTime %></h6>
-            </div>
+                        <h6> <%= comment.writeTime %></h6>
+                    </div>
 
-            <div class="11u$ 12u$(small)">
-                <div class="box">
-                    <p><%= comment.content %></p>
-                </div>
-                <% if(user){ %>
-                    <% if(user.username == comment.writer){ %>
-                        <a onclick="toggle_visibility('popupBoxOnePosition');"> delete </a>
-                        <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
-                    <%}%>
-                <% } %>
-            </div>
-            <%})%>
+                <%})%>
         </div>
-
         <hr>
-        
-        <form method="post">
-            <header>
-                <h3>Write your opinion</h3>
-            </header>
-
-            <textarea name="comment" placeholder="Write your comment here" rows="3"></textarea>
-            <ul class="actions">
-                <li><input type="submit" value="send comment" class="special"/></li>
-            </ul>
-        </form>
-
     </div>
 </section>
 
-<hr>
+<!-- Post your comment -->
+<section class="wrapper style2">
+    <div class="container">
+        <div class="inner">
+            <form method="post">
+                <header><h4>Write your opinion</h4></header>
+                <hr>
+                <textarea name="comment" placeholder="Write your comment here" rows="3"></textarea>
+                <hr>
+                <input type="submit" value="send comment" class="special"/>   
+            </form>
+        </div>
+    </div>
+</section>
+
+
 
 <!-- Edit topic-->
 <% if(user){ %>
 <% if(user.username == topic.author){%>
-    <section class="wrapper style 2">
+    <hr>
+    <section class="wrapper style1 special">
         <div class="inner">
-            <div class="row">
-            <ul class="actions 3u 12u$(small)">
-                <li class="button small"> <a href="edit?topicId=<%= topic._id%>">Edit</a></li>
-                <li class="button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete</a></li>
+            
+            <ul class="actions align-center">
+                <li class="button small"> <a href="edit?topicId=<%= topic._id%>">Edit Your Topic</a></li>
+                <li class="button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete Your Topic</a></li>
             </ul>
-            </div>
+            
         </div>
-    </section>
-    
+    </section> 
+    <hr>
 <%}%>
 <%}%>
 
-<%- include('pop-block',{ id: topic._id, word:"delete", root:"topic" }) %>
+
+
+
 
 
 <%- include footer %>

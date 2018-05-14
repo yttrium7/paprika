@@ -1,11 +1,17 @@
 <%- include header %>
 
 <!-- discussion title -->
-<section id="discussion-title">
-    <div class="3u 12u$(small) align-center">
-        <h3>Discussion</h3>
-        <h3>Class: </h3>
-        <h3><%= theClass.className %></h3>
+<section class="wrapper style3">
+    <div class="inner">
+        <div class="row">
+            <div class="3u 12u$(medium)">
+                <h1>Discussion</h1>
+            </div>
+            <div class="6u 12u$(medium)">
+                <h3 class="align-center">Class: </h3>
+                <h3 class="align-center"><%= theClass.className %></h3>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -13,15 +19,12 @@
 <hr>
 
 <!-- Topics Lists -->
-<section class="wrapper style1">
-
-    <hr>
+<section class="wrapper style1 classPage">
 
     <div class="inner">
         <% theClass.topics.forEach(function(topic){%>
         <div class="row box">
-            <div class="2u 12u(medium)">
-
+            <div class="2u 12u$(xsmall)">
                 <a href="/user/<%= topic.author%>">
                     <% users.forEach(function(user){ %>
                         <% if(user.username == topic.author){ %>
@@ -29,20 +32,21 @@
                         <% }%>
                     <%})%>
                 </a>
+                <%= topic.author%>
             </div>
 
-            <div class="6u 12u(medium)">
-                <h4><a href="/topic/detail/article?topicId=<%= topic._id%>">
+            <div class="6u 12u$(xsmall)">
+                <h5><a href="/topic/detail/article?topicId=<%= topic._id%>">
                         <%= topic.topicName%>
                     </a>
-                </h4>
+                </h5>
             </div>
 
-            <div class="2u 12u(medium)">
-                <h4><%= topic.postTime %></h4>
+            <div class="2u 12u$(xsmall)">
+                <h6><%= topic.postTime %></h6>
             </div>
 
-            <div>
+            <div class="2u 12u$(xsmall)">
                 <i class="icon fa-comment"></i>
                 <%= topic.viewer %>
             </div>
@@ -57,7 +61,7 @@
     <div class="inner">
         <div class="row">
             <div class="6u 12u$(small)">
-                <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special small fit">create your own topic</a>
+                <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special medium fit">create your own topic</a>
             </div>
         </div>
     </div>

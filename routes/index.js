@@ -9,13 +9,6 @@ var checkNoLogin = require('../controllers/checkLogin').checkNoLogin;
 
 module.exports = function(app){
 
-    app.get('/form', function(req, res){
-        res.render('form',{user: req.session.user, 
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        });
-    });
-    
     // index page and about-us page
     app.get('/', indexController.index);
     app.get('/about-us', indexController.aboutUs);
