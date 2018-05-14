@@ -28,9 +28,9 @@ exports.userPage = function (req, res) {
     console.log("User name is");
     console.log(username);
 
-    ClassModel.find({"producer.name": username}, function (err, classes) {
+    ClassModel.find({"producer": username}, function (err, classes) {
         UserModel.findOne({'username': username}, function (err, user) {
-            TopicModel.find({'author.name': username}, function(err, topics){
+            TopicModel.find({'author': username}, function(err, topics){
                 if(err){
                     console.log(err);
                     req.flash('error','the user does not match');

@@ -1,85 +1,78 @@
 <%- include header %>
 
 <!-- User Banner -->
-<section id="profile-id" class="wrapper style2">
 
-    <div id="photo">
-        <img src='../avatars/<%=user.avatar%>' width="100px" alt="user's avatar" />
+<section class="wrapper style2">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="2u$ 12u$(medium)">
+                    <img src="../avatars/<%=user.avatar%>" width="120px" alt="user's avatar" />
+                </div>
+                <div class="8u 12u$(medium)">
+                    <h2><%= user.username %></h2>
+                    <p><%= user.bio%></p>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div id="name">
-        <h2><%= user.username %></h2>
-    </div>
-
-    <div id="bio">
-        <p><%= user.bio %></p>
-    </div>
-
 </section>
 
-<!--User information -->
-<section id="person-info" class="wrapper style1 special">
+
+<section class="wrapper style1 special classPage">
 
     <!-- User enrolled classes-->
-    <div id="info-subject">
-        <div class="box">
-            <div class="title-bar"><h2><%= user.username%>'s Enrolled Class</h2></div>
-            <div class="info-content align-left">
-                <ul class="alt">
-                    <% user.enrolledClass.forEach(function(eachClass){%>
-                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
-                    <%})%>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- User created classes -->
-    <div id="info-videos">
-        <div class="box">
-            <div class="title-bar"><h2><%= user.username %>'s Created Class</h2></div>
-            <div class="info-content align-left">
-                <ul class="alt">
-                    <% createdClasses.forEach(function(eachClass){%>
-                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
-                    <%})%>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- User posted topics-->
-    <div id="info-discussion">
-        <div class="box">
-            <div class="title-bar"><h2>Discussion</h2></div>
-            <div class="info-content align-left">
-                <ul class="alt">
-                    <% topics.forEach(function(topic){%>
-                        <li><a href="/topic/detail/article?topicId=<%= topic._id %>" class="thread">
-                            <%= topic.topicName%></a>
-                        </li>
-                    <%})%>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- User bio-->
-<section id="bio-content">
-    <div class="user-box">
-        <div class="bio-title">Bio</div>
-        <hr>
-        <div class="bio-content inner">
-
-            <article class="feature right align-center">
-                <div class="content">
-                    <p><%= user.bio%>
-                    </p>
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="4u$ 12u$(medium)">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= user.username%>'s Enrolled Class
+                            </h4>
+                            <hr>
+                            <ul class="alt">
+                                <% user.enrolledClass.forEach(function(eachClass){%>
+                                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                                <%})%>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </article>
+                <div class="4u$ 12u$(medium)">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= user.username%>'s Created Class
+                            </h4>
+                            <hr>
+                            <ul class="alt">
+                                <% createdClasses.forEach(function(eachClass){%>
+                                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                                <%})%>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="4u$ 12u$(medium)">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= user.username%>'s Posted Topics
+                            </h4>
+                            <hr>
+                            <ul class="alt">
+                                <% topics.forEach(function(topic){%>
+                                    <li><a href="/topic/detail/article?topicId=<%= topic._id %>" class="thread">
+                                        <%= topic.topicName%></a>
+                                    </li>
+                                <%})%>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+     
 </section>
 
 <%- include footer %>

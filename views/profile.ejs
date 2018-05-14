@@ -1,7 +1,7 @@
 <%-include header %>
 
 <!-- Profile Banner -->
-<section id="profile-id" class="wrapper style2">
+<section class="wrapper style2">
     <div class="inner">
         <div class="row">
             <div class="2u 12u$(xsmall)">
@@ -35,7 +35,7 @@
         <hr>
         <div class="row">
             <% user.enrolledClass.forEach(function(eachClass){%>
-                <div class="4u 12u$(medium) box">
+                <div class="3u 12u$(medium) box">
                     <ul class="alt">
                         <li><h5>Class</h5></li>
                         <li>
@@ -73,7 +73,7 @@
         <hr>
         <div class="row">
             <%- include('class-content', { classes: createdClasses }) %>
-            <div id="add-new-subject" class="3u$ 12u$(medium)">
+            <div class="3u$ 12u$(medium)">
                 <p> Share your Knowledge and grow with people those need helps</p>
                 <a href="/profile/create-class" class="button special small">+ Create more classes</a>
             </div>
