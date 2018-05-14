@@ -4,42 +4,44 @@
 <section class="wrapper style2">
     <div class="inner">
         <h2><%= theClass.tag %></h2>
-        <header class="align-center"><h2><%= theClass.className %></h4></header>
-        <header class="align-center"><h3><%= theClass.description %></h3></header>
+        <header class="align-center"><h3><%= theClass.className %></h3></header>
+        <header class="align-center"><h2>----</h2></header>
+        <header class="align-center box"><p><%= theClass.description %></p></header>
     </div>
 </section>
 
 <!-- Lesson list -->
-<section class="wrapper style1">
+<section class="wrapper style1 special classPage">
+
     <div class="inner">
         <header class="align-center">
-        <h1> Class lessons list </h1>
-    </header>
-    <div class="inner">
-    <div class="row">
-        <% theClass.lessons.forEach(function(lesson){%>
-        <div class="4u 12u$(medium) box">
-            <ul class="alt">
-                <li>
-                    <h4>
-                        Lesson : <%= lesson.lessonName%>
-                    </h4>
-                </li>
-                <li>
-                    description: <%= lesson.description %>
-                </li>
-            </ul>
-        </div>
-        <%})%>
+            <h2> Lesson list </h2>
+        </header>
+        <% if(theClass.lessons.length == 0){ %>
+            <header class="align-center">
+                <header class="align-center"><h2>----</h2></header>
+                <h6 class="box"> No lessons uploaded yet, be patient ... </h6>
+            </header>
+        <% }else{ %>
+            <header class="align-center"><h2>----</h2></header>
+            <div class="row">
+            <% theClass.lessons.forEach(function(lesson){%>
+                <div class="4u 12u$(medium) box">
+                    <ul class="alt">
+                        <li>Lesson</li>
+                        <li><h4><%= lesson.lessonName%></h4></li>
+                        <li><p><%= lesson.uploadTime%></p></li>
+                        <li><h6><%= lesson.description %></h6></li>
+                    </ul>
+                </div>
+            <%})%>
+            </div>
+        <% }%>
     </div>
-    </div>
-    </div>
-    
-
 </section>
 
 <!-- Enroll the class -->
-<section class="wrapper style 2">
+<section class="wrapper style2 special">
     <div class="inner">
             <% if(enrolled){%>
             <ul class="actions align-center">
@@ -66,58 +68,71 @@
 </section>
 
 <!-- Related topics-->
-<section class="wrapper style 1">
+<section class="wrapper style1 special">
     <div class="inner">
-            <header>
-                <h1> Some related topics </h1>
+        <header class="align-center">
+            <h2> Some popular topics under this class</h2>
+        </header>
+        <header class="align-center"><h2>----</h2></header>
+</section>
+
+<section class="wrapper style1 special">
+    <div class="inner">
+        <% if(theClass.topics.length == 0){ %>
+            <header class="align-center">
+                <h6 class="box"> No topics post yet </h6>
+                <ul class="actions"><li><a href="/topic/create-topic?id=<%=theClass._id%>">
+                    Be the first one
+                </a></li></ul>
             </header>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Author</th>
-                        <th>Topic Title</th>
-                        <th>Time</th>
-                        <th>Views</th>
-                    </tr>
-                    </thead>
+        <% }else{ %>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th class="align-center">Author</th>
+                    <th class="align-center">Topic Title</th>
+                    <th class="align-center">Time</th>
+                    <th class="align-center">Views</th>
+                </tr>
+                </thead>
     
-                    <tbody>
-                    <% theClass.topics.forEach(function(topic){%>
+                <tbody> 
+                <% theClass.topics.forEach(function(topic){ %>
                     <tr>
                         <td>
-                            <a href="/user/<%= topic.author%>">
-                                <% users.forEach(function(user){ %>
-                                    <% if(user.username == topic.author){ %>
-                                        <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
-                                    <% }%>
-                                <%})%>
-                            </a>
+                        <a href="/user/<%= topic.author%>">
+                            <% users.forEach(function(user){ %>
+                                <% if(user.username == topic.author){ %>
+                                    <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
+                                <% } %>
+                            <%})%>
+                        </a>
                         </td>
                         <td>
-                            <a href="/topic/detail/article?topicId=<%=topic._id%>">
-                                <%= topic.topicName%>
-                            </a>
+                        <a href="/topic/detail/article?topicId=<%=topic._id%>">
+                            <%= topic.topicName%>
+                        </a>
                         </td>
                         <td><%= topic.postTime%></td>
                         <td><%= topic.viewer%></td>
                     </tr>
-                    <%})%>
-                    </tbody>
+                <%})%>  
+                </tbody>
     
-                    <tfoot>
-                    <tr>
-                        <td colspan="3"></td>
-                        <td><a href="/topic/detail?id=<%= theClass._id%>">View more content</a></td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
-    
+                <tfoot>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><a href="/topic/detail?id=<%= theClass._id%>">View more content</a></td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
+        <%}%>
+    </div>
 </section>
-<!-- Class Edit -->
 
+<!-- Class Edit -->
 <% if(user){ %>
     <% if (theClass.producer == user.username){%>
         <section>

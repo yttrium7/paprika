@@ -211,3 +211,8 @@ section#join-us{
     font-size: 2em;
     color:#51BAA4;
 }
+
+.classPage .box{
+    border-color: #1E2832;
+    border-width: 3px;
+}

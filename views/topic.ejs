@@ -2,18 +2,17 @@
 
 <!-- Single Topic -->
 
-<section class="wrapper">
+<!-- Topic banner -->
+<section class="wrapper style3 special">
     <div class="inner">
-        <div class="row">
-            <header class="align-center 12u 12u(large) align-center">
-                <h3 class="align-center"> Class Name: <%= theClass.className %><br/></h>
-                <h4 class="align-center"> topic: <%= topic.topicName %></h4>
-            </header>
-        </div>
+        <h2 class="align-left"><%= theClass.tag %></h2>
+        <header class="align-center"><h2><%= theClass.className %></h2></header>
+        <header class="align-center"><h2>----</h2></header>
+        <header class="align-center box"><h4><%= topic.topicName %></h4></header>
 
-        <div class="row align-center">
-            <a href="/class/detail?id=<%= theClass._id %>">
-                <h5 class="align-center">Class Link</h5>
+        <div class="row">
+            <a href="/class/detail?id=<%= theClass._id %>" class="button small">
+                Class Link
             </a>
         </div>
     </div>
@@ -21,54 +20,74 @@
 
 <hr>
 
-<!-- topic content -->
-<section id="topic-section" class="wrapper">
+<!-- topic information -->
+<section id="topic-section" class="wrapper style1">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
 
-    <div class="inner">
-        <div class="row">
-            <div id="topic-writer" class="2u$ 12u(small)">
-                <% if(author == user.username){ %>
-                    <a href='/profile %>'>
-                        <img src="/avatars/<%= user.avatar%>" alt="user's avatar" width="100px"/>
-                    </a>
-                <% }else{ %>
-                    <a href='/user/<%= topic.author %>'>
-                        <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
-                    </a>
-                <% } %>
-                
-            </div>
-            <div class="12u$ 12u$">
-                <i class="icon fa-angellist"></i>
-                <i class="icon fa-angellist"></i>
-                <i class="icon fa-angellist"></i>
-                <i class="icon fa-angellist"></i>
-                <i class="icon fa-angellist"></i>
-            </div>
-            <div id="topic-content" class="12u$ 12u$(small)">
-                <div class="row">
-                    <div class="9u 12u$(medium)">
-                        <h3><%= topic.topicName%></h3>
-                    </div>
-                    <div class="3u 12u$(small)">
-                        <h4><%= topic.viewer %></h4>
-                    </div>
+                <div id="topic-writer" class="3u$ 12u(small)">
+                    <% if(user){ %>
+                        <% if(author == user.username){ %>
+                        <a href='/profile %>'>
+                            <img src="/avatars/<%= user.avatar%>" alt="user's avatar" width="100px"/>
+                        </a>
+                        <% }else{ %>
+                        <a href='/user/<%= author.username %>'>
+                            <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
+                        </a>
+                        <p><%= author.username%></p>
+                        <% } %>
+                    <% }else{ %>
+                        <a href='/user/<%= author.username %>'>
+                            <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
+                        </a>
+                        <p><%= author.username%></p>
+                    <%}%>  
                 </div>
-                <div class="row">
-                    <h5> posted on </h5>
-                    <h5> <%= topic.postTime%></h5>
+            
+                <div class="12u$ 12u$">
+                    <% for(var i = 0; i<80; i++){ %>
+                        <i class="icon fa-angle-double-right"></i>
+                    <%}%>
                 </div>
 
                 <hr>
-
-                <div>
-                    <%-topic.article%>
-                    <img src="/topicimages/<%= topic.postImg%>"/>
+            
+                <div class="12u$ 12u$">
+                    <h3><%= topic.topicName%></h3>
                 </div>
+
+                <div class="3u 12u$(xsmall)">
+                    <h6> posted on </h6>
+                    <h6> <%= topic.postTime%></h6>
+                </div>
+
+                <div class="9u 12u$(sxmall) align-right">
+                    <i class="icon fa-eye"><%= topic.viewer%></i>
+                </div>
+            
+                <hr>
             </div>
         </div>
     </div>
+</section>
 
+<!-- topic content -->
+<section class="wrapper">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="box">
+                <span class="image right">
+                    <img src="/topicimages/<%= topic.postImg%>"/>
+                </span>
+                <%-topic.article%>
+                </div>
+            </div>
+            
+        </div>
+    </div>
 </section>
 
 <hr>
@@ -96,10 +115,20 @@
         <!-- Comment Details -->
         <div class="row uniform">
             <% topic.comments.forEach(function(comment){%>
-                <% if(user.username == comment.writer){ %>
-                    <a href="/profile">
-                        <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
-                    </a>
+                <% if(user){ %>
+                    <% if(user.username == comment.writer){ %>
+                        <a href="/profile">
+                            <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                        </a>
+                    <% }else{ %>
+                        <% users.forEach(function(user){%>
+                            <%if (user.username==comment.writer){%>
+                                <a href="/user/<%=comment.writer%>">
+                                    <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                                </a>
+                            <%}%>
+                        <%})%>
+                    <% } %>
                 <% }else{ %>
                     <% users.forEach(function(user){%>
                         <%if (user.username==comment.writer){%>
@@ -108,7 +137,7 @@
                             </a>
                         <%}%>
                     <%})%>
-                <% } %>
+                <% }%>
             <div class="1u 12u$(small)">                
                 <h5> <%= comment.writer %></h5>
                 <h6> <%= comment.writeTime %></h6>
@@ -118,10 +147,12 @@
                 <div class="box">
                     <p><%= comment.content %></p>
                 </div>
-                <% if(user.username == comment.writer){ %>
-                    <a onclick="toggle_visibility('popupBoxOnePosition');"> delete </a>
-                    <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
-                <%}%>
+                <% if(user){ %>
+                    <% if(user.username == comment.writer){ %>
+                        <a onclick="toggle_visibility('popupBoxOnePosition');"> delete </a>
+                        <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
+                    <%}%>
+                <% } %>
             </div>
             <%})%>
         </div>
@@ -145,6 +176,7 @@
 <hr>
 
 <!-- Edit topic-->
+<% if(user){ %>
 <% if(user.username == topic.author){%>
     <section class="wrapper style 2">
         <div class="inner">
@@ -157,6 +189,7 @@
         </div>
     </section>
     
+<%}%>
 <%}%>
 
 <%- include('pop-block',{ id: topic._id, word:"delete", root:"topic" }) %>

@@ -94,6 +94,7 @@ exports.topicsUnderClass = function(req,res){
 exports.topic = function(req,res){
 
     var topicId = req.query.topicId;
+    var user = req.session.user;
 
     if(topicId) {
         TopicModel.findById(topicId, function (err, topic) {
@@ -101,7 +102,8 @@ exports.topic = function(req,res){
                 req.flash('error', 'Single topic showing error');
                 return res.redirect('/topic/all-topics');
             };
-            if(topic.author != req.session.user.username){
+            
+            if(!user || topic.author != user.username){
                 TopicModel.update({"_id":topicId}, {$inc:{"viewer":1}}, function(err){
                     if(err){console.log("error ","topic viewer number inc failed")}
                 });
@@ -117,11 +119,26 @@ exports.topic = function(req,res){
                         req.flash('error', 'No author match this topic');
                         return res.redirect('/topic/all-topics');
                     }
-                    UserModel.findById(req.session.user._id, function(err, user){
+                    if(user){
+                        UserModel.findById(user._id, function(err, user){
+                            UserModel.find({}, function(err, users){
+                                res.render('topic', {
+                                    title: 'Single topic',
+                                    user: user,
+                                    topic: topic,
+                                    theClass: theClass,
+                                    author: author,
+                                    users: users,
+                                    success: req.flash('success').toString(),
+                                    error: req.flash('error').toString()
+                                });
+                            });
+                        });
+                    }else{
                         UserModel.find({}, function(err, users){
                             res.render('topic', {
                                 title: 'Single topic',
-                                user: user,
+                                user: null,
                                 topic: topic,
                                 theClass: theClass,
                                 author: author,
@@ -130,7 +147,7 @@ exports.topic = function(req,res){
                                 error: req.flash('error').toString()
                             });
                         });
-                    });
+                    };
                 });               
             });
         });
