@@ -12,7 +12,7 @@ exports.deleteTopic = function(req, res){
 
     ClassModel.findOne({"topics._id":topicId}, function(err, theClass){
         var id = theClass._id;
-        ClassModel.update({"_id": id}, {$pull: {topics:{$in:{"_id":topicId}}}}, function(err){
+        ClassModel.update({"_id": id}, {$pull: {topics:{"_id":topicId}}}, function(err){
             if(err){console.log("error"," delete topic from class")}
         });
 
@@ -30,7 +30,7 @@ exports.deleteTopic = function(req, res){
 exports.deleteComment = function(req, res){
     var commentId = req.query.id;
 
-    TopicModel.update({"comments._id":commentId}, {$pull: {comments:{$in:{"_id":commentId}}}},function(err){
+    TopicModel.update({"comments._id":commentId}, {$pull: {comments:{"_id":commentId}}},function(err){
         if(err){
             req.flash("error","Delete comment failed");
             return req.redirect('back')
@@ -258,7 +258,7 @@ exports.writeComment = function(req,res) {
             content: req.body.comment,
             writeTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString()
         };
-        TopicModel.update({"_id": topicId},{$addToSet:{"comments":newComment}},function (err) {
+        TopicModel.update({"_id": topicId},{$addToSet:{"comments":newComment},},function (err) {
             if(err){
                 console.log(err);
                 return;
@@ -267,7 +267,7 @@ exports.writeComment = function(req,res) {
             req.flash('success','new comment update success');
     
             res.redirect('/topic/detail/article?id='+id+'&topicId='+topicId);
-        })
+        });
     });
 };
 

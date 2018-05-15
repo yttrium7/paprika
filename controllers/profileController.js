@@ -92,7 +92,7 @@ exports.withdrawClass = function(req, res){
     ClassModel.update({"_id":id}, {$inc:{"enrollNumber":-1}}, function(err){
         if(err){console.log("error ","enroll number dec failed")}
     });
-    UserModel.update({"enrolledClass._id":id}, {$pull: {enrolledClass:{$in:{"_id":id}}}}, function(err){
+    UserModel.update({"enrolledClass._id":id}, {$pull: {enrolledClass:{"_id":id}}}, function(err){
         if(err){
             req.flash("error", "Could not find the class you want to withdraw");
             res.redirect('/profile');
