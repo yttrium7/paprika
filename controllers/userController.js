@@ -34,7 +34,7 @@ exports.userPage = function (req, res) {
                 if(err){
                     console.log(err);
                     req.flash('error','the user does not match');
-                    res.redirect('back');
+                    return res.redirect('back');
                 }
                 res.render('user', {user: user,
                     createdClasses:classes,
@@ -85,7 +85,7 @@ exports.signUpNew = function(req,res) {
         } catch (e) {
             fs.unlink(files.avatar.path);
             req.flash('error',e.message);
-            return res.redirect('back');
+            return res.redirect('/sign-up');
         }
 
         //bcrypt.hash(password, saltRounds, function(err, hash){});
@@ -106,7 +106,7 @@ exports.signUpNew = function(req,res) {
             }
             if(data != null){
                 req.flash('error','Username has been used');
-                return res.redirect('back');
+                return res.redirect('/login');
             }else{
                 user.save(function(err){
                     if(err){
