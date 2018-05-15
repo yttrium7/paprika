@@ -16,5 +16,5 @@ or you can:
 Everyone can see each other's profile, and see what they have done!
 But you need to sign up first :)
 
-We will keep your password secretly (by using sha1)
+We will keep your password secrectly (by using sha1)
 
