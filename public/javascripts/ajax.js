@@ -14,6 +14,7 @@ $('.editBio').on('click', function(event) {
 	});
 });
 
+
 $('.editAvatar').on('click', function(event) {
 	event.preventDefault();
 	$.ajax({

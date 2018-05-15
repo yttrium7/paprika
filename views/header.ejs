@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
     <link rel="stylesheet" href="/stylesheets/bootstrap-wysihtml5.css" />
     <link rel="stylesheet" href="../lib/css/wysiwyg-color.css" />
+
     
     
     <!--
@@ -25,6 +26,7 @@
     <script src="/javascripts/skel.min.js"></script>
     <script src="/javascripts/util.js"></script>
     <script src="/javascripts/main.js"></script>
+    <script src="/javascripts/ajax.js"></script>
     
     
     <script src="/javascripts/wysihtml5-0.3.0.js"></script>
@@ -43,7 +45,7 @@
     <h1><a href="/"></a></h1>
 
     <% if(user){ %>
-        <a href="/profile" class="button small special"><%= user.username%>'s Profile</a>
+        <a href="/profile" class="button small special"> My Profile</a>
         <a href="/logout" class="button small special">Log Out</a>
     <%}else{%>
         <a href="/sign-up" class="button small special">Sign Up</a>

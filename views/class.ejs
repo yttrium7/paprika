@@ -132,19 +132,5 @@
     </div>
 </section>
 
-<!-- Class Edit -->
-<% if(user){ %>
-    <% if (theClass.producer == user.username){%>
-        <section>
-            <div>
-                <ul class="actions">
-                    <li class="button small"> <a href="edit?id=<%= theClass._id%>">Edit</a></li>
-                    <li class="button small"> <a href="delete?id=<%= theClass._id%>">Delete</a> </li>
-                </ul>
-            </div>
-        </section>
-    <%}%>
-<%}%>
-
 
 <%- include footer %>

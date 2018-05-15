@@ -5,7 +5,7 @@ exports.index = function(req,res) {
     ClassModel.find({"tag": "Life Skill"}, function(err, life){
         ClassModel.find({"tag": "Arts and Music"}, function(err, arts){
             ClassModel.find({"tag": "Academic"}, function(err, aca){
-                ClassModel.find({"tag": "HandCraft"}, function(err, hand){
+                ClassModel.find({"tag": "Handcraft"}, function(err, hand){
                     var indexClass = {
                         lifeSkill:life,
                         artsMusic:arts,
