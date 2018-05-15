@@ -5,6 +5,7 @@ var TopicModel = require('../models/topic.model');
 var sha1 = require('sha1');
 var formidable = require('formidable');
 var path = require('path');
+var fs = require('fs');
 //var bcrypt = require('bcrypt');
 //const saltRounds = 30;
 
