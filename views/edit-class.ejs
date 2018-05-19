@@ -1,0 +1,35 @@
+<%- include header %>
+
+<!-- edit your class -->
+
+<section class="wrapper style1">
+    <div class="inner">
+
+        <h2 class="align-center"> Edit your class </h2>
+        <hr>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row uniform 50%">
+
+                <!-- class name -->
+                <div class="6u 12u$(xsmall)">
+                    <input type="text" name="className" value="<%- theClass.className %>" required/>
+                </div>
+
+                <!-- class description -->
+                <div class="12u$">
+                    <textarea name="description" rows="6" required><%- theClass.description %></textarea>
+                </div>
+
+                <!-- submit -->
+                <div class="12u$">
+                    <ul class="actions align-center">
+                        <li class="align-center"><input type="submit" value="Update my class" class="special small" /></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<%- include footer %>

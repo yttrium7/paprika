@@ -6,20 +6,43 @@
     <div class="inner">
 
         <h2 class="align-center"> Edit your Lesson </h2>
+        <hr>
 
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform 50%">
+
+                <!-- lesson name -->
                 <div class="6u 12u$(xsmall)">
                     <input type="text" name="lessonName" value="<%- lesson.lessonName %>" required/>
                 </div>
+
+                <!-- lesson description -->
                 <div class="12u$">
-                    <textarea name="description" rows="6"><%- lesson.description %></textarea>
+                    <textarea name="description" rows="6" required><%- lesson.description %></textarea>
                 </div>
 
+                <!-- lesson content -->
+                <div class="12u$">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Edit your lesson content</h4>
+                            <h6 class="card-subtitle">Improve Your Mind</h6>
+                            <div class="form-group">
+                                <textarea name="content" class="textarea_editor form-control" rows="15">
+                                    <%- lesson.content %>
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- lesson files -->
                 <div class="6u 12u$(xsmall)">
                     <h4><label for="name"> Update your lesson associated files </label></h4>
-                    <input type="file" name="content" />
+                    <input type="file" name="files" />
                 </div>
+
+                <!-- submit -->
                 <div class="12u$">
                     <ul class="actions align-center">
                         <li class="align-center"><input type="submit" value="Update my lesson" class="special small" /></li>

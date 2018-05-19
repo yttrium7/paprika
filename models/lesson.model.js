@@ -8,6 +8,7 @@ var LessonSchema = mongoose.Schema({
     lessonName:String,
     description: String,
     content: String,
+    file: String,
     uploadTime: String,
 });
 

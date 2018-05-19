@@ -3,6 +3,8 @@ var userController = require('../controllers/userController');
 var topicController = require('../controllers/topicController');
 var profileController = require('../controllers/profileController');
 var classController = require('../controllers/classController');
+var lessonController = require('../controllers/lessonController');
+
 var checkLogin = require('../controllers/checkLogin').checkLogin;
 var checkNoLogin = require('../controllers/checkLogin').checkNoLogin;
 
@@ -22,61 +24,43 @@ module.exports = function(app){
     app.post('/login', checkNoLogin, userController.loginCheck);
     app.get('/logout', checkLogin, userController.logout);
 
-    
 
     // other user's profile
-    app.get('/user/:username', userController.userPage);
+    app.get('/user/:username/profile', userController.userPage);
 
-    // your profile
+
+    //profile
     app.get('/profile', checkLogin, profileController.profile);
-
-    app.get('/profile/withdraw', checkLogin, profileController.withdrawClass);
-
-
-    //app.get('/profile/editBio',checkLogin, profileController.editBio);
-    // edit bio and avatar
-    app.get('/profile/edit-bio', profileController.editBio);
-    app.get('/profile/edit-avatar',profileController.editAvatar);
-    app.post('/profile/editBio',checkLogin, profileController.editNewBio);
-    app.post('/profile/editAvatar',checkLogin, profileController.editNewAvatar);
-
-    app.get('/profile/create-class', checkLogin, profileController.createClass);
-    app.post('/profile/create-class', checkLogin, profileController.createNewClass);
-    app.get('/profile/upload-lesson', checkLogin, profileController.uploadLesson);
-    app.post('/profile/upload-lesson', checkLogin, profileController.uploadNewLesson);
-
-    // class related pages
-    // access class and lesson
-    app.get('/class/detail', classController.class);
-    app.get('/class/detail/lesson',checkLogin, classController.lesson);
-
-    //app.get('/class/edit',checkLogin, classController.editClass);
-    //app.post('/class/edit',checkLogin, classController.updateEditedClass);
-
-    //enroll class
-    app.post('/class/detail', checkLogin, classController.enrollClass);
-    //edit lesson
-    app.get('/class/detail/edit',checkLogin, classController.editLesson);
-    app.post('/class/detail/edit',checkLogin, classController.updateEditedLesson);
+    app.post('/profile',checkLogin, profileController.editProfile);
 
 
-    app.get('/class/detail/delete',checkLogin, classController.deleteLesson);
+    //classes
+    app.get('/class', classController.class);
+    app.get('/class/create-class', checkLogin, classController.createClass);
+    app.post('/class/create-class', checkLogin, classController.createNewClass);
+    app.post('/class', checkLogin, classController.enrollClass);
+    app.get('/class/delete',checkLogin, classController.deleteClass);
+    app.get('/class/withdraw', checkLogin, classController.withdrawClass);
+    
+    //lessons
+    app.get('/class/lesson',checkLogin, lessonController.lesson);
+    app.get('/class/lesson/edit',checkLogin, lessonController.editLesson);
+    app.post('/class/lesson/edit',checkLogin, lessonController.updateEditedLesson);
+    app.get('/class/lesson/delete',checkLogin, lessonController.deleteLesson);
+    app.get('/class/upload-lesson', checkLogin, lessonController.uploadLesson);
+    app.post('/class/upload-lesson', checkLogin, lessonController.uploadNewLesson);
+
 
     // topic related pages
     app.get('/topic/all-topics', topicController.allTopics);
-
     app.get('/topic/detail', topicController.topicsUnderClass);
-    app.get('/topic/detail/edit', topicController.editTopic);
-    app.post('/topic/detail/edit', topicController.updateEditedTopic);
-
-    app.get('/topic/delete', topicController.deleteTopic);
-    
+    app.get('/topic/detail/edit', checkLogin, topicController.editTopic);
+    app.post('/topic/detail/edit', checkLogin, topicController.updateEditedTopic);
+    app.get('/topic/delete', checkLogin, topicController.deleteTopic);    
     app.get('/topic/detail/article', topicController.topic);
     app.post('/topic/detail/article', checkLogin, topicController.writeComment);
-
     app.get('/topic/create-topic', checkLogin, topicController.postTopic);
     app.post('/topic/create-topic', checkLogin, topicController.postNewTopic);
-
     app.get('/topic/comment/delete', checkLogin, topicController.deleteComment);
 
 };

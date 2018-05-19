@@ -1,23 +1,40 @@
 
     <% classes.forEach(function(eachClass){%>
-    <div class="4u 12u$(medium) box">
+    <div class="4u 12u$(medium)">
+        <div class="card">
+        <div class="card-body">
         <ul class="alt">
-            <li><h5>Class</h5></li>
-            <li><h4><%= eachClass.className %></h4></li>
+            <li><h5><%= title %>></h5>
+                <h4><a href="/class?id=<%= eachClass._id%>">
+                <%= eachClass.className %></a>
+                </h4>
+            </li>
 
             <% eachClass.lessons.forEach(function(lesson){%>
-                <li><h6 class="align-center">Lesson</h6></li>
-                <li><h5> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
+                <li><h6 class="align-center">Lesson</h6>
+                    <p>  </p>
+                    <h5> <a href="/class/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
                     <%= lesson.lessonName%></a></h5>
+                    <p style="display:block;text-overflow: ellipsis;width: 320px;overflow: hidden; white-space: nowrap;">
+                    <%= lesson.description %></p>
                 </li>
-                <li><p><%= lesson.description %></p></li>
             <%})%>
 
             <li>
-                <a href="/profile/upload-lesson?id=<%= eachClass._id%>" class="button small">+ Upload your lessons</a>
+                <% if (upload){ %>
+                    <a href="/class/upload-lesson?id=<%= eachClass._id%>" class="button small">
+                    <%= button %></a>
+                <% } else {%>
+                    <a onclick="toggle_visibility('popupBoxOnePosition');" class="button small">
+                    <%= button %></a>
+                    <%- include('pop-block', { id: eachClass._id, word: "withdraw", root:"class"}) %>
+                <% } %>
             </li>
         </ul>
+        </div>
+        </div>
     </div>
+    
     <%})%>
 
 

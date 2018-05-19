@@ -4,25 +4,30 @@
 <section class="wrapper style2">
     <div class="inner">
         <div class="row">
+            <!-- avatar -->
             <div class="2u 12u$(xsmall)">
                 <img src="../avatars/<%=user.avatar%>" width="120px" alt="user's avatar" />
             </div>
+            <!-- name and bio -->
             <div class="3u 12u$(xsmall)">
                 <h2><%= user.username %></h2>
                 <p><%= user.bio%></p>
             </div>
-            <!-- 
+            <!-- edit profile -->
             <div class="7u 12u$(xsmall)">
                 <ul class="actions align-right">
-                    <li class="editAvatar button small">Pick your avatar
-                        <div id="editAvatar"></div>
+                    <li>
+                        <a onclick="toggle_visibility('popupBoxTwoPosition');" class="button small">
+                            Edit your bio
+                        </a>
                     </li>
-                    <li class="editBio button small">Edit your bio
-                        <div id="editBio"></div>
+                    <li>
+                        <a onclick="toggle_visibility('popupBoxThreePosition');" class="button small">
+                            Edit your avatar
+                        </a>
                     </li>
                 </ul>
             </div>
-            -->
         </div>
     </div>
 </section>
@@ -35,35 +40,16 @@
         <header class="align-center"><h2> Classes you Enrolled</h2></header>
         <header class="align-center"><h2>----</h2></header>
         <hr>
+
         <div class="row">
-            <% user.enrolledClass.forEach(function(eachClass){%>
-                <div class="3u 12u$(medium) box">
-                    <ul class="alt">
-                        <li><h5>Class</h5></li>
-                        <li>
-                            <h4><%= eachClass.className %></h4>
-                        </li>
-                        <% eachClass.lessons.forEach(function(lesson){%>
-                            <li><h6>Lesson</h6></li>
-                            <li>
-                                <h5> <a href="/class/detail/lesson?id=<%= eachClass._id%>&lessonId=<%= lesson._id%>">
-                                    <%= lesson.lessonName%></a>
-                                </h5>
-                            </li>
-                            <li><p><%= lesson.description %></p></li>
-                        <%})%>
-                        <li>
-                            <a onclick="toggle_visibility('popupBoxOnePosition');" class="button small">- Withdraw this class</a>
-                        </li>
-                        <%- include('pop-block', { id: eachClass._id, word: "withdraw", root:"profile"}) %>
-                    </ul>
-                </div>
-            <%})%>
+            <%- include('class-content', { classes: user.enrolledClass, 
+                    title: "Enrolled Class", button: "- Withdraw this class", upload: false}) %>
             <div id="add-new-subject" class="3u$ 12u$(medium)">
                 <p> Find more classes that you are interested </p>
                 <a href="/#subject-field" class="button special small">+ Add more classes</a>
             </div>
         </div>
+
     </div>
 </section>
 
@@ -73,33 +59,36 @@
         <header class="align-center"><h2>Classes you Created</h2></header>
         <header class="align-center"><h2>----</h2></header>
         <hr>
+
         <div class="row">
-            <%- include('class-content', { classes: createdClasses }) %>
+            <%- include('class-content', { classes: createdClasses, 
+                title: " Created Class", button: "+ Upload your lessons", upload: true}) %>
             <div class="3u$ 12u$(medium)">
                 <p> Share your Knowledge and grow with people those need helps</p>
-                <a href="/profile/create-class" class="button special small">+ Create more classes</a>
+                <a href="/class/create-class" class="button special small">+ Create more classes</a>
             </div>
         </div>
+
     </div>
 </section>
 
 
 <!-- your discussion-->
-<section id="profile-your-discussion" class="wrapper style1">
+<section class="wrapper style1 special">
     <div class="inner">
+        <!-- header -->
         <header class="align-center"><h2>Your topics</h2></header>
         <header class="align-center"><h2>----</h2></header>
-    </div>
-    <div class="container">
 
-    
+        <!-- content -->
         <div class="table-wrapper">
             <table>
                 <thead>
                 <tr>
                     <th class="align-center">Topic Name</th>
                     <th class="align-center">Time</th>
-                    <th class="align-center">Views</th>
+                    <th class="align-center"><i class="icon fa-eye"></i> Views</th>
+                    <th class="align-center"><i class="icon fa-comment"></i> Comments</th>
                 </tr>
                 </thead>
 
@@ -112,6 +101,7 @@
                     </td>
                     <td><%= topic.postTime%></td>
                     <td><%= topic.viewer%></td>
+                    <td><%= topic.comments.length%></td>
                 </tr>
                 <%})%>
                 </tbody>
@@ -125,7 +115,6 @@
         </div>
     </div>
 </section>
-<script src="./javascripts/ajax.js"></script>
 
-
+<%- include('edit-profile', { word: "edit-bio", root: "profile"}) %>
 <%- include footer %>

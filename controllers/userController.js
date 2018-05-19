@@ -11,7 +11,8 @@ var fs = require('fs');
 
 
 exports.signUp = function(req,res) {
-    res.render('sign-up',{user: req.session.user,
+    res.render('sign-up',
+        {user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()});
 };
@@ -26,25 +27,22 @@ exports.userPage = function (req, res) {
 
     var username = req.params.username;
 
-    console.log("User name is");
-    console.log(username);
-
-    ClassModel.find({"producer": username}, function (err, classes) {
-        UserModel.findOne({'username': username}, function (err, user) {
+    ClassModel.find({"producer": username}, function (err, classes){
+        UserModel.findOne({'username': username}, function (err, user){
             TopicModel.find({'author': username}, function(err, topics){
-                if(err){
-                    console.log(err);
+                if(!user){
                     req.flash('error','the user does not match');
-                    return res.redirect('back');
+                    return res.redirect('/');
                 }
-                res.render('user', {user: user,
+                res.render('user', 
+                {   user: user,
                     createdClasses:classes,
                     topics:topics,
                     success: req.flash('success').toString(),
                     error: req.flash('error').toString()
                 });
-            })
-        })
+            });
+        });
     });
 };
 
@@ -70,57 +68,42 @@ exports.signUpNew = function(req,res) {
         var password = fields.password;
         var repassword = fields.repassword;
 
-        try {
-            if (!(username.length >= 1 && username.length <= 10)) {
-                throw new Error('Make the username length between 1~50 characters');
-            }
-            if (!files.avatar.name) {
-                throw new Error('Please upload your avatar');
-            }
-            if (password.length < 6) {
-                throw new Error('Make the password length greater than 6 characters');
-            }
-            if (password !== repassword) {
-                throw new Error('Passwords are different');
-            }
-        } catch (e) {
-            fs.unlink(files.avatar.path);
-            req.flash('error',e.message);
-            return res.redirect('/sign-up');
+        if (password !== repassword) {
+            req.flash('error','Passwords are different');
+            res.redirect("/sign-up");
         }
+        else {
+            password = sha1(password);
 
-        //bcrypt.hash(password, saltRounds, function(err, hash){});
-        
-        password = sha1(password);
+            var user = new UserModel({
+                username: username,
+                password: password,
+                gender: gender,
+                avatar: avatar
+            });
 
-        var user = new UserModel({
-            username: username,
-            password: password,
-            gender: gender,
-            avatar: avatar
-        });
-
-        UserModel.findOne({'username':user.username},function(err,data){
-            if(err){
-                req.flash('error','Connect to Mongodb Failed, Try Again');
-                return res.redirect('/');
-            }
-            if(data != null){
-                req.flash('error','Username has been used');
-                return res.redirect('/login');
-            }else{
-                user.save(function(err){
-                    if(err){
-                        req.flash('error','Connect to Mongodb Failed, Try Again');
-                        return res.redirect('/');
-                    }
-                    delete user.password;
-                    req.session.user = user;
-                    req.flash('success','Sign up Success');
-                    res.redirect('/profile');
-                })
-            }
-        });
+            UserModel.findOne({'username':user.username},function(err,data){
+                if(err){
+                    req.flash('error','Connect to Mongodb Failed, Try Again');
+                    return res.redirect('/');
+                }
+                if(data != null){
+                    req.flash('error','Username has been used');
+                    return res.redirect('/login');
+                }else{
+                    user.save(function(err){
+                        if(err){
+                            req.flash('error','Connect to Mongodb Failed, Try Again');
+                            return res.redirect('/');
+                        }
+                        delete user.password;
+                        req.session.user = user;
+                        req.flash('success','Sign up Success');
+                        res.redirect('/profile');
+                    });
+                };
+            });
+        };   
     });
 };
 
@@ -142,9 +125,6 @@ exports.loginCheck = function(req,res) {
             req.flash('error','Wrong Password');
             return res.redirect('/login');
         }
-        
-        //bcrypt.compare(password,user.password,function(err, found){});
-
         delete user.password;
         req.session.user = user;
         req.flash('success','Login Success');

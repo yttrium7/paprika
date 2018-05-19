@@ -14,28 +14,47 @@
 
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform 50%">
+
+                <!-- lesson name -->
                 <div class="6u 12u$(xsmall)">
                     <label> lesson name </label>
                     <input type="text" name="lessonName" placeholder="Your lesson name" required/>
                 </div>
 
+                <!-- lesson description -->
                 <div class="12u$">
                     <label> lesson description </label>
-                    <textarea name="lessonDescription" placeholder="Enter your lesson description" rows="6"></textarea>
+                    <textarea name="lessonDescription" placeholder="Enter your lesson description" rows="6" required></textarea>
                 </div>
 
+                <!-- lesson content -->
+                <div class="12u">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Write your lesson content</h4>
+                            <h6 class="card-subtitle">Improve Your Mind</h6>
+                            <div class="form-group">
+                                <textarea name="content" class="textarea_editor form-control" rows="15" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- lesson file -->
                 <div class="6u 12u$(xsmall)">
                     <label> Upload your lesson </label>
                     <label> Choose lesson file </label>
                     <input type="file" name="lessonFile" />
                 </div>
 
+                <!-- submit -->
                 <input type="hidden" value="<%= createdClass._id%>" name="id" />
                 <div class="12u$ align-center">
                     <ul class="actions align-center">
                         <li><input type="submit" value="New lesson create" class="special"/></li>
                     </ul>
                 </div>
+
             </div>
         </form>
     </div>

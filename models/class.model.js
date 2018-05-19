@@ -9,7 +9,6 @@ var ClassSchema = new mongoose.Schema({
     className:String,
     producer: String,
     description: String,
-    coverImg:String,
     enrollNumber: Number,
     createTime:String,
     tag:String,

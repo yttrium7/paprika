@@ -17,12 +17,12 @@
 
     <div class="inner">
         <% classes.forEach(function(eachClass){%>
-            <% eachClass.topics.forEach(function(topic){%>
+            <% eachClass.topics.forEach(function(classTopic){%>
             <div class="row box">
                 <div class="2u 12u(xsmall)">
-                    <a href="/user/<%= topic.author%>">
+                    <a href="/user/<%- classTopic.author%>/profile">
                     <% users.forEach(function(user){ %>
-                        <% if(user.username == topic.author){ %>
+                        <% if(user.username == classTopic.author){ %>
                             <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
                         <% }%>
                     <%})%>
@@ -30,25 +30,54 @@
                 </div>
 
                 <div class="6u 12u(xsmall)">
-                    <h5><a href="/topic/detail/article?topicId=<%= topic._id%>">
-                        <%= topic.topicName%>
+                    <h5><a href="/topic/detail/article?topicId=<%= classTopic._id%>">
+                        <% topics.forEach(function(topic){ %>
+                            <% if(topic._id.toString() == classTopic._id.toString()){ %>
+                                <%= topic.topicName %>
+                            <% }%>
+                        <%})%>
                         </a>
                     </h5>
                 </div>
 
                 <div class="2u 12u(xsmall)">
-                    <h6><%= topic.postTime %></h6>
+                    <h6><%= classTopic.postTime %></h6>
+                </div>
+                
+                <div>
+                        <i class="icon fa-eye"></i>
+                        <% topics.forEach(function(topic){ %>
+                            <% if(topic._id.toString() == classTopic._id.toString()){ %>
+                                <%= topic.viewer %>
+                            <% }%>
+                        <%})%>
                 </div>
 
                 <div>
                     <i class="icon fa-comment"></i>
-                    <%= topic.viewer %>
+                    <% topics.forEach(function(topic){ %>
+                        <% if(topic._id.toString() == classTopic._id.toString()){ %>
+                            <%= topic.comments.length %>
+                        <% }%>
+                    <%})%>
                 </div>
             </div>
         <hr>
         <%})%>
         <%})%>
     </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title align-center">
+                Enroll the class the create your related topics !
+                
+            </h5>
+            <h5 class="align-center"><a href="/#subject-field"> See what class we have </a></h5>
+            
+        </div>
+    </div>
+    
 
 </section>
 

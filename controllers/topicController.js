@@ -47,22 +47,25 @@ exports.allTopics = function(req,res){
             return res.redirect('/');
         }
         UserModel.find({}, function(err, users){
-            res.render('all-topics',{
-                title: 'All topics',
-                classes:classes,
-                user: req.session.user,
-                users: users,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString()
-            });
+            TopicModel.find({}, function(err, topics){
+                res.render('all-topics',{
+                    title: 'All topics',
+                    classes:classes,
+                    user: req.session.user,
+                    users: users,
+                    topics: topics,
+                    success: req.flash('success').toString(),
+                    error: req.flash('error').toString()
+                });
+            })
         })
-        
     });
 };
 
 exports.topicsUnderClass = function(req,res){
 
     var id = req.query.id;
+    var user = req.session.user;
     if(id){
         ClassModel.findById(id, function (err, data) {
             if(err){
@@ -70,19 +73,19 @@ exports.topicsUnderClass = function(req,res){
                 req.flash('error','topics under class showing error');
                 return res.redirect('/topic/all-topics');
             }
-            UserModel.findById(req.session.user._id, function(err, user){
-                UserModel.find({}, function(err, users){
+            UserModel.find({}, function(err, users){
+                TopicModel.find({}, function(err, topics){
                     res.render('class-topics', {
                         title: 'Topics under class',
-                        user: user,
+                        user: req.session.user,
                         theClass: data,
                         users: users,
+                        topics: topics,
                         success: req.flash('success').toString(),
                         error: req.flash('error').toString()
                     });
-                })
-                
-            })
+                });
+            }); 
         });
     }else{
         req.flash('error','Invalid class id');
@@ -95,7 +98,6 @@ exports.topic = function(req,res){
 
     var topicId = req.query.topicId;
     var user = req.session.user;
-
     if(topicId) {
         TopicModel.findById(topicId, function (err, topic) {
             if (err) {
@@ -119,35 +121,18 @@ exports.topic = function(req,res){
                         req.flash('error', 'No author match this topic');
                         return res.redirect('/topic/all-topics');
                     }
-                    if(user){
-                        UserModel.findById(user._id, function(err, user){
-                            UserModel.find({}, function(err, users){
-                                res.render('topic', {
-                                    title: 'Single topic',
-                                    user: user,
-                                    topic: topic,
-                                    theClass: theClass,
-                                    author: author,
-                                    users: users,
-                                    success: req.flash('success').toString(),
-                                    error: req.flash('error').toString()
-                                });
-                            });
+                    UserModel.find({}, function(err, users){
+                        res.render('topic', {
+                            title: 'Single topic',
+                            user: user,
+                            topic: topic,
+                            theClass: theClass,
+                            author: author,
+                            users: users,
+                            success: req.flash('success').toString(),
+                            error: req.flash('error').toString()
                         });
-                    }else{
-                        UserModel.find({}, function(err, users){
-                            res.render('topic', {
-                                title: 'Single topic',
-                                user: null,
-                                topic: topic,
-                                theClass: theClass,
-                                author: author,
-                                users: users,
-                                success: req.flash('success').toString(),
-                                error: req.flash('error').toString()
-                            });
-                        });
-                    };
+                    });
                 });               
             });
         });
@@ -196,19 +181,6 @@ exports.postNewTopic = function(req,res){
         var article = fields.article;
         var postImg = files.postImg.path.split(path.sep).pop();
         var viewer= fields.viewer;
-
-        try {
-            if (!topicName.length) {
-                throw new Error('Please write the topic name');
-            }
-            if (!article.length) {
-                throw new Error('Please write the topic content');
-            }
-
-        } catch (e) {
-            req.flash('error', e.message);
-            return res.redirect('back');
-        }
 
         UserModel.findById(req.session.user._id, function(err, user){
             

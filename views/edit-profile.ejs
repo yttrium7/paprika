@@ -1,0 +1,33 @@
+<div id="popupBoxTwoPosition">
+    <div class="popupBoxWrapper">
+        <div class="popupBoxContent">
+            <h4 style="color: black">Edit your bio</h4>
+            <p>  </p>
+            <form method="post">
+                <textarea name="editBio" rows="6" required><%=user.bio%></textarea>
+                <a onclick="toggle_visibility('popupBoxTwoPosition');" class="button small">
+                    Cancel</a>
+                <input type="submit" value="submit" class="button small">
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="popupBoxThreePosition">
+    <div class="popupBoxWrapper">
+        <div class="popupBoxContent">
+            <h4 style="color: black">Edit your avatar</h4>
+            <p>  </p>
+            <form method="post" enctype="multipart/form-data">
+                <label>Choose your avatar</label>
+                <p>  </p>
+                <input type="file" name="avatar" required>
+                <p>  </p>
+                <a onclick="toggle_visibility('popupBoxThreePosition');" class="button small">
+                    Cancel</a>
+                <input type="submit" value="submit" class="button small">
+            </form>
+        </div>
+    </div>
+</div>
+

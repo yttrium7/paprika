@@ -19,50 +19,61 @@
 <hr>
 
 <!-- Topics Lists -->
-<section class="wrapper style1 classPage">
+<section class="wrapper style1">
 
     <div class="inner">
-        <% theClass.topics.forEach(function(topic){%>
-        <div class="row box">
-            <div class="2u 12u$(xsmall)">
-                <a href="/user/<%= topic.author%>">
-                    <% users.forEach(function(user){ %>
-                        <% if(user.username == topic.author){ %>
-                            <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
-                        <% }%>
-                    <%})%>
-                </a>
-                <%= topic.author%>
-            </div>
+        <% theClass.topics.forEach(function(classTopic){%>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="2u 12u$(xsmall)">
+                            <a href="/user/<%= classTopic.author%>/profile">
+                                <% users.forEach(function(user){ %>
+                                    <% if(user.username == classTopic.author){ %>
+                                        <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
+                                    <% }%>
+                                <%})%>
+                            </a>
+                            <%= classTopic.author%>
+                        </div>
 
-            <div class="6u 12u$(xsmall)">
-                <h5><a href="/topic/detail/article?topicId=<%= topic._id%>">
-                        <%= topic.topicName%>
-                    </a>
-                </h5>
-            </div>
+                        <div class="6u 12u$(xsmall)">
+                            <h5><a href="/topic/detail/article?topicId=<%= classTopic._id%>">
+                                <% topics.forEach(function(topic){ %>
+                                    <% if(topic._id.toString() == classTopic._id.toString()){ %>
+                                        <%= topic.topicName %>
+                                    <% }%>
+                                <%})%>
+                                </a>
+                            </h5>
+                        </div>
 
-            <div class="2u 12u$(xsmall)">
-                <h6><%= topic.postTime %></h6>
-            </div>
+                        <div class="2u 12u$(xsmall)">
+                            <h6><%= classTopic.postTime %></h6>
+                        </div>
 
-            <div class="2u 12u$(xsmall)">
-                <i class="icon fa-comment"></i>
-                <%= topic.viewer %>
+                        <div class="2u 12u$(xsmall)">
+                            <i class="icon fa-comment"></i>
+                            <% topics.forEach(function(topic){ %>
+                                <% if(classTopic._id.toString() == topic._id.toString()){%>
+                                    <%= topic.viewer %>
+                                <%}%>
+                            <%})%>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
         <hr>
         <%})%>
     </div>
 </section>
 
-<!-- Create Topics\ -->
-<section class="wrapper">
+<!-- Create Topics -->
+<section class="wrapper special">
     <div class="inner">
         <div class="row">
-            <div class="6u 12u$(small)">
-                <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special medium fit">create your own topic</a>
-            </div>
+            <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special medium">
+                create your own topic</a>
         </div>
     </div>
 </section>

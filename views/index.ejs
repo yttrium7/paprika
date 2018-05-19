@@ -22,74 +22,22 @@
 
         <div id="subject-field">
             <ul class="alt">
-                <li id="life-skill">
-                    <div id="life-skill-class" class="row">
-                        <div class="3u 12u$(small)">
-                            <i class="icon fa-binoculars"></i>
-                            <h4> Life Skills</h4>
-                        </div>
-                        <% classes.lifeSkill.forEach(function(eachClass){%>
-                        <div class="3u 12u$(small)">
-                            <ul>
-                                <li><a href="/class/detail?id=<%= eachClass._id%>">
-                                <%=eachClass.className %></a></li>
-                            </ul>
-                        </div>
-                        <%})%>
-                    </div>
-                </li>
-
-                <li id="arts-and-music">
-                    <div id="arts-and-music-class" class="row">
-                        <div class="3u 12u$(small)">
-                            <i class="icon fa-music"></i>
-                            <h4> Arts & Music</h4>
-                        </div>
-                        <% classes.artsMusic.forEach(function(eachClass){%>
-                        <div class="3u 12u$(small)">
-                            <ul>
-                                <li><a href="/class/detail?id=<%= eachClass._id%>">
-                                    <%= eachClass.className %></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <%})%>
-                    </div>
-                </li>
-                <li id="academic">
-                    <div id="academic-class" class="row">
-                        <div class="3u 12u$(small)">
-                            <i class="icon fa-book"></i>
-                            <h4> Academic </h4>
-                        </div>
-                        <% classes.academic.forEach(function(eachClass){%>
-                        <div class="3u 12u$(small)">
-                            <ul>
-                                <li><a href="/class/detail?id=<%= eachClass._id%>">
-                                    <%= eachClass.className %></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <%})%>
-                    </div>
-                </li>
-                <li id="handcraft">
-                    <div id="handcraft-class" class="row">
-                        <div class="3u 12u$(small)">
-                            <i class="icon fa-cogs"></i>
-                            <h4> Handcraft </h4>
-                        </div>
-                        <% classes.handcraft.forEach(function(eachClass){%>
-                        <div class="3u 12u$(small)">
-                            <ul>
-                                <li><a href="/class/detail?id=<%= eachClass._id%>">
-                                    <%= eachClass.className %></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <%})%>
-                    </div>
-                </li>
+                <%- include('index-content', 
+                    { classes: classes.lifeSkill, 
+                    icon:"icon fa-binoculars",
+                    title: "Life Skill" }) %>
+                <%- include('index-content', 
+                    { classes: classes.artsMusic, 
+                    icon:"icon fa-music",
+                    title: "Arts & Music" }) %>
+                <%- include('index-content', 
+                    { classes: classes.academic, 
+                    icon:"icon fa-book",
+                    title: "Academic" }) %>
+                <%- include('index-content', 
+                    { classes: classes.handcraft, 
+                    icon:"icon fa-cogs",
+                    title: "Handcraft" }) %>
             </ul>
         </div>
     </div>

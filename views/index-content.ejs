@@ -1,0 +1,20 @@
+<li>
+    <div class="row">
+        <div class="3u 12u$(small)">
+            <i class="<%= icon %>" ></i>
+            <h4> <%= title %> </h4>
+        </div>
+        <div class="9u$ 12u$(small)">
+            <div class="row">
+            <% classes.forEach(function(eachClass){%>
+                <div class="3u$ 9u$(xsmall)">
+                    <ul>
+                        <li><a href="/class?id=<%= eachClass._id%>">
+                            <%=eachClass.className %></a></li>
+                    </ul>
+                </div>
+            <%})%>
+            </div>
+        </div>
+    </div>
+</li>

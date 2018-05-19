@@ -7,16 +7,22 @@
         <h3 class="align-center"> Create your own class </h3>
 
         <form method="post" enctype="multipart/form-data">
+
             <div class="row uniform 50%">
+
+                <!-- class name -->
                 <div class="6u 12u$(xsmall)">
                     <label>class name</label>
                     <input type="text" name="className" placeholder="Enter Your class name" required/>
                 </div>
+
+                <!-- class description -->
                 <div class="12u$">
                     <label>class description</label>
-                    <textarea name="classDescription" placeholder="Enter your class description" rows="6"></textarea>
+                    <textarea name="classDescription" placeholder="Enter your class description" rows="6" required></textarea>
                 </div>
 
+                <!-- class tag -->
                 <div class="6u 12u$(xsmall)">
                     <label>Category</label>
                     <select name="tag">
@@ -27,17 +33,16 @@
                     </select>
                 </div>
 
-                <div class="6u 12u$(xsmall)">
-                    <label for="name"> Upload your class cover </label>
-                    <input type="file" name="coverImg" />
-                </div>
-
+                <!-- enroll number -->
                 <input type="hidden" name="enrollNumber" value=0 />
+
+                <!-- submit -->
                 <div class="12u$ align-center">
                     <ul class="actions align-center">
                         <li><input type="submit" value="New ClassModel create" class="special"/></li>
                     </ul>
                 </div>
+                
             </div>
         </form>
     </div>

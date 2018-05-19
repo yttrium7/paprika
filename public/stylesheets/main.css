@@ -2287,13 +2287,8 @@
 
 			ul.actions > li {
 				display: inline-block;
-				padding: 0 1em 0 0;
 				vertical-align: middle;
 			}
-
-				ul.actions > li:last-child {
-					padding-right: 0;
-				}
 
 			ul.actions.small > li {
 				padding: 0 0.5em 0 0;
@@ -3089,6 +3084,10 @@
 				color: #fff;
 			}
 
+			.wrapper.style2 h4 {
+				color: #51BAA4;
+			}
+
 			.wrapper.style2 a {
 				color: #51BAA4;
 			}
@@ -3202,7 +3201,7 @@
 			}
 
 			.wrapper.style2 ul.alt > li {
-				border-top-color: transparent;
+				border-top-color: white;
 			}
 
 			.wrapper.style2 table tbody tr {
@@ -3625,7 +3624,7 @@
 		z-index: 10001;
 	}
 
-		#header > h1 {
+		#header > h4 {
 			color: #fff;
 			display: inline-block;
 			height: inherit;

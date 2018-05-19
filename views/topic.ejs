@@ -7,11 +7,9 @@
     <div class="inner">
         <h2 class="align-left"><%= theClass.tag %></h2>
         <header class="align-center"><h2><%= theClass.className %></h2></header>
-        <header class="align-center"><h2>----</h2></header>
-        <header class="align-center box"><h4><%= topic.topicName %></h4></header>
 
         <div class="row">
-            <a href="/class/detail?id=<%= theClass._id %>" class="button small">
+            <a href="/class?id=<%= theClass._id %>" class="button small">
                 Class Link
             </a>
         </div>
@@ -33,13 +31,13 @@
                             <img src="/avatars/<%= user.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <% }else{ %>
-                        <a href='/user/<%= author.username %>'>
+                        <a href='/user/<%= author.username %>/profile'>
                             <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <p><%= author.username%></p>
                         <% } %>
                     <% }else{ %>
-                        <a href='/user/<%= author.username %>'>
+                        <a href='/user/<%= author.username %>/profile'>
                             <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <p><%= author.username%></p>
@@ -51,9 +49,7 @@
                         <i class="icon fa-angle-double-right"></i>
                     <%}%>
                 </div>
-
-                <hr>
-            
+                <p>  </p>
                 <div class="12u$ 12u$">
                     <h3><%= topic.topicName%></h3>
                 </div>
@@ -64,10 +60,9 @@
                 </div>
 
                 <div class="9u 12u$(sxmall) align-right">
-                    <i class="icon fa-eye"><%= topic.viewer%></i>
+                    <i class="icon fa-eye"></i>
+                    <%= topic.viewer%>
                 </div>
-            
-                <hr>
             </div>
         </div>
     </div>
@@ -78,7 +73,7 @@
     <div class="container">
         <div class="inner">
             <div class="row">
-                <div class="box">
+                <div class="12u 12u$(medium) box">
                 <span class="image right">
                     <img src="/topicimages/<%= topic.postImg%>"/>
                 </span>
@@ -94,20 +89,22 @@
 
 <!-- Comment Part -->
 
-<section id="topic-comments" class="wrapper style2">
+<section class="wrapper style2">
     <div class="inner">
         <!-- Comment Abstraction -->
         <div class="row uniform">
             <div class="12u$ 12u$(small)">
                 <h3>Comments: </h3>
-                <!--<h5> total: <%= topic.comments.length %> </h5>-->
+                <h5> total: <%= topic.comments.length %> </h5>
             </div>
         </div>
-
-        <hr><hr>
+        <br><br>
 
         <!-- Comment Details -->
         <div class="row">
+            <% if(topic.comments.length == 0){%>
+                <h6>No comments under this topic yet, be the first one!</h6>
+            <% }else{%>
                 <% topic.comments.forEach(function(comment){%>
                     <div class="1u$ 12u$(xsmall)">
                     <% if(user){ %>
@@ -118,7 +115,7 @@
                         <% }else{ %>
                             <% users.forEach(function(user){%>
                                 <%if (user.username==comment.writer){%>
-                                    <a href="/user/<%=comment.writer%>">
+                                    <a href="/user/<%=comment.writer%>/profile">
                                     <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
                                     </a>
                                 <%}%>
@@ -127,7 +124,7 @@
                     <% }else{ %>
                         <% users.forEach(function(user){%>
                             <%if (user.username==comment.writer){%>
-                                <a href="/user/<%=comment.writer%>">
+                                <a href="/user/<%=comment.writer%>/profile">
                                 <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
                                 </a>
                             <%}%>
@@ -145,15 +142,15 @@
                     <div class="2u$ 12u$(xsmall)">
                         <% if(user){ %>
                             <% if(user.username == comment.writer){ %>
-                                <a onclick="toggle_visibility('popupBoxOnePosition');"> delete </a>
+                                <a onclick="toggle_visibility('popupBoxOnePosition');" class="button small"> delete </a>
                                 <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
                             <%}%>
                         <%}%>
                         <h6> <%= comment.writeTime %></h6>
                     </div>
-
                 <%})%>
-        </div>
+                <%}%>
+            </div>
         <hr>
     </div>
 </section>
@@ -165,7 +162,7 @@
             <form method="post">
                 <header><h4>Write your opinion</h4></header>
                 <hr>
-                <textarea name="comment" placeholder="Write your comment here" rows="3"></textarea>
+                <textarea name="comment" placeholder="Write your comment here" rows="3" required></textarea>
                 <hr>
                 <input type="submit" value="send comment" class="special"/>   
             </form>
@@ -184,7 +181,7 @@
             
             <ul class="actions align-center">
                 <li class="button small"> <a href="edit?topicId=<%= topic._id%>">Edit Your Topic</a></li>
-                <li class="button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete Your Topic</a></li>
+                <li class="delete button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete Your Topic</a></li>
             </ul>
             
         </div>

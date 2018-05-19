@@ -7,7 +7,7 @@
         <div class="inner">
             <div class="row">
                 <div class="2u$ 12u$(medium)">
-                    <img src="../avatars/<%=user.avatar%>" width="120px" alt="user's avatar" />
+                    <img src="/avatars/<%=user.avatar%>" width="120px" alt="user's avatar" />
                 </div>
                 <div class="8u 12u$(medium)">
                     <h2><%= user.username %></h2>
@@ -33,7 +33,7 @@
                             <hr>
                             <ul class="alt">
                                 <% user.enrolledClass.forEach(function(eachClass){%>
-                                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                                    <li><a href="/class?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
                                 <%})%>
                             </ul>
                         </div>
@@ -47,7 +47,7 @@
                             <hr>
                             <ul class="alt">
                                 <% createdClasses.forEach(function(eachClass){%>
-                                    <li><a href="/class/detail?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
+                                    <li><a href="/class?id=<%= eachClass._id%>" class="thread"><%= eachClass.className%></a></li>
                                 <%})%>
                             </ul>
                         </div>

@@ -12,6 +12,7 @@
             <%= theClass.className%>
         </h2>
 
+        <hr>
         <form method="post" enctype="multipart/form-data">
             <div class="row uniform 50%">
                 <div class="6u 12u$(xsmall)">
@@ -21,12 +22,13 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Write your topic content</h4>
-                            <h6 class="card-subtitle">Ahare Your Mind</h6>
-                                <form method="post" enctype="multipart/form-data">
-                                    <div class="form-group">
-                                        <textarea name="article" class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
-                                    </div>
-                                </form>
+                            <h6 class="card-subtitle">Share Your Mind</h6>
+                            <p>  </p>
+                            <form method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <textarea name="article" class="textarea_editor form-control" rows="15" placeholder="Enter text ..."></textarea>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -39,8 +41,8 @@
                 <input type="hidden" name="viewer" value=0 />
 
                 <div class="12u$">
-                    <ul class="actions">
-                        <li class="middle">
+                    <ul class="actions align-center">
+                        <li class="align-center">
                             <input type="submit" value="New topic create" class="special"/>
                         </li>
                     </ul>

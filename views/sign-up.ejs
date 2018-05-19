@@ -4,20 +4,25 @@
     <div class="inner">
         <h3 class="align-center"> Join us </h3>
         <h3 class="align-center"> Sign up now </h3>
-
+    
+    <hr>
     <form method="post" enctype="multipart/form-data">
         <div class="row uniform 50%">
             <div class="6u 12u$(xsmall)">
-                <input type="text" name="username" placeholder="Username" required/>
+                <input type="text" name="username" placeholder="Username" minlength="6" maxlengh="20"required/>
             </div>
+
             <div class="6u$ 12u$(xsmall)">
                 <input type="email" name="email" placeholder="Email" required/>
             </div>
+
             <div class="6u 12u$(xsmall)">
-                <input type="password" name="password" placeholder="Set your Password" required/>
+                <input id="password" type="password" name="password" placeholder="Set your Password" minlength="10" onkeyup="checkPass()" required/>
             </div>
+
             <div class="6u$ 12u$(xsmall)">
-                <input type="password" name="repassword" placeholder="Confirm your Password" required/>
+                <input id="re-password" type="password" name="repassword" placeholder="Confirm your Password" onkeyup="checkPass()" required/>
+                <span id="confirmMessage" class="confirmMessage"></span>
             </div>
 
             <div class="6u 12u$(xsmall)">
@@ -31,9 +36,11 @@
 
             <div class="6u$ 12u$(xsmall)">
                 <label>Choose your photo</label>
-                <input type="file" name="avatar">
+                <p> </p>
+                <input type="file" name="avatar" required>
             </div>
 
+            <p>  </p>
             <div class="12u$ align-center">
                 <ul class="actions">
                     <li><input type="submit" value="Sign Up" class="special"/></li>
@@ -47,4 +54,7 @@
     </div>
 </section>
 
+<script class="type/script">
+
+</script>
 <%- include footer %>

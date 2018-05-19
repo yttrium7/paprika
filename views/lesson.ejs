@@ -2,30 +2,56 @@
 
 <!-- lesson header -->
 <section class="wrapper style3">
-    <div class="3u 12u$(small) align-center">
-        <h3><%= theClass.className%></h3>
+    <div class="inner">
+        <div class="row">
+            <div class="3u 12u$(medium)">
+                <h1>Lesson</h1>
+            </div>
+            <div class="6u 12u$(medium)">
+                <h4 class="align-center">Class: </h4>
+                <h3 class="align-center"><%= theClass.className %></h3>
+            </div>
+            <div class="3u 12u$(medium)">
+                <p class="align-right align-bottom">
+                    <a href="/user/<%= theClass.producer%>/profile">producer: <%= theClass.producer %></p></a>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- lesson file showing -->
-<section id="video-play" class="wrapper">
+<section class="wrapper">
     <div class="row">
-        <img src='/lessonfiles/<%=lesson.content%>'/>   
+        <img src='/lessonfiles/<%=lesson.files%>'/>   
     </div>
 </section>
 
 <!-- lesson name and description -->
-<section id="video-title" class="wrapper">
+<section class="wrapper">
     <div class="inner">
         <div class="row">
             <header class="align-center 12u 12u(large)">
                 <h2> <%= lesson.lessonName%><br/></h2>
             </header>
-            <hr>
+            <p>  </p>
             <div class="box">
-                <p><%= lesson.description%></p>
+                <ul class="alt">
+                    <li><p>Lesson description---</p></li>
+                    <li><p><%= lesson.description%></p></li>
+                </ul>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- lesson content -->
+<section class="wrapper">
+    <div class="inner">
+            <div class="card">
+                <div class="card-body">
+                    <%- lesson.content %>
+                </div>
+            </div>
     </div>
 </section>
 
@@ -55,6 +81,6 @@
     </section>
 <%}%>
 
-<%- include('pop-block',{ id: lesson._id, word:"delete", root:"class/detail" }) %>
+<%- include('pop-block',{ id: lesson._id, word:"delete", root:"class/lesson" }) %>
 
 <%- include footer %>
