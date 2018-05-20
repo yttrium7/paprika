@@ -43,3 +43,7 @@ h1 {
     color: aliceblue !important;
     background-color: tomato !important;
 }
+
+.bigicon .icon{
+    font-size: 2em;
+}
