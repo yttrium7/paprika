@@ -47,11 +47,10 @@ exports.userPage = function (req, res) {
 };
 
 exports.signUpNew = function(req,res) {
-
-    var avatarPath = path.dirname(__dirname) + '/public/avatars/';
+    
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = avatarPath;
+    form.uploadDir = path.dirname(__dirname) + '/public/avatars/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;

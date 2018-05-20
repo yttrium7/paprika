@@ -29,29 +29,28 @@
 <!-- lesson name and description -->
 <section class="wrapper">
     <div class="inner">
-        <div class="row">
-            <header class="align-center 12u 12u(large)">
-                <h2> <%= lesson.lessonName%><br/></h2>
-            </header>
-            <p>  </p>
-            <div class="box">
-                <ul class="alt">
-                    <li><p>Lesson description---</p></li>
-                    <li><p><%= lesson.description%></p></li>
-                </ul>
+        <header class="align-center 12u 12u(large)">
+            <h2> <%= lesson.lessonName%><br/></h2>
+        </header>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title" style="color:brown">Lesson description</h6>
+                <p class="align-center"><%= lesson.description%></p>
             </div>
+            
         </div>
     </div>
 </section>
 
 <!-- lesson content -->
-<section class="wrapper">
+<section class="wrapper style1">
     <div class="inner">
-            <div class="card">
-                <div class="card-body">
-                    <%- lesson.content %>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title" style="color: brown">Lesson Content</h6>
+                <%- lesson.content %>
             </div>
+        </div>
     </div>
 </section>
 
@@ -74,8 +73,8 @@
     <section class="wrapper style2 special">
         <div>
             <ul class="actions">
-                <li class="button big"> <a href="edit?id=<%= classId%>&lessonId=<%= lesson._id%>">Edit Your Lesson</a></li>
-                <li class="button big"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete Your Lesson</a></li>
+                <li class="button small"> <a href="lesson/edit?lessonId=<%= lesson._id%>">Edit Your Lesson</a></li>
+                <li class="delete button small"> <a onclick="toggle_visibility('popupBoxOnePosition');">Delete Your Lesson</a></li>
             </ul>
         </div>
     </section>

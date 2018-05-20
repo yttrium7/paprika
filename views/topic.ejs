@@ -5,14 +5,18 @@
 <!-- Topic banner -->
 <section class="wrapper style3 special">
     <div class="inner">
-        <h2 class="align-left"><%= theClass.tag %></h2>
-        <header class="align-center"><h2><%= theClass.className %></h2></header>
-
-        <div class="row">
-            <a href="/class?id=<%= theClass._id %>" class="button small">
-                Class Link
-            </a>
-        </div>
+        <% if(theClass){ %>
+            <h2 class="align-left"><%= theClass.tag %></h2>
+            <header class="align-center"><h2><%= theClass.className %></h2></header>
+    
+            <div class="row">
+                <a href="/class?id=<%= theClass._id %>" class="button small">
+                    Class Link
+                </a>
+            </div>
+        <% }else{ %>
+            <h5 style="color: brown; background-color: aliceblue;"> This class has been deleted, but the related topics are still accessible for producer </h5>
+        <% } %>
     </div>
 </section>
 

@@ -57,7 +57,7 @@ exports.createNewClass = function(req,res){
         if (err) {
             console.log(err);
             req.flash('error','Create Class Failed, Try Again');
-            return res.redirect('/profile/create-class');
+            return res.redirect('/class/create-class');
         }
 
         var className = fields.className;

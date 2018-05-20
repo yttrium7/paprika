@@ -20,7 +20,7 @@ exports.editProfile = function(req, res){
         UserModel.update({"_id":req.session.user._id}, {$set:{"bio":bio}}, function(err){
             if(err){
                 req.flash('error','Update bio error');
-                return res.redirect('back');
+                return res.redirect('/profile');
             }
             res.redirect("/profile");
         });

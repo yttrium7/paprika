@@ -22,6 +22,9 @@
 <section class="wrapper style1">
 
     <div class="inner">
+        <% if(theClass.topics.length == 0){%>
+            <p>No topics yet, be the first one!</p>
+        <% }else{%>
         <% theClass.topics.forEach(function(classTopic){%>
             <div class="card">
                 <div class="card-body">
@@ -65,6 +68,7 @@
             </div>
         <hr>
         <%})%>
+        <%}%>
     </div>
 </section>
 
@@ -72,7 +76,7 @@
 <section class="wrapper special">
     <div class="inner">
         <div class="row">
-            <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special medium">
+            <a href="/topic/create-topic?id=<%= theClass._id%>" class="button special">
                 create your own topic</a>
         </div>
     </div>

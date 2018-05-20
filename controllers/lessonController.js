@@ -10,9 +10,12 @@ var marked = require('marked');
 exports.lesson = function (req, res) {
 
     var lessonId = req.query.lessonId;
-    var id = req.query.id;
     
-    ClassModel.findById(id, function(err, theClass){
+    ClassModel.findOne({"lessons._id": lessonId}, function(err, theClass){
+        if(err){
+            req.flash('error', 'This class no longer exist');
+            return res.redirect('/profile');
+        }
         var producer = theClass.producer;
         UserModel.findOne({'username': producer.name}, function (err, user) {
             LessonModel.findById(lessonId,function(err, lesson){
@@ -24,7 +27,7 @@ exports.lesson = function (req, res) {
                     title:'Lesson',
                     theClass : theClass,
                     user: req.session.user,
-                    classId: id,
+                    classId: theClass._id,
                     lesson:lesson,
                     producer: producer,
                     success: req.flash('success').toString(),
@@ -48,10 +51,10 @@ exports.deleteLesson = function(req, res){
         LessonModel.findByIdAndRemove(lessonId,function(err){
             if(err){
                 req.flash("error","Delete lesson failed");
-                return req.redirect('back')
+                return req.redirect('/class/lesson?lessonId='+lessonId);
             }
             req.flash("success","Lesson Deleted");
-            res.redirect('/class/detail?id='+id);
+            res.redirect('/class?id='+id);
         });
     });
 };
@@ -79,10 +82,9 @@ exports.updateEditedLesson = function(req,res){
 
     var form = new formidable.IncomingForm();
     var lessonId = req.query.lessonId;
-    var id = req.query.id;
 
     form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/client/topicimages/';
+    form.uploadDir = path.dirname(__dirname) + '/public/lessonfiles/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
@@ -90,13 +92,13 @@ exports.updateEditedLesson = function(req,res){
         if (err) {
             console.log(err);
             req.flash('error','Cannot get data from topic-edit from');
-            return res.redirect('back');
+            return res.redirect('/class/lesson?lessonId='+lessonId);
         }
 
         var lessonName = fields.lessonName;
         var description = fields.description;
         var content = fields.content;
-        var files = files.content.path.split(path.sep).pop();
+        var files = files.lessonFile.path.split(path.sep).pop();
 
         var updateLesson = {
             lessonName:lessonName,
@@ -116,7 +118,7 @@ exports.updateEditedLesson = function(req,res){
                 return;
             }
             req.flash('success','topic edit success');
-            res.redirect('/class/detail/lesson?id='+id+'&lessonId='+lessonId);
+            res.redirect('/class/lesson?lessonId='+lessonId);
         });
     });
 };
@@ -129,14 +131,14 @@ exports.uploadLesson = function (req, res) {
             if(err){
                 console.log(err);
                 req.flash('error','Lesson upload error');
-                return res.redirect('/back');
+                return res.redirect('/profile');
             }
             res.render('create-lesson',{
                 title:'Upload your lesson',
                 user: req.session.user,
-                success: req.flash('success').toString(),
-                error: req.flash('error').toString(),
                 createdClass:data,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
             })
         });
     }
@@ -155,7 +157,7 @@ exports.uploadNewLesson = function(req,res){
         if (err) {
             console.log(err);
             req.flash('error','Upload Lesson Failed, Try Again');
-            return res.redirect('/back');
+            return res.redirect('/profile');
         }
 
         var lessonName = fields.lessonName;
@@ -174,7 +176,7 @@ exports.uploadNewLesson = function(req,res){
         newLesson.save(function(err){
             if(err){
                 req.flash('error','Upload Lesson error');
-                return res.redirect('back');
+                return res.redirect('/profile');
             }
             req.flash('success','Upload Lesson success');
         });
@@ -182,7 +184,7 @@ exports.uploadNewLesson = function(req,res){
         ClassModel.update({"_id": id},{$addToSet:{"lessons":newLesson}},function (err) {
             if(err){
                 req.flash('error','Upload Lesson to Class error');
-                return res.redirect('back');
+                return res.redirect('/profile');
             }
             res.redirect("/profile");
         })

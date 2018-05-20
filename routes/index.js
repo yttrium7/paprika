@@ -51,7 +51,7 @@ module.exports = function(app){
     app.post('/class/upload-lesson', checkLogin, lessonController.uploadNewLesson);
 
 
-    // topic related pages
+    // topics
     app.get('/topic/all-topics', topicController.allTopics);
     app.get('/topic/detail', topicController.topicsUnderClass);
     app.get('/topic/detail/edit', checkLogin, topicController.editTopic);

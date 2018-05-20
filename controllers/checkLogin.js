@@ -9,7 +9,7 @@ exports.checkLogin = function checkLogin(req,res,next){
 exports.checkNoLogin = function checkNoLogin(req,res,next){
     if(req.session.user){
         req.flash('error','Already login');
-        return res.redirect('back');
+        return res.redirect('/');
     }
     next();
 };

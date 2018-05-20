@@ -12,13 +12,13 @@
 
 <!-- Topics Lists -->
 <section class="wrapper style1">
-
     <hr>
-
     <div class="inner">
         <% classes.forEach(function(eachClass){%>
             <% eachClass.topics.forEach(function(classTopic){%>
-            <div class="row box">
+        <div class="card">
+        <div class="card-body">
+            <div class="row">
                 <div class="2u 12u(xsmall)">
                     <a href="/user/<%- classTopic.author%>/profile">
                     <% users.forEach(function(user){ %>
@@ -62,23 +62,18 @@
                     <%})%>
                 </div>
             </div>
+        </div>
+        </div>
         <hr>
         <%})%>
         <%})%>
     </div>
-
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title align-center">
-                Enroll the class the create your related topics !
-                
-            </h5>
-            <h5 class="align-center"><a href="/#subject-field"> See what class we have </a></h5>
-            
-        </div>
-    </div>
-    
-
+</section>
+<section class="wrapper style2">        
+    <h5 class="card-title align-center">
+        Enroll the class to create your related topics !             
+    </h5>
+    <h5 class="align-center"><a href="/#subject-field"> See what class we have </a></h5>  
 </section>
 
 <%- include footer %>
