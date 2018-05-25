@@ -5,7 +5,7 @@ var UserModel = require('../models/user.model');
 var formidable = require('formidable');
 var path = require('path');
 const aws = require('aws-sdk');
-const S3_BUCKET = process.env.S3_BUCKET;
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
 aws.config.region = 'us-east-2';
 
 
