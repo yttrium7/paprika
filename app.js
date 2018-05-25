@@ -10,7 +10,10 @@ var flash = require('connect-flash');
 var MongoStore = require('connect-mongo')(session);
 var pkg = require('./package');
 
+// get the config file to load web information
 var config = require('./config/config');
+
+// get the route file to load routes
 var routes = require('./routes/index');
 
 var app = express();
@@ -22,11 +25,13 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// file reading path
 app.use(express.static(path.join(__dirname, 'public')));
 
+// session set up
 app.use(session({
     name: 'paprika',
     secret: 'paprika',
@@ -36,17 +41,19 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// flash set up based on session
 app.use(flash());
 
+// the local web information set up
 app.locals.web = {
     title: pkg.name,
     description: pkg.description
 };
 
 routes(app);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-
     next(createError(404));
 });
 
@@ -62,8 +69,11 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+// set port number is run app on local env
 const PORT = process.env.PORT || config.port;
 
+
+// listen on local environment
 app.listen(PORT, function(){
     console.log(`Express listening on port ${PORT}`);
 });
