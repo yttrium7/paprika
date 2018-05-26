@@ -22,7 +22,15 @@
 <!-- lesson file showing -->
 <section class="wrapper">
     <div class="row">
-        <img src='/lessonfiles/<%=lesson.files%>'/>   
+        <div class="12u 12u(large)">
+            <div class="align-center">
+                <object data="<%=lesson.files%>"></object>
+                <p style="color: grey; font-size: 0.5em"> ! If there is no file showing in this section, pls don't be panic. 
+                        The file may be too large to load, wait for few seconds.</p>
+                <a href="<%= lesson.files%>">
+                    <p> Access the raw source</p></a> 
+            </div>
+        </div>
     </div>
 </section>
 

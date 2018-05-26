@@ -6,8 +6,13 @@ var sha1 = require('sha1');
 var formidable = require('formidable');
 var path = require('path');
 var fs = require('fs');
-//var bcrypt = require('bcrypt');
-//const saltRounds = 30;
+var aws = require('aws-sdk');
+var config = require('../config/config');
+
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
+aws.config.region = 'us-east-2';
+aws.config.update({ accessKeyId: config.AWS_KEY_ID, secretAccessKey: config.AWS_SECRET_KEY });
+var s3 = new aws.S3();
 
 
 exports.signUp = function(req,res) {
@@ -49,8 +54,6 @@ exports.userPage = function (req, res) {
 exports.signUpNew = function(req,res) {
     
     var form = new formidable.IncomingForm();
-    form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/public/avatars/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
@@ -63,9 +66,11 @@ exports.signUpNew = function(req,res) {
         }
         var username = fields.username;
         var gender = fields.gender;
-        var avatar = files.avatar.path.split(path.sep).pop();
         var password = fields.password;
         var repassword = fields.repassword;
+
+        var key = username + '-avatar-' + files.avatar.name;
+        var avatarData = fs.readFileSync(files.avatar.path);
 
         if (password !== repassword) {
             req.flash('error','Passwords are different');
@@ -74,35 +79,63 @@ exports.signUpNew = function(req,res) {
         else {
             password = sha1(password);
 
-            var user = new UserModel({
-                username: username,
-                password: password,
-                gender: gender,
-                avatar: avatar
+            const s3Params = {
+                Bucket: S3_BUCKET,
+                Key: key,
+                Body: avatarData,
+                Expires: 10000,
+                ContentType: files.avatar.type,
+                ACL: 'public-read'
+            };
+
+            s3.putObject(s3Params,(err, data) => {
+                if(err){
+                    console.log(err);
+                    req.flash('error','Uploadig avatar failed');
+                    return req.redirect('/sign-up');
+                }
             });
 
-            UserModel.findOne({'username':user.username},function(err,data){
+            s3.getSignedUrl('putObject', s3Params, (err, data) => {
                 if(err){
-                    req.flash('error','Connect to Mongodb Failed, Try Again');
-                    return res.redirect('/');
+                  console.log(err);
+                  return res.end();
                 }
-                if(data != null){
-                    req.flash('error','Username has been used');
-                    return res.redirect('/login');
-                }else{
-                    user.save(function(err){
-                        if(err){
-                            req.flash('error','Connect to Mongodb Failed, Try Again');
-                            return res.redirect('/');
-                        }
-                        delete user.password;
-                        req.session.user = user;
-                        req.flash('success','Sign up Success');
-                        res.redirect('/profile');
-                    });
+                const returnData = {
+                    signedRequest: data,
+                    url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
                 };
+
+                var user = new UserModel({
+                    username: username,
+                    password: password,
+                    gender: gender,
+                    avatar: returnData.url
+                });
+
+                UserModel.findOne({'username':user.username},function(err,data){
+                    if(err){
+                        req.flash('error','Connect to Mongodb Failed, Try Again');
+                        return res.redirect('/');
+                    }
+                    if(data != null){
+                        req.flash('error','Username has been used');
+                        return res.redirect('/login');
+                    }else{
+                        user.save(function(err){
+                            if(err){
+                                req.flash('error','Connect to Mongodb Failed, Try Again');
+                                return res.redirect('/');
+                            }
+                            delete user.password;
+                            req.session.user = user;
+                            req.flash('success','Sign up Success');
+                            res.redirect('/profile');
+                        });
+                    };
+                });
             });
-        };   
+        };
     });
 };
 

@@ -47,3 +47,12 @@ h1 {
 .bigicon .icon{
     font-size: 2em;
 }
+
+object{
+    max-width: 90%;
+    float: inherit;
+}
+p.ref{
+    font-size: 0.7em;
+    color: rgb(80, 157, 160)
+}

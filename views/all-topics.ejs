@@ -23,7 +23,7 @@
                     <a href="/user/<%- classTopic.author%>/profile">
                     <% users.forEach(function(user){ %>
                         <% if(user.username == classTopic.author){ %>
-                            <img src="../avatars/<%= user.avatar%>" width="50px" alt="user's avatar"/>
+                            <img src="<%= user.avatar%>" width="50px" alt="user's avatar"/>
                         <% }%>
                     <%})%>
                     </a>

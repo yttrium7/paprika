@@ -1,11 +1,19 @@
-var moment = require('moment');
-var path = require('path');
-var formidable = require('formidable');
-var marked = require('marked');
-
 var TopicModel = require('../models/topic.model');
 var ClassModel = require('../models/class.model');
 var UserModel = require('../models/user.model');
+var config = require('../config/config');
+
+var moment = require('moment');
+var formidable = require('formidable');
+var marked = require('marked');
+var path = require('path');
+var fs = require('fs');
+var aws = require('aws-sdk');
+
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
+aws.config.region = 'us-east-2';
+aws.config.update({ accessKeyId: config.AWS_KEY_ID, secretAccessKey: config.AWS_SECRET_KEY });
+var s3 = new aws.S3();
 
 exports.topic = function(req,res){
 
@@ -155,11 +163,10 @@ exports.postNewTopic = function(req,res){
     var form = new formidable.IncomingForm();
     var id = req.query.id;
 
-    form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/public/topicimages/';;
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
+
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
@@ -169,36 +176,66 @@ exports.postNewTopic = function(req,res){
 
         var topicName = fields.topicName;
         var article = fields.article;
-        var postImg = files.postImg.path.split(path.sep).pop();
         var viewer= fields.viewer;
 
-        UserModel.findById(req.session.user._id, function(err, user){
-            
-            var newTopic = new TopicModel({
-                topicName:topicName,
-                author:req.session.user.username,
-                article: marked(article),
-                postImg: postImg,
-                postTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
-                viewer: viewer
-            });
+        var key = topicName + '-topic-' + files.postImg.name;
+        var imgData = fs.readFileSync(files.postImg.path);
 
-            newTopic.save(function(err){
-                if(err){
-                    req.flash('err','Post topic error');
-                    return res.redirect('/topic/detail?id='+id);
-                }
-                req.flash('success','Post topic success');
-            });
+        const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: key,
+            Body: imgData,
+            Expires: 10000,
+            ContentType: files.postImg.type,
+            ACL: 'public-read'
+        };
+
+        s3.putObject(s3Params,(err, data) => {
+            if(err){
+                console.log(err);
+                req.flash('error','Uploadig topic image failed');
+                return res.redirect('/topic/detail?id='+id);
+            }
+        });
+
+        s3.getSignedUrl('putObject', s3Params, (err, data) => {
+            if(err){
+              console.log(err);
+              return res.redirect('/topic/detail?id='+id);
+            }
+            const returnData = {
+                signedRequest: data,
+                url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
+            };
+
+            UserModel.findById(req.session.user._id, function(err, user){
+            
+                var newTopic = new TopicModel({
+                    topicName:topicName,
+                    author:req.session.user.username,
+                    article: marked(article),
+                    postImg: returnData.url,
+                    postTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+                    viewer: viewer
+                });
     
-            ClassModel.update({"_id": id},{$addToSet:{"topics":newTopic}},function (err) {
-                if(err){
-                    return res.redirect('/topic/all-topics');
-                }
-                req.flash('success','topic update success');
-                res.redirect('/topic/detail/article?id='+id+'&topicId='+newTopic._id);
-            });
-        });   
+                newTopic.save(function(err){
+                    if(err){
+                        req.flash('err','Post topic error');
+                        return res.redirect('/topic/detail?id='+id);
+                    }
+                    req.flash('success','Post topic success');
+                });
+        
+                ClassModel.update({"_id": id},{$addToSet:{"topics":newTopic}},function (err) {
+                    if(err){
+                        return res.redirect('/topic/all-topics');
+                    }
+                    req.flash('success','topic update success');
+                    res.redirect('/topic/detail/article?id='+id+'&topicId='+newTopic._id);
+                });
+            }); 
+        });          
     });
 };
 
@@ -225,11 +262,10 @@ exports.updateEditedTopic = function(req,res){
     var form = new formidable.IncomingForm();
     var topicId = req.query.topicId;
 
-    form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/public/topicimages/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
+
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
@@ -239,28 +275,58 @@ exports.updateEditedTopic = function(req,res){
 
         var topicName = fields.topicName;
         var article = fields.article;
-        var postImg = files.postImg.path.split(path.sep).pop();
         var viewer= fields.viewer;
 
-        var updateTopic = {
-            topicName:topicName,
-            article: marked(article),
-            postImg: postImg,
-            postTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
-            viewer: viewer
+        var key = topicName + '-topic-' + files.postImg.name;
+        var imgData = fs.readFileSync(files.postImg.path);
+
+        const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: key,
+            Body: imgData,
+            Expires: 10000,
+            ContentType: files.postImg.type,
+            ACL: 'public-read'
         };
 
-        TopicModel.update({"_id": topicId},{$set:
-            {topicName: updateTopic.topicName, 
-            article: updateTopic.article,
-            postImg: updateTopic.postImg,
-            postTime: updateTopic.postTime}},function (err) {
+        s3.putObject(s3Params,(err, data) => {
             if(err){
                 console.log(err);
-                return res.redirect('/topic/edit?topicId='+topicId);
+                req.flash('error','Uploadig topic image failed');
+                return res.redirect('/topic/detail?id='+id);
             }
-            req.flash('success','topic edit success');
-            res.redirect('/topic/detail/article?topicId='+topicId);
+        });
+
+        s3.getSignedUrl('putObject', s3Params, (err, data) => {
+            if(err){
+              console.log(err);
+              return res.redirect('/topic/detail?id='+id);
+            }
+            const returnData = {
+                signedRequest: data,
+                url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
+            };
+
+            var updateTopic = {
+                topicName:topicName,
+                article: marked(article),
+                postImg: returnData.url,
+                postTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+                viewer: viewer
+            };
+    
+            TopicModel.update({"_id": topicId},{$set:
+                {topicName: updateTopic.topicName, 
+                article: updateTopic.article,
+                postImg: updateTopic.postImg,
+                postTime: updateTopic.postTime}},function (err) {
+                if(err){
+                    console.log(err);
+                    return res.redirect('/topic/edit?topicId='+topicId);
+                }
+                req.flash('success','topic edit success');
+                res.redirect('/topic/detail/article?topicId='+topicId);
+            });
         });
     });
 };

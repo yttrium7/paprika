@@ -1,11 +1,19 @@
 var ClassModel = require('../models/class.model');
 var LessonModel = require('../models/lesson.model');
 var UserModel = require('../models/user.model');
+var config = require('../config/config');
 
 var path = require('path');
 var moment = require('moment');
 var formidable = require('formidable');
 var marked = require('marked');
+var fs = require('fs');
+var aws = require('aws-sdk');
+
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
+aws.config.region = 'us-east-2';
+aws.config.update({ accessKeyId: config.AWS_KEY_ID, secretAccessKey: config.AWS_SECRET_KEY });
+var s3 = new aws.S3();
 
 exports.lesson = function (req, res) {
 
@@ -83,11 +91,9 @@ exports.updateEditedLesson = function(req,res){
     var form = new formidable.IncomingForm();
     var lessonId = req.query.lessonId;
 
-    form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/public/lessonfiles/';
     form.keepExtensions = true;
-    form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
+
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
@@ -98,27 +104,60 @@ exports.updateEditedLesson = function(req,res){
         var lessonName = fields.lessonName;
         var description = fields.description;
         var content = fields.content;
-        var files = files.lessonFile.path.split(path.sep).pop();
 
-        var updateLesson = {
-            lessonName:lessonName,
-            description: description,
-            content: marked(content),
-            files:files,
-            updateTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+        var key = lessonName + '-lesson-' + files.lessonFile.name;
+        var data = fs.readFileSync(files.lessonFile.path);
+        var type = files.lessonFile.type;
+
+        const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: key,
+            Body: data,
+            Expires: 10000,
+            ContentType: type,
+            ACL: 'public-read'
         };
+        
 
-        LessonModel.update({"_id": lessonId},{$set:{lessonName: updateLesson.lessonName, 
-            description: updateLesson.description,
-            content: updateLesson.content,
-            files:updateLesson.files,
-            uploadTime: updateLesson.updateTime}},function (err) {
+        s3.putObject(s3Params,(err, data) => {
             if(err){
                 console.log(err);
-                return;
+                req.flash('error','Uploadig lesson files failed');
+                return res.redirect('/class/lesson?lessonId='+lessonId);
             }
-            req.flash('success','topic edit success');
-            res.redirect('/class/lesson?lessonId='+lessonId);
+        });
+        var urlParams = {Bucket: S3_BUCKET, Key: key};
+        s3.getSignedUrl('getObject', urlParams, (err, data) => {
+
+            if(err){
+              console.log(err);
+              return res.redirect('/class/lesson?lessonId='+lessonId);
+            }
+            const returnData = {
+                signedRequest: data,
+                url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
+            };
+
+            var updateLesson = {
+                lessonName:lessonName,
+                description: description,
+                content: marked(content),
+                files:returnData.url,
+                updateTime: moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+            };
+    
+            LessonModel.update({"_id": lessonId},{$set:{lessonName: updateLesson.lessonName, 
+                description: updateLesson.description,
+                content: updateLesson.content,
+                files:updateLesson.files,
+                uploadTime: updateLesson.updateTime}},function (err) {
+                if(err){
+                    console.log(err);
+                    return;
+                }
+                req.flash('success','Lesson edit success');
+                res.redirect('/class/lesson?lessonId='+lessonId);
+            });
         });
     });
 };
@@ -149,10 +188,9 @@ exports.uploadNewLesson = function(req,res){
     var id = req.query.id;
     var form = new formidable.IncomingForm();
     
-    form.encoding = 'utf-8';
-    form.uploadDir = path.dirname(__dirname) + '/public/lessonfiles/';
     form.keepExtensions = true;
     form.type = true;
+
     form.parse(req, function(err, fields, files) {
         if (err) {
             console.log(err);
@@ -163,30 +201,61 @@ exports.uploadNewLesson = function(req,res){
         var lessonName = fields.lessonName;
         var description = fields.lessonDescription;
         var content = fields.content;
-        var files = files.lessonFile.path.split(path.sep).pop();
 
-        var newLesson = new LessonModel({
-            lessonName:lessonName,
-            description: description,
-            content: marked(content),
-            files: files,
-            uploadTime:moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+        var key = lessonName + '-lesson-' + files.lessonFile.name;
+        var data = fs.readFileSync(files.lessonFile.path);
+        var type = files.lessonFile.type;
+
+        const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: key,
+            Body: data,
+            Expires: 10000,
+            ContentType: type,
+            ACL: 'public-read'
+        };
+
+        s3.putObject(s3Params,(err, data) => {
+            if(err){
+                console.log(err);
+                req.flash('error','Uploadig lesson files failed');
+                return res.redirect('/class/lesson?lessonId='+lessonId);
+            }
         });
 
-        newLesson.save(function(err){
+        s3.getSignedUrl('putObject', s3Params, (err, data) => {
             if(err){
-                req.flash('error','Upload Lesson error');
-                return res.redirect('/profile');
+              console.log(err);
+              return res.redirect('/class/lesson?lessonId='+lessonId);
             }
-            req.flash('success','Upload Lesson success');
-        });
+            const returnData = {
+                signedRequest: data,
+                url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
+            };
 
-        ClassModel.update({"_id": id},{$addToSet:{"lessons":newLesson}},function (err) {
-            if(err){
-                req.flash('error','Upload Lesson to Class error');
-                return res.redirect('/profile');
-            }
-            res.redirect("/profile");
-        })
+            var newLesson = new LessonModel({
+                lessonName:lessonName,
+                description: description,
+                content: marked(content),
+                files: returnData.url,
+                uploadTime:moment(new Date()).format('DD-MM-YYYY HH:mm:ss').toString(),
+            });
+    
+            newLesson.save(function(err){
+                if(err){
+                    req.flash('error','Upload Lesson error');
+                    return res.redirect('/profile');
+                }
+                req.flash('success','Upload Lesson success');
+            });
+    
+            ClassModel.update({"_id": id},{$addToSet:{"lessons":newLesson}},function (err) {
+                if(err){
+                    req.flash('error','Upload Lesson to Class error');
+                    return res.redirect('/profile');
+                }
+                res.redirect("/profile");
+            });
+        });
     });
 };

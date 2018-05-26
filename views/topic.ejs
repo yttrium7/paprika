@@ -32,17 +32,17 @@
                     <% if(user){ %>
                         <% if(author == user.username){ %>
                         <a href='/profile %>'>
-                            <img src="/avatars/<%= user.avatar%>" alt="user's avatar" width="100px"/>
+                            <img src="<%= user.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <% }else{ %>
                         <a href='/user/<%= author.username %>/profile'>
-                            <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
+                            <img src="<%= author.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <p><%= author.username%></p>
                         <% } %>
                     <% }else{ %>
                         <a href='/user/<%= author.username %>/profile'>
-                            <img src="/avatars/<%= author.avatar%>" alt="user's avatar" width="100px"/>
+                            <img src="<%= author.avatar%>" alt="user's avatar" width="100px"/>
                         </a>
                         <p><%= author.username%></p>
                     <%}%>  
@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="12u 12u$(medium) box">
                 <span class="image right">
-                    <img src="/topicimages/<%= topic.postImg%>"/>
+                    <img src="<%= topic.postImg%>"/>
                 </span>
                 <%-topic.article%>
                 </div>
@@ -94,6 +94,7 @@
 <!-- Comment Part -->
 
 <section class="wrapper style2">
+    <div class="container">
     <div class="inner">
         <!-- Comment Abstraction -->
         <div class="row uniform">
@@ -114,13 +115,17 @@
                     <% if(user){ %>
                         <% if(user.username == comment.writer){ %>
                             <a href="/profile">
-                            <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
-                            </a>
+                            <% users.forEach(function(eachUser){%>
+                                <%if (user.username==eachUser.username){%>
+                                    <img src="<%=eachUser.avatar%>" width="50px" alt="user's avatar"/>
+                                    </a>
+                                <%}%>
+                            <%})%>
                         <% }else{ %>
                             <% users.forEach(function(user){%>
                                 <%if (user.username==comment.writer){%>
                                     <a href="/user/<%=comment.writer%>/profile">
-                                    <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                                    <img src="<%=user.avatar%>" width="50px" alt="user's avatar"/>
                                     </a>
                                 <%}%>
                             <%})%>
@@ -129,7 +134,7 @@
                         <% users.forEach(function(user){%>
                             <%if (user.username==comment.writer){%>
                                 <a href="/user/<%=comment.writer%>/profile">
-                                <img src="/avatars/<%=user.avatar%>" width="50px" alt="user's avatar"/>
+                                <img src="<%=user.avatar%>" width="50px" alt="user's avatar"/>
                                 </a>
                             <%}%>
                         <%})%>
@@ -150,30 +155,37 @@
                                 <%- include('pop-block',{ id: comment._id, word:"delete", root:"topic/comment" }) %>
                             <%}%>
                         <%}%>
-                        <h6> <%= comment.writeTime %></h6>
+                        <p>  </p>
+                        <p class="ref"> <%= comment.writeTime %></p>
                     </div>
                 <%})%>
                 <%}%>
             </div>
         <hr>
     </div>
+    </div>
 </section>
+
 
 <!-- Post your comment -->
 <section class="wrapper style2">
     <div class="container">
         <div class="inner">
             <form method="post">
-                <header><h4>Write your opinion</h4></header>
-                <hr>
-                <textarea name="comment" placeholder="Write your comment here" rows="3" required></textarea>
-                <hr>
-                <input type="submit" value="send comment" class="special"/>   
+
+                <% if(user){%>
+                    <header><h4>Write your opinion</h4></header>
+                    <hr>
+                    <textarea name="comment" placeholder="Write your comment here" rows="3" required></textarea>
+                    <hr>
+                    <input type="submit" value="send comment" class="special"/>
+                <% }else{%>
+                    <h5 class="align-center"> Please <a href="/login">login</a> to write your opinion </h5>
+                <%}%> 
             </form>
         </div>
     </div>
 </section>
-
 
 
 <!-- Edit topic-->
@@ -190,7 +202,7 @@
             
         </div>
     </section> 
-    <hr>
+    <hr>   
 <%}%>
 <%}%>
 

@@ -4,22 +4,24 @@ var UserModel = require('../models/user.model');
 
 var formidable = require('formidable');
 var path = require('path');
-const aws = require('aws-sdk');
+var fs = require('fs');
+var aws = require('aws-sdk');
+var config = require('../config/config');
+
 const S3_BUCKET = process.env.S3_BUCKET_NAME;
 aws.config.region = 'us-east-2';
+aws.config.update({ accessKeyId: config.AWS_KEY_ID, secretAccessKey: config.AWS_SECRET_KEY });
+var s3 = new aws.S3();
 
 
 exports.editProfile = function(req, res){
 
+    var user = req.session.user;
+
     var form = new formidable.IncomingForm();
-    form.uploadDir = path.dirname(__dirname) + '/public/avatars/';
     form.keepExtensions = true;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.type = true;
-
-    const s3 = new aws.S3();
-    
-
     var bio = req.body.editBio;
 
     if(bio){
@@ -38,34 +40,39 @@ exports.editProfile = function(req, res){
                 return res.redirect('/profile');
             }
 
-            console.log("the avatar file is : ",files);
+            var key = user.username + '-avatar-' + files.avatar.name;
+            var avatarData = fs.readFileSync(files.avatar.path);
 
-            var avatar = files.avatar.path.split(path.sep).pop();
             const s3Params = {
-                Bucket: "paprica-action",
-                Key: avatar,
+                Bucket: S3_BUCKET,
+                Key: key,
+                Body: avatarData,
                 Expires: 10000,
                 ContentType: files.avatar.type,
                 ACL: 'public-read'
             };
 
+            s3.putObject(s3Params,(err, data) => {
+                if(err){
+                    console.log(err);
+                    req.flash('error','Uploadig avatar failed');
+                    return req.redirect('/profile');
+                }
+            });
+
             s3.getSignedUrl('putObject', s3Params, (err, data) => {
-                console.log("the s3 signed url data is :",data);
                 if(err){
                   console.log(err);
                   return res.end();
                 }
                 const returnData = {
-                  signedRequest: data,
-                  url: `https://paprica-action.s3.amazonaws.com/${avatar}`
+                    signedRequest: data,
+                    url: `https://${S3_BUCKET}.s3.${s3.config.region}.amazonaws.com/${key}`
                 };
-                returnData = JSON.stringify(returnData);
-                
-                UserModel.update({"_id":req.session.user._id}, {$set:{"avatar":returnData.url}}, function(err){
-                    if(err){console.log('error ','user avatar update')}
+                UserModel.update({"_id":user._id}, {$set:{"avatar":returnData.url}}, function(err){
+                    if(err){console.log('error ','user avatar cannot be updated')}
                 });
                 res.redirect('/profile');
-                //res.end();
             });
         });
     }
@@ -73,7 +80,6 @@ exports.editProfile = function(req, res){
 
 exports.profile = function(req,res) {
 
-    console.log("the S3_BUCKET is: ", S3_BUCKET);
     UserModel.findById(req.session.user._id, function(err, user){
         ClassModel.find({"producer" : user.username},function(err,createdClass){
             TopicModel.find({'author': user.username}, function (err, topics) {
