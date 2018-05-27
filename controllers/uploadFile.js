@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var aws = require('aws-sdk');
 
-const S3_BUCKET = process.env.S3_BUCKET_NAME;
+const S3_BUCKET = process.env.S3_BUCKET;
 aws.config.region = 'us-east-2';
 aws.config.update({ accessKeyId: config.AWS_KEY_ID, secretAccessKey: config.AWS_SECRET_KEY });
 var s3 = new aws.S3();
