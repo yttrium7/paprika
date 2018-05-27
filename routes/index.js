@@ -42,6 +42,7 @@ module.exports = function(app){
     app.get('/class/delete',checkLogin, classController.deleteClass);
     app.get('/class/withdraw', checkLogin, classController.withdrawClass);
     
+    
     //lessons
     app.get('/class/lesson',checkLogin, lessonController.lesson);
     app.get('/class/lesson/edit',checkLogin, lessonController.editLesson);
